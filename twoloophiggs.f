@@ -1162,16 +1162,16 @@ c
       Li2T2B2 = Li2(1d0-T2/B2)
       Li2bt = Li2(1d0-b/t)
 
-	tmp1 = 2d0 - LogA0 - Logb + 2*Logt
-	tmp2 = 2d0 - LogB1 - Logmu2 + 2*Logt
-	tmp3 = 2d0 - LogB2 - Logmu2 + 2*Logt
-	tmp4 = 2d0 - Logb - Logmu2 + 2*LogT1
-	tmp5 = 2d0 - Logb - Logmu2 + 2*LogT2
-	tmp6 = 0.25D0*hb**2/c2t - 0.25D0*ht**2/c2t
-	tmp7 = -(0.25D0*hb**2/c2t) + 0.25D0*ht**2/c2t
-	tmp8 = c2t**2 - 0.5D0*((-1d0 + Nc)*s2t**2)
-	tmp9 = cbe**2*ht**2 + hb**2*sbe**2
-	tmp10 = cbe**2*hb**2 + ht**2*sbe**2
+        tmp1 = 2d0 - LogA0 - Logb + 2*Logt
+        tmp2 = 2d0 - LogB1 - Logmu2 + 2*Logt
+        tmp3 = 2d0 - LogB2 - Logmu2 + 2*Logt
+        tmp4 = 2d0 - Logb - Logmu2 + 2*LogT1
+        tmp5 = 2d0 - Logb - Logmu2 + 2*LogT2
+        tmp6 = 0.25D0*hb**2/c2t - 0.25D0*ht**2/c2t
+        tmp7 = -(0.25D0*hb**2/c2t) + 0.25D0*ht**2/c2t
+        tmp8 = c2t**2 - 0.5D0*((-1d0 + Nc)*s2t**2)
+        tmp9 = cbe**2*ht**2 + hb**2*sbe**2
+        tmp10 = cbe**2*hb**2 + ht**2*sbe**2
         tmp11 = -(0.5D0*(cbe**2*ht**2*mb*mt*s2b*s2t)) - 
      -   0.5D0*(hb**2*mb*mt*s2b*s2t*sbe**2)
         tmp12 = 0.5D0*(cbe**2*ht**2*mb*mt*s2b*s2t) + 
@@ -1180,10 +1180,10 @@ c
      -   0.5D0*(ht**2*mb*mt*s2b*s2t*sbe**2)
         tmp14 = 0.5D0*(cbe**2*hb**2*mb*mt*s2b*s2t) + 
      -   0.5D0*(ht**2*mb*mt*s2b*s2t*sbe**2)
-	tmp15 = 2.d0/t**2 - (2*(-1d0 + Logt))/t**2
-	tmp16 = 2.d0/t**2 - (2*Logt)/t**2
-	tmp17 = 2.d0/T1**2 - (2*LogT1)/T1**2
-	tmp18 = 2.d0/T2**2 - (2*LogT2)/T2**2
+        tmp15 = 2.d0/t**2 - (2*(-1d0 + Logt))/t**2
+        tmp16 = 2.d0/t**2 - (2*Logt)/t**2
+        tmp17 = 2.d0/T1**2 - (2*LogT1)/T1**2
+        tmp18 = 2.d0/T2**2 - (2*LogT2)/T2**2
         tmp19 = -(0.0625D0*
      -      (B1*(-1d0 + LogB1)*(-1d0 + LogT1)*T1)/(c2b*c2t)) + 
      -   0.0625D0*(B2*(-1d0 + LogB2)*(-1d0 + LogT1)*T1)/(c2b*c2t) + 
@@ -1198,16 +1198,16 @@ c
      -   0.125D0*(mb*mt)/(s2b*s2t) - 0.0625D0*t/(c2b*c2t) + 
      -   0.125D0*(mb*Xb)/(c2t*s2b) - 0.125D0*(mt*Xb)/(c2b*s2t) + 
      -   0.0625D0*Xb**2/(c2b*c2t)
-	tmp23 = 0.25D0*Xb/c2b - 0.25D0*Xt/c2b
-	tmp24 = -(0.25D0*Xb/c2b) + 0.25D0*Xt/c2b
-	tmp25 = 0.125D0*Xb/c2t**3 - 0.125D0*Xt/c2t**3
-	tmp26 = -(0.125D0*Xb/c2t**3) + 0.125D0*Xt/c2t**3
-	tmp27 = 0.25D0*Xb/c2t - 0.25D0*Xt/c2t
-	tmp28 = -(0.25D0*Xb/c2t) + 0.25D0*Xt/c2t
+        tmp23 = 0.25D0*Xb/c2b - 0.25D0*Xt/c2b
+        tmp24 = -(0.25D0*Xb/c2b) + 0.25D0*Xt/c2b
+        tmp25 = 0.125D0*Xb/c2t**3 - 0.125D0*Xt/c2t**3
+        tmp26 = -(0.125D0*Xb/c2t**3) + 0.125D0*Xt/c2t**3
+        tmp27 = 0.25D0*Xb/c2t - 0.25D0*Xt/c2t
+        tmp28 = -(0.25D0*Xb/c2t) + 0.25D0*Xt/c2t
         tmp29 = 0.25D0*((1d0 + c2b)*(1d0 + c2t)) + 
      -   0.25D0*(mb*s2b*s2t)/mt + 0.25D0*((1d0 + c2b)*s2t*Xt)/mt
-	tmp30 = (-2*mt*Xt)/s2t - Xt**2
-	tmp31 = (2*mt*Xt)/s2t - Xt**2
+        tmp30 = (-2*mt*Xt)/s2t - Xt**2
+        tmp31 = (2*mt*Xt)/s2t - Xt**2
         tmp32 = 0.0625D0*b/(c2b*c2t) + 0.125D0*(mb*mt)/(s2b*s2t) + 
      -   0.0625D0*t/(c2b*c2t) + 0.125D0*(mb*Xt)/(c2t*s2b) - 
      -   0.125D0*(mt*Xt)/(c2b*s2t) - 0.0625D0*Xt**2/(c2b*c2t)
@@ -1215,8 +1215,8 @@ c
      -   0.125D0*(mb*mt)/(s2b*s2t) - 0.0625D0*t/(c2b*c2t) - 
      -   0.125D0*(mb*Xt)/(c2t*s2b) + 0.125D0*(mt*Xt)/(c2b*s2t) + 
      -   0.0625D0*Xt**2/(c2b*c2t)
-	tmp34 = 4*t - 4*mt*s2t*Xt + s2t**2*Xt**2
-	tmp35 = 4*t + 4*mt*s2t*Xt + s2t**2*Xt**2
+        tmp34 = 4*t - 4*mt*s2t*Xt + s2t**2*Xt**2
+        tmp35 = 4*t + 4*mt*s2t*Xt + s2t**2*Xt**2
         tmp36 = 0.25D0*((1d0 + c2b)*(1d0 + c2t)) + 
      -   0.25D0*(mb*s2b*s2t)/mt - 0.25D0*((1d0 + c2b)*s2t*Yb)/mt
         tmp37 = 0.0625D0*b/(c2b*c2t) + 0.125D0*(mb*mt)/(s2b*s2t) + 
@@ -1226,16 +1226,16 @@ c
      -   0.125D0*(mb*mt)/(s2b*s2t) - 0.0625D0*t/(c2b*c2t) + 
      -   0.125D0*(mb*Yb)/(c2t*s2b) - 0.125D0*(mt*Yb)/(c2b*s2t) + 
      -   0.0625D0*Yb**2/(c2b*c2t)
-	tmp39 = 0.25D0*Yb/c2b - 0.25D0*Yt/c2b
-	tmp40 = -(0.25D0*Yb/c2b) + 0.25D0*Yt/c2b
-	tmp41 = 0.125D0*Yb/c2t**3 - 0.125D0*Yt/c2t**3
-	tmp42 = -(0.125D0*Yb/c2t**3) + 0.125D0*Yt/c2t**3
-	tmp43 = 0.25D0*Yb/c2t - 0.25D0*Yt/c2t
-	tmp44 = -(0.25D0*Yb/c2t) + 0.25D0*Yt/c2t
+        tmp39 = 0.25D0*Yb/c2b - 0.25D0*Yt/c2b
+        tmp40 = -(0.25D0*Yb/c2b) + 0.25D0*Yt/c2b
+        tmp41 = 0.125D0*Yb/c2t**3 - 0.125D0*Yt/c2t**3
+        tmp42 = -(0.125D0*Yb/c2t**3) + 0.125D0*Yt/c2t**3
+        tmp43 = 0.25D0*Yb/c2t - 0.25D0*Yt/c2t
+        tmp44 = -(0.25D0*Yb/c2t) + 0.25D0*Yt/c2t
         tmp45 = 0.25D0*((1d0 + c2b)*(1d0 + c2t)) + 
      -   0.25D0*(mb*s2b*s2t)/mt + 0.25D0*((1d0 + c2b)*s2t*Yt)/mt
-	tmp46 = (-2*mt*Yt)/s2t - Yt**2
-	tmp47 = (2*mt*Yt)/s2t - Yt**2
+        tmp46 = (-2*mt*Yt)/s2t - Yt**2
+        tmp47 = (2*mt*Yt)/s2t - Yt**2
         tmp48 = 0.0625D0*b/(c2b*c2t) + 0.125D0*(mb*mt)/(s2b*s2t) + 
      -   0.0625D0*t/(c2b*c2t) + 0.125D0*(mb*Yt)/(c2t*s2b) - 
      -   0.125D0*(mt*Yt)/(c2b*s2t) - 0.0625D0*Yt**2/(c2b*c2t)
@@ -1243,38 +1243,38 @@ c
      -   0.125D0*(mb*mt)/(s2b*s2t) - 0.0625D0*t/(c2b*c2t) - 
      -   0.125D0*(mb*Yt)/(c2t*s2b) + 0.125D0*(mt*Yt)/(c2b*s2t) + 
      -   0.0625D0*Yt**2/(c2b*c2t)
-	tmp50 = 4*t - 4*mt*s2t*Yt + s2t**2*Yt**2
-	tmp51 = 4*t + 4*mt*s2t*Yt + s2t**2*Yt**2
-	tmp52 = 0.0625D0*(1d0 -c2b)/c2t**3 -0.0625D0*(1d0 +c2b)/c2t**3
-	tmp53 = -(0.0625D0*(1d0 - c2b)/c2t**3)
+        tmp50 = 4*t - 4*mt*s2t*Yt + s2t**2*Yt**2
+        tmp51 = 4*t + 4*mt*s2t*Yt + s2t**2*Yt**2
+        tmp52 = 0.0625D0*(1d0 -c2b)/c2t**3 -0.0625D0*(1d0 +c2b)/c2t**3
+        tmp53 = -(0.0625D0*(1d0 - c2b)/c2t**3)
      $       + 0.0625D0*(1d0 + c2b)/c2t**3
-	tmp54 = 0.125D0*(1d0 - c2b)/c2t - 0.125D0*(1d0 + c2b)/c2t
-	tmp55 = -(0.125D0*(1d0 - c2b)/c2t) + 0.125D0*(1d0 + c2b)/c2t
-	tmp56 = 0.25D0*((1d0 + c2b)*(1d0 - c2t))
+        tmp54 = 0.125D0*(1d0 - c2b)/c2t - 0.125D0*(1d0 + c2b)/c2t
+        tmp55 = -(0.125D0*(1d0 - c2b)/c2t) + 0.125D0*(1d0 + c2b)/c2t
+        tmp56 = 0.25D0*((1d0 + c2b)*(1d0 - c2t))
      $       + 0.25D0*((1d0 - c2b)*(1d0 + c2t))
-	tmp57 = 0.125D0*(1d0 - c2t)/c2b - 0.125D0*(1d0 + c2t)/c2b
-	tmp58 = -(0.125D0*(1d0 - c2t)/c2b) + 0.125D0*(1d0 + c2t)/c2b
-	tmp59 = 0.25D0*((1d0 - c2b)*(1d0 - c2t))
+        tmp57 = 0.125D0*(1d0 - c2t)/c2b - 0.125D0*(1d0 + c2t)/c2b
+        tmp58 = -(0.125D0*(1d0 - c2t)/c2b) + 0.125D0*(1d0 + c2t)/c2b
+        tmp59 = 0.25D0*((1d0 - c2b)*(1d0 - c2t))
      $       + 0.25D0*((1d0 + c2b)*(1d0 + c2t))
-	tmp60 = 0.5D0*((1d0 + c2b)*hb**2) +0.5D0*((1d0 -c2b)*ht**2)
-	tmp61 = 0.5D0*((1d0 - c2b)*hb**2) +0.5D0*((1d0 +c2b)*ht**2)
-	tmp62 = 0.5D0*((1d0 + c2t)*hb**2) + 0.5D0*((1d0 - c2t)*ht**2)
-	tmp63 = 0.5D0*((1d0 - c2t)*hb**2) + 0.5D0*((1d0 + c2t)*ht**2)
-	tmp64 = (A0 - b)/b + LogA0 - Logb - t/b
-	tmp65 = (-LogA0 + Logt)*(A0 - t) + (-LogA0 + Logt)*t
-	tmp66 = (A0 - b)*(-LogA0 + Logb) + (-LogA0 - Logb + 2*Logt)*t
+        tmp60 = 0.5D0*((1d0 + c2b)*hb**2) +0.5D0*((1d0 -c2b)*ht**2)
+        tmp61 = 0.5D0*((1d0 - c2b)*hb**2) +0.5D0*((1d0 +c2b)*ht**2)
+        tmp62 = 0.5D0*((1d0 + c2t)*hb**2) + 0.5D0*((1d0 - c2t)*ht**2)
+        tmp63 = 0.5D0*((1d0 - c2t)*hb**2) + 0.5D0*((1d0 + c2t)*ht**2)
+        tmp64 = (A0 - b)/b + LogA0 - Logb - t/b
+        tmp65 = (-LogA0 + Logt)*(A0 - t) + (-LogA0 + Logt)*t
+        tmp66 = (A0 - b)*(-LogA0 + Logb) + (-LogA0 - Logb + 2*Logt)*t
         tmp67 = (-LogB1 + Logmu2)*(B1 - mu2) + 
      -   (-LogB1 - Logmu2 + 2*Logt)*t
         tmp68 = (-LogB2 + Logmu2)*(B2 - mu2) + 
      -   (-LogB2 - Logmu2 + 2*Logt)*t
-	tmp69 = b*(-LogA0 + 2*Logb - Logt) + (LogA0 - Logt)*(-A0 + t)
-	tmp70 = (-LogA0 + Logt)*t + (LogA0 - Logt)*(-A0 + t)
+        tmp69 = b*(-LogA0 + 2*Logb - Logt) + (LogA0 - Logt)*(-A0 + t)
+        tmp70 = (-LogA0 + Logt)*t + (LogA0 - Logt)*(-A0 + t)
         tmp71 = B1*(2*LogB1 - Logmu2 - Logt) + 
      -   (Logmu2 - Logt)*(-mu2 + t)
         tmp72 = B2*(2*LogB2 - Logmu2 - Logt) + 
      -   (Logmu2 - Logt)*(-mu2 + t)
-	tmp73 = Logmu2 - Logt - B1/t - (-mu2 + t)/t
-	tmp74 = Logmu2 - Logt - B2/t - (-mu2 + t)/t
+        tmp73 = Logmu2 - Logt - B1/t - (-mu2 + t)/t
+        tmp74 = Logmu2 - Logt - B2/t - (-mu2 + t)/t
         tmp75 = 2*B1*LogB1 - 2*B2*LogB2 - 
      -   0.5D0*(deltB1tmu2*phiB1tmu2)/mu2 + 
      -   0.5D0*(deltB2tmu2*phiB2tmu2)/mu2 + 
@@ -1287,10 +1287,10 @@ c
      -   2.5D0*(B2 + mu2 + t)
         tmp76 = -5*b + 4*b*Logb + Logt**2*(b - t) - 5*t - 
      -   2*Li2bt*(-b + t) + Logt*(-2*b*Logb + 4*t)
-	tmp77 = -6d0 +4*Logt +(2d0 -2*Logt)*Logt + (4*t - 2*Logt*t)/t
-	tmp78 = -Logb + Logmu2 - (b - mu2)/b - T1/b
-	tmp79 = 2*(-1d0 + LogT1)*T1 + 2*(-1d0 + LogT1)**2*T1
-	tmp80 = (-LogA0 + LogT1)*(A0 - T1) + (-LogA0 + LogT1)*T1
+        tmp77 = -6d0 +4*Logt +(2d0 -2*Logt)*Logt + (4*t - 2*Logt*t)/t
+        tmp78 = -Logb + Logmu2 - (b - mu2)/b - T1/b
+        tmp79 = 2*(-1d0 + LogT1)*T1 + 2*(-1d0 + LogT1)**2*T1
+        tmp80 = (-LogA0 + LogT1)*(A0 - T1) + (-LogA0 + LogT1)*T1
         tmp81 = (A0 - B1)*(-LogA0 + LogB1) + 
      -   (-LogA0 - LogB1 + 2*LogT1)*T1
         tmp82 = (A0 - B2)*(-LogA0 + LogB2) + 
@@ -1303,7 +1303,7 @@ c
      -   (LogA0 - LogT1)*(-A0 + T1)
         tmp86 = B2*(-LogA0 + 2*LogB2 - LogT1) + 
      -   (LogA0 - LogT1)*(-A0 + T1)
-	tmp87 = (-LogA0 + LogT1)*T1 + (LogA0 - LogT1)*(-A0 + T1)
+        tmp87 = (-LogA0 + LogT1)*T1 + (LogA0 - LogT1)*(-A0 + T1)
         tmp88 = 2*A0*LogA0 + 2*B1*LogB1 + 2*LogT1*T1 + 
      -   0.5D0*(LogB1*LogT1*(A0 - B1 - T1)) + 
      -   0.5D0*(LogA0*LogT1*(-A0 + B1 - T1)) - 
@@ -1326,14 +1326,14 @@ c
         tmp93 = 2*A0*LogA0 - A0*LogA0*LogT1 + 4*LogT1*T1 + 
      -   0.5D0*(LogT1**2*(A0 - 2*T1)) - 
      -   0.5D0*(deltA0T1T1*phiA0T1T1)/T1 - 2.5D0*(A0 + 2*T1)
-	tmp94 = -10*T1 + 4*LogT1*T1 + LogT1*(4*T1 - 2*LogT1*T1)
+        tmp94 = -10*T1 + 4*LogT1*T1 + LogT1*(4*T1 - 2*LogT1*T1)
         tmp95 = -6d0 + 4*LogT1 + (2d0 - 2*LogT1)*LogT1 + 
      -   (4*T1 - 2*LogT1*T1)/T1
         tmp96 = (-LogA0 + 2*LogT1 - LogT2)*T1 + 
      -   (-LogA0 + LogT2)*(A0 - T2)
-	tmp97 = -Logb + Logmu2 - (b - mu2)/b - T2/b
-	tmp98 = 2*(-1d0 + LogT2)*T2 + 2*(-1d0 + LogT2)**2*T2
-	tmp99 = (-LogA0 + LogT2)*(A0 - T2) + (-LogA0 + LogT2)*T2
+        tmp97 = -Logb + Logmu2 - (b - mu2)/b - T2/b
+        tmp98 = 2*(-1d0 + LogT2)*T2 + 2*(-1d0 + LogT2)**2*T2
+        tmp99 = (-LogA0 + LogT2)*(A0 - T2) + (-LogA0 + LogT2)*T2
         tmp100 = (A0 - B1)*(-LogA0 + LogB1) + 
      -   (-LogA0 - LogB1 + 2*LogT2)*T2
         tmp101 = (A0 - B2)*(-LogA0 + LogB2) + 
@@ -1348,7 +1348,7 @@ c
      -   (LogA0 - LogT2)*(-A0 + T2)
         tmp106 = B2*(-LogA0 + 2*LogB2 - LogT2) + 
      -   (LogA0 - LogT2)*(-A0 + T2)
-	tmp107 = (-LogA0 + LogT2)*T2 + (LogA0 - LogT2)*(-A0 + T2)
+        tmp107 = (-LogA0 + LogT2)*T2 + (LogA0 - LogT2)*(-A0 + T2)
         tmp108 = 2*A0*LogA0 + 2*B1*LogB1 + 2*LogT2*T2 + 
      -   0.5D0*(LogB1*LogT2*(A0 - B1 - T2)) + 
      -   0.5D0*(LogA0*LogT2*(-A0 + B1 - T2)) - 
@@ -1380,7 +1380,7 @@ c
         tmp114 = 2*A0*LogA0 - A0*LogA0*LogT2 + 4*LogT2*T2 + 
      -   0.5D0*(LogT2**2*(A0 - 2*T2)) - 
      -   0.5D0*(deltA0T2T2*phiA0T2T2)/T2 - 2.5D0*(A0 + 2*T2)
-	tmp115 = -10*T2 + 4*LogT2*T2 + LogT2*(4*T2 - 2*LogT2*T2)
+        tmp115 = -10*T2 + 4*LogT2*T2 + LogT2*(4*T2 - 2*LogT2*T2)
         tmp116 = -6d0 + 4*LogT2 + (2d0 - 2*LogT2)*LogT2 + 
      -   (4*T2 - 2*LogT2*T2)/T2
         tmp117 = 0.25D0*((1d0 - c2b)*(1d0 + c2t)) - 
@@ -1421,10 +1421,10 @@ c
      -   0.5D0*(mb*mt*s2b*s2t) + 0.25D0*((1d0 + c2b)*(1d0 - c2t)*t) - 
      -   0.5D0*((1d0 + c2t)*mb*s2b*Xb) +0.5D0*((1d0 +c2b)*mt*s2t*Xb) + 
      -   0.25D0*((1d0 + c2b)*(1d0 + c2t)*Xb**2)
-	tmp128 = 0.5D0*((1d0 + c2b)*Xb) + 0.5D0*((1d0 - c2b)*Xt)
-	tmp129 = 0.5D0*((1d0 - c2b)*Xb) + 0.5D0*((1d0 + c2b)*Xt)
-	tmp130 = 0.5D0*((1d0 + c2t)*Xb) + 0.5D0*((1d0 - c2t)*Xt)
-	tmp131 = 0.5D0*((1d0 - c2t)*Xb) + 0.5D0*((1d0 + c2t)*Xt)
+        tmp128 = 0.5D0*((1d0 + c2b)*Xb) + 0.5D0*((1d0 - c2b)*Xt)
+        tmp129 = 0.5D0*((1d0 - c2b)*Xb) + 0.5D0*((1d0 + c2b)*Xt)
+        tmp130 = 0.5D0*((1d0 + c2t)*Xb) + 0.5D0*((1d0 - c2t)*Xt)
+        tmp131 = 0.5D0*((1d0 - c2t)*Xb) + 0.5D0*((1d0 + c2t)*Xt)
         tmp132 = 0.25D0*((1d0 - c2b)*(1d0 - c2t)) + 
      -   0.25D0*(mb*s2b*s2t)/mt - 0.25D0*((1d0 - c2b)*s2t*Xt)/mt
         tmp133 = 0.25D0*((1d0 - c2b)*(1d0 + c2t)) - 
@@ -1501,10 +1501,10 @@ c
      -   0.5D0*(mb*mt*s2b*s2t) + 0.25D0*((1 + c2b)*(1 - c2t)*t) - 
      -   0.5D0*((1 + c2t)*mb*s2b*Yb) + 0.5D0*((1 + c2b)*mt*s2t*Yb) + 
      -   0.25D0*((1 + c2b)*(1 + c2t)*Yb**2)
-	tmp154 = 0.5D0*((1 + c2b)*Yb) + 0.5D0*((1 - c2b)*Yt)
-	tmp155 = 0.5D0*((1 - c2b)*Yb) + 0.5D0*((1 + c2b)*Yt)
-	tmp156 = 0.5D0*((1 + c2t)*Yb) + 0.5D0*((1 - c2t)*Yt)
-	tmp157 = 0.5D0*((1 - c2t)*Yb) + 0.5D0*((1 + c2t)*Yt)
+        tmp154 = 0.5D0*((1 + c2b)*Yb) + 0.5D0*((1 - c2b)*Yt)
+        tmp155 = 0.5D0*((1 - c2b)*Yb) + 0.5D0*((1 + c2b)*Yt)
+        tmp156 = 0.5D0*((1 + c2t)*Yb) + 0.5D0*((1 - c2t)*Yt)
+        tmp157 = 0.5D0*((1 - c2t)*Yb) + 0.5D0*((1 + c2t)*Yt)
         tmp158 = 0.25D0*((1 - c2b)*(1 - c2t)) + 
      -   0.25D0*(mb*s2b*s2t)/mt - 0.25D0*((1 - c2b)*s2t*Yt)/mt
         tmp159 = 0.25D0*((1 - c2b)*(1 + c2t)) - 
@@ -1543,20 +1543,20 @@ c
      -   0.5D0*(mb*mt*s2b*s2t) + 0.25D0*((1 + c2b)*(1 - c2t)*t) + 
      -   0.5D0*((1 + c2t)*mb*s2b*Yt) - 0.5D0*((1 + c2b)*mt*s2t*Yt) + 
      -   0.25D0*((1 + c2b)*(1 + c2t)*Yt**2)
-	tmp169 = -Li2T1B1 - 0.5D0*(-LogB1 + LogT1)**2
-	tmp170 = -Li2T1B2 - 0.5D0*(-LogB2 + LogT1)**2
-	tmp171 = -Li2T1T2 - 0.5D0*(LogT1 - LogT2)**2
-	tmp172 = -Li2T2B1 - 0.5D0*(-LogB1 + LogT2)**2
-	tmp173 = -Li2T2B2 - 0.5D0*(-LogB2 + LogT2)**2
-	tmp174 = -A0 + (A0 - t)**2/b - t
-	tmp175 = -A0 + (A0 - t)**2/t - t
-	tmp176 = -A0 + (A0 - T1)**2/B1 - T1
-	tmp177 = -A0 + (A0 - T1)**2/B2 - T1
-	tmp178 = -A0 + (A0 - T1)**2/T1 - T1
-	tmp179 = -A0 - T1 + (A0 - T1)**2/T2
-	tmp180 = -A0 + (A0 - T2)**2/B1 - T2
-	tmp181 = -A0 + (A0 - T2)**2/B2 - T2
-	tmp182 = -A0 + (A0 - T2)**2/T2 - T2
+        tmp169 = -Li2T1B1 - 0.5D0*(-LogB1 + LogT1)**2
+        tmp170 = -Li2T1B2 - 0.5D0*(-LogB2 + LogT1)**2
+        tmp171 = -Li2T1T2 - 0.5D0*(LogT1 - LogT2)**2
+        tmp172 = -Li2T2B1 - 0.5D0*(-LogB1 + LogT2)**2
+        tmp173 = -Li2T2B2 - 0.5D0*(-LogB2 + LogT2)**2
+        tmp174 = -A0 + (A0 - t)**2/b - t
+        tmp175 = -A0 + (A0 - t)**2/t - t
+        tmp176 = -A0 + (A0 - T1)**2/B1 - T1
+        tmp177 = -A0 + (A0 - T1)**2/B2 - T1
+        tmp178 = -A0 + (A0 - T1)**2/T1 - T1
+        tmp179 = -A0 - T1 + (A0 - T1)**2/T2
+        tmp180 = -A0 + (A0 - T2)**2/B1 - T2
+        tmp181 = -A0 + (A0 - T2)**2/B2 - T2
+        tmp182 = -A0 + (A0 - T2)**2/T2 - T2
         tmp183 = cbe**2*hb**2*tmp119 + ht**2*sbe**2*tmp133 - 
      -   cbe*hb*ht*sbe*((mb*tmp56)/mt - 0.5D0*(s2b*s2t) - 
      -      0.5D0*(s2b*tmp130)/mt)
@@ -6347,7 +6347,7 @@ c$$$      k = 3d0*ht**2/(16d0*Pi**2)**2
      $     /s2t/(T1-T2)
      $     -sb2/2*((1-c2t)*t-2*s2t*Sqrt(t)*Xt+(1+c2t)*Xt**2))
      $     *Li2(1-T2/BL)
-     $     +s2t**2*sb2*Xt**2/2*(Li2(1-T2/T1)-Li2(1-T1/T2))	       
+     $     +s2t**2*sb2*Xt**2/2*(Li2(1-T2/T1)-Li2(1-T1/T2))
      $     +(-((-2+s2t**2)*T1+s2t**2*T2)/2/(T1-T2)
      $     *(sb2*Xt**2+cb2*Yt**2+2*Sqrt(t)*At/s2t)
      $     -(2*A0*c2t**2+(T1-T2)*s2t**2)/4/(T1-T2)*cb2*Yt**2
@@ -6665,23 +6665,23 @@ C
      *-3.*(HU**2)*(TP + TDP)/16./PI**2
      *-3.*(HD**2)*(TPD + TDPD)/16./PI**2) +DLAMBDA4
 C     
-	LAMBDA5 = 0.
-	LAMBDA6 = 0.
-	LAMBDA7 = 0.
+        LAMBDA5 = 0.
+        LAMBDA6 = 0.
+        LAMBDA7 = 0.
 
 C
 C     THIS IS THE CONTRIBUTION FROM LIGHT CHARGINOS/NEUTRALINOS
 C     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-  	 MSSUSY=DSQRT(0.5D0*(MQ**2+MUR**2)+MTOP**2)
-	IF(MCHI.GT.MSSUSY)GOTO 3790
-	IF(MCHI.LT.MTOP) MCHI=MTOP
-	TCHAR=LOG(MSSUSY**2/MCHI**2)
-	DELTAL12=(9./64./PI**2*G2**4+5./192./PI**2*G1**4)*TCHAR
-	DELTAL3P4=(3./64./PI**2*G2**4+7./192./PI**2*G1**4
+        MSSUSY=DSQRT(0.5D0*(MQ**2+MUR**2)+MTOP**2)
+        IF(MCHI.GT.MSSUSY)GOTO 3790
+        IF(MCHI.LT.MTOP) MCHI=MTOP
+        TCHAR=LOG(MSSUSY**2/MCHI**2)
+        DELTAL12=(9./64./PI**2*G2**4+5./192./PI**2*G1**4)*TCHAR
+        DELTAL3P4=(3./64./PI**2*G2**4+7./192./PI**2*G1**4
      *       +4./32/PI**2*G1**2*G2**2)*TCHAR
-	DELTAM112=2.*DELTAL12*V**2*COSB**2
-	DELTAM222=2.*DELTAL12*V**2*SINB**2
-	DELTAM122=2.*DELTAL3P4*V**2*SINB*COSB
+        DELTAM112=2.*DELTAL12*V**2*COSB**2
+        DELTAM222=2.*DELTAL12*V**2*SINB**2
+        DELTAM122=2.*DELTAL3P4*V**2*SINB*COSB
 C--EXTENSION OF CARENA ET AL.: TRAFO MASS MATRIX -> LAMBDA_I
         DLAM1 = DELTAM112/2.D0/V**2/COSB**2
         DLAM2 = DELTAM222/2.D0/V**2/SINB**2
@@ -6694,7 +6694,7 @@ C--EXTENSION OF CARENA ET AL.: TRAFO MASS MATRIX -> LAMBDA_I
         LAMBDA3 = LAMBDA3+DLAM3
         LAMBDA4 = LAMBDA4+DLAM4
 C--END OF EXTENSION
- 3790	CONTINUE
+ 3790   CONTINUE
 CCCCCCCCCCCCCCC    END OF CHARGINOS AND NEUTRALINOS  CCCCCCCCCCCC 
 
 
@@ -6790,12 +6790,12 @@ C
         IF(MUR.GT.MQ.OR.MUR.EQ.MQ) MST = MUR
         MSUSYT = DSQRT(MST**2  + MTOP**2)
 
-	IF(MQ.GT.MD) MSB = MQ
-	IF(MD.GT.MQ.OR.MD.EQ.MQ) MSB = MD
-	MSUSYB = DSQRT(MSB**2 + MB**2)
+        IF(MQ.GT.MD) MSB = MQ
+        IF(MD.GT.MQ.OR.MD.EQ.MQ) MSB = MD
+        MSUSYB = DSQRT(MSB**2 + MB**2)
 
-	TT = LOG(MSUSYT**2/MTOP**2)
-	TB = LOG(MSUSYB**2/MTOP**2)
+        TT = LOG(MSUSYT**2/MTOP**2)
+        TB = LOG(MSUSYB**2/MTOP**2)
 
         RMTOP   = RUNM(MTOP,6)
 
@@ -6805,7 +6805,7 @@ C
         G32 = ALPHA3*4.*PI
 
         BT2 = -(8.*G32 - 9.*HT**2/2. - HB**2/2.)/(4.*PI)**2
-	BB2 = -(8.*G32 - 9.*HB**2/2. - HT**2/2.)/(4.*PI)**2
+        BB2 = -(8.*G32 - 9.*HB**2/2. - HT**2/2.)/(4.*PI)**2
         AL2 = 3./8./PI**2*HT**2
         BT2ST = -(8.*G32 - 9.*HTST**2/2.)/(4.*PI)**2
         ALST = 3./8./PI**2*HTST**2
@@ -6816,7 +6816,7 @@ C
         AL(2,1) = (AL2+AL1)/2.
         AL(2,2) = AL2
 
-	IF(MA.GT.MTOP) THEN
+        IF(MA.GT.MTOP) THEN
         VI = V*(1. + 3./32./PI**2*HTST**2*LOG(MTOP**2/MA**2))
         H1I = VI*COSBA
         H2I = VI*SINBA
@@ -6824,15 +6824,15 @@ C
         H2T = H2I*(1.+3./8./PI**2*HT**2*LOG(MA**2/MSUSYT**2))**.25
         H1B = H1I*(1.+3./8./PI**2*HB**2*LOG(MA**2/MSUSYB**2))**.25
         H2B = H2I*(1.+3./8./PI**2*HT**2*LOG(MA**2/MSUSYB**2))**.25
-	ELSE
-	VI =  V
-	H1I = VI*COSB
-	H2I = VI*SINB
+        ELSE
+        VI =  V
+        H1I = VI*COSB
+        H2I = VI*SINB
         H1T = H1I*(1.+3./8./PI**2*HB**2*LOG(MTOP**2/MSUSYT**2))**.25
         H2T = H2I*(1.+3./8./PI**2*HT**2*LOG(MTOP**2/MSUSYT**2))**.25
         H1B = H1I*(1.+3./8./PI**2*HB**2*LOG(MTOP**2/MSUSYB**2))**.25
         H2B = H2I*(1.+3./8./PI**2*HT**2*LOG(MTOP**2/MSUSYB**2))**.25
-	END IF
+        END IF
 
         TANBST = H2T/H1T
         SINBT = TANBST/(1.+TANBST**2)**.5
@@ -6871,24 +6871,24 @@ c     * /(1.+deltamt)**4.
         VH2(2,2) = 1./TANBST
 
 C CCCCCCCCCCCCCCCCCCCCCCCCCCC  D-terms CCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-	STW=SW
+        STW=SW
 
-	F1T=(MQ2-MUR2)/(STOP12-STOP22)*(.5-4./3.*STW)*
+        F1T=(MQ2-MUR2)/(STOP12-STOP22)*(.5-4./3.*STW)*
      *         LOG(STOP1/STOP2)
      *        +(.5-2./3.*STW)*LOG(STOP1*STOP2/(MQ2+MTOP2))
      *        + 2./3.*STW*LOG(STOP1*STOP2/(MUR2+MTOP2))
 
-	F1B=(MQ2-MD2)/(SBOT12-SBOT22)*(-.5+2./3.*STW)*
+        F1B=(MQ2-MD2)/(SBOT12-SBOT22)*(-.5+2./3.*STW)*
      *        LOG(SBOT1/SBOT2)
      *        +(-.5+1./3.*STW)*LOG(SBOT1*SBOT2/(MQ2+MBOT2))
      *        - 1./3.*STW*LOG(SBOT1*SBOT2/(MD2+MBOT2))
 
-	F2T=1/(STOP12-STOP22)*
+        F2T=1/(STOP12-STOP22)*
      *         (-.5*LOG(STOP12/STOP22)
      *        +(4./3.*STW-.5)*(MQ2-MUR2)/(STOP12-STOP22)*
      *         G(STOP12,STOP22))
 
-	F2B=1/(SBOT12-SBOT22)*
+        F2B=1/(SBOT12-SBOT22)*
      *         (.5*LOG(SBOT12/SBOT22)
      *        +(-2./3.*STW+.5)*(MQ2-MD2)/(SBOT12-SBOT22)*
      *        G(SBOT12,SBOT22))
@@ -7104,12 +7104,12 @@ c       write(*,*) 'xyz',x,y,z
         IF(MUR.GT.MQ.OR.MUR.EQ.MQ) MST = MUR
         MSUSYT = DSQRT(MST**2  + MTOP**2)
 
-	IF(MQ.GT.MD) MSB = MQ
-	IF(MD.GT.MQ.OR.MD.EQ.MQ) MSB = MD
-	MSUSYB = DSQRT(MSB**2 + MB**2)
+        IF(MQ.GT.MD) MSB = MQ
+        IF(MD.GT.MQ.OR.MD.EQ.MQ) MSB = MD
+        MSUSYB = DSQRT(MSB**2 + MB**2)
 
-	TT = LOG(MSUSYT**2/MTOP**2)
-	TB = LOG(MSUSYB**2/MTOP**2)
+        TT = LOG(MSUSYT**2/MTOP**2)
+        TB = LOG(MSUSYB**2/MTOP**2)
 
         HT = RMTOP/V/SINB
         HTST = RMTOP/V
@@ -7117,7 +7117,7 @@ c       write(*,*) 'xyz',x,y,z
         G32 = ALPHA3*4.*PI
 
         BT2 = -(8.*G32 - 9.*HT**2/2. - HB**2/2.)/(4.*PI)**2
-	BB2 = -(8.*G32 - 9.*HB**2/2. - HT**2/2.)/(4.*PI)**2
+        BB2 = -(8.*G32 - 9.*HB**2/2. - HT**2/2.)/(4.*PI)**2
         AL2 = 3./8./PI**2*HT**2
         BT2ST = -(8.*G32 - 9.*HTST**2/2.)/(4.*PI)**2
         ALST = 3./8./PI**2*HTST**2
@@ -7157,7 +7157,7 @@ c     * /(1.+deltamt)**4.
         mbot4 = mb**4.*(1.+2.*bb2*tb - al1*tb)
      * /(1.+deltamb)**4.
         MTOP2 = DSQRT(MTOP4)
-	MBOT2 = DSQRT(MBOT4)
+        MBOT2 = DSQRT(MBOT4)
 
         STOP12 = (MQ2 + MUR2)*.5 + MTOP2 
      *   +1./8.*(G2**2+G1**2)*(H1T**2-H2T**2)
@@ -7230,7 +7230,7 @@ c     * /(1.+deltamt)**4.
         mbot4 = mb**4.*(1.+2.*bb2*tb - al1*tb)
      * /(1.+deltamb)**4.
         MTOP2 = DSQRT(MTOP4)
-	MBOT2 = DSQRT(MBOT4)
+        MBOT2 = DSQRT(MBOT4)
 
         STOP12 = (MQ2 + MUR2)*.5 + MTOP2 
      *   +1./8.*(G2**2+G1**2)*(H1T**2-H2T**2)

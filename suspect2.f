@@ -555,11 +555,11 @@ c
       endif
         if(sgnmu0.ne.1d0.and.sgnmu0.ne.-1d0) then
            if(mu.ne.0d0) then 
-	   sgnmu0 = mu/dabs(mu)
+           sgnmu0 = mu/dabs(mu)
            else 
-	   sgnmu0=1d0
-	   endif
-	else
+           sgnmu0=1d0
+           endif
+        else
       mu = sgnmu0*dabs(mu)     !added to avoid inconsistent user's input
         endif
       if(input.eq.1) call SU_read_leshouches(input,ninlha,ichoice,imod)  
@@ -3912,10 +3912,10 @@ c
        bp4tR = yt
 c
        do i=1,4
-       aNtR(i) = Z(i,1)*ap1tR +Z(i,2)*ap2tR +Z(i,3)*ap3tR +Z(i,4)*ap4tR	  
-       bNtR(i) = Z(i,1)*bp1tR +Z(i,2)*bp2tR +Z(i,3)*bp3tR +Z(i,4)*bp4tR	  
-       aNtL(i) = Z(i,1)*ap1tL +Z(i,2)*ap2tL +Z(i,3)*ap3tL +Z(i,4)*ap4tL	  
-       bNtL(i) = Z(i,1)*bp1tL +Z(i,2)*bp2tL +Z(i,3)*bp3tL +Z(i,4)*bp4tL	  
+       aNtR(i) = Z(i,1)*ap1tR +Z(i,2)*ap2tR +Z(i,3)*ap3tR +Z(i,4)*ap4tR
+       bNtR(i) = Z(i,1)*bp1tR +Z(i,2)*bp2tR +Z(i,3)*bp3tR +Z(i,4)*bp4tR
+       aNtL(i) = Z(i,1)*ap1tL +Z(i,2)*ap2tL +Z(i,3)*ap3tL +Z(i,4)*ap4tL
+       bNtL(i) = Z(i,1)*bp1tL +Z(i,2)*bp2tL +Z(i,3)*bp3tL +Z(i,4)*bp4tL
        enddo
 c
        do i=1,4
@@ -4023,174 +4023,174 @@ c*****************************************************************
 * the main scalar two-point function B0
 c from Looptools http://www.feynarts.de/looptools/
 c
-	double complex function su_B0(p, mm1, mm2)
-	implicit none
-	double precision p, m1, m2, mm1, mm2
-	double precision mudim2, divergence, lambda2, scale
-	double precision acc, eps
-	double complex Ieps, onePeps, oneMeps
-	common /su_cutoff/ mudim2, divergence, lambda2
+        double complex function su_B0(p, mm1, mm2)
+        implicit none
+        double precision p, m1, m2, mm1, mm2
+        double precision mudim2, divergence, lambda2, scale
+        double precision acc, eps
+        double complex Ieps, onePeps, oneMeps
+        common /su_cutoff/ mudim2, divergence, lambda2
         COMMON/SU_renscale/scale
-	parameter (acc = 1D-12)
-	parameter (eps = 1D-20)
-	parameter (Ieps = (0,1)*eps)
-	parameter (onePeps = 1 + Ieps)
-	parameter (oneMeps = 1 - Ieps)
+        parameter (acc = 1D-12)
+        parameter (eps = 1D-20)
+        parameter (Ieps = (0,1)*eps)
+        parameter (onePeps = 1 + Ieps)
+        parameter (oneMeps = 1 - Ieps)
 
-	double complex fpv, xlogx
-	external fpv, xlogx
+        double complex fpv, xlogx
+        external fpv, xlogx
 
-	double complex x1, x2, y1, y2, r
-	double precision minacc
+        double complex x1, x2, y1, y2, r
+        double precision minacc
         m1 = mm1**2
         m2 = mm2**2
         divergence=0.d0
         lambda2=0.d0
         mudim2 = scale**2
-	minacc = acc*(m1 + m2)
+        minacc = acc*(m1 + m2)
 * general case
-	if(abs(p) .gt. minacc) then
-	  call roots(p, m1, m2, x1, x2, y1, y2, r)
-	  if(abs(y1) .gt. .5D0 .and. abs(y2) .gt. .5D0) then
-	    su_B0 = -log(m2/mudim2) - 
+        if(abs(p) .gt. minacc) then
+          call roots(p, m1, m2, x1, x2, y1, y2, r)
+          if(abs(y1) .gt. .5D0 .and. abs(y2) .gt. .5D0) then
+            su_B0 = -log(m2/mudim2) - 
      +        fpv(1, x1, y1) - fpv(1, x2, y2)
-	  else if(abs(x1) .lt. 10 .and. abs(x2) .lt. 10) then
-	    su_B0 = 2 - log(p*oneMeps/mudim2) +
+          else if(abs(x1) .lt. 10 .and. abs(x2) .lt. 10) then
+            su_B0 = 2 - log(p*oneMeps/mudim2) +
      +        xlogx(-x1) + xlogx(-x2) - xlogx(y1) - xlogx(y2)
-	  else if(abs(x1) .gt. .5D0 .and. abs(x2) .gt. .5D0) then
-	    su_B0 = -log(m1/mudim2) -
+          else if(abs(x1) .gt. .5D0 .and. abs(x2) .gt. .5D0) then
+            su_B0 = -log(m1/mudim2) -
      +        fpv(1, y1, x1) - fpv(1, y2, x2)
-	  else
+          else
 c	    print *, "B0(", p, ",", m1, ",", m2, ") not defined"
-	    su_B0 = 999D300
-	  endif
+            su_B0 = 999D300
+          endif
 * zero momentum
-	else if(abs(m1 - m2) .gt. minacc) then
-	  x2 = oneMeps*m1/(m1 - m2)
-	  y2 = oneMeps*m2/(m2 - m1)
-	  if(abs(y2) .gt. .5D0) then
-	    su_B0 = -log(m2/mudim2) - fpv(1, x2, y2)
-	  else
-	    su_B0 = -log(m1/mudim2) - fpv(1, y2, x2)
-	  endif
-	else
-	  su_B0 = -log(m2/mudim2)
-	endif
+        else if(abs(m1 - m2) .gt. minacc) then
+          x2 = oneMeps*m1/(m1 - m2)
+          y2 = oneMeps*m2/(m2 - m1)
+          if(abs(y2) .gt. .5D0) then
+            su_B0 = -log(m2/mudim2) - fpv(1, x2, y2)
+          else
+            su_B0 = -log(m1/mudim2) - fpv(1, y2, x2)
+          endif
+        else
+          su_B0 = -log(m2/mudim2)
+        endif
         su_B0 = su_B0 + divergence
-	end
+        end
 c------------------------
 c auxiliary functions used by the B0,B1 two-point functions
 c from Looptools http://www.feynarts.de/looptools/
-	subroutine roots(p, m1, m2, x1, x2, y1, y2, r)
-	implicit none
-	double precision p, m1, m2
-	double complex x1, x2, y1, y2, r
-	double precision mudim2, divergence, lambda2
-	common /su_cutoff/ mudim2, divergence, lambda2
+        subroutine roots(p, m1, m2, x1, x2, y1, y2, r)
+        implicit none
+        double precision p, m1, m2
+        double complex x1, x2, y1, y2, r
+        double precision mudim2, divergence, lambda2
+        common /su_cutoff/ mudim2, divergence, lambda2
 
-	double precision acc, eps
-	double complex Ieps, onePeps, oneMeps
-	parameter (acc = 1D-12)
-	parameter (eps = 1D-20)
-	parameter (Ieps = (0,1)*eps)
-	parameter (onePeps = 1 + Ieps)
-	parameter (oneMeps = 1 - Ieps)
+        double precision acc, eps
+        double complex Ieps, onePeps, oneMeps
+        parameter (acc = 1D-12)
+        parameter (eps = 1D-20)
+        parameter (Ieps = (0,1)*eps)
+        parameter (onePeps = 1 + Ieps)
+        parameter (oneMeps = 1 - Ieps)
 
-	double precision q
+        double precision q
 
-	r = sqrt(dcmplx(p*(p - 2*(m1 + m2)) + (m1 - m2)**2))
-	q = p + m1 - m2
-	x1 = (q + r)/2D0/p
-	x2 = (q - r)/2D0/p
-	if(abs(x2) .gt. abs(x1)) then
-	  x1 = m1/p/x2
-	else if(abs(x1) .gt. abs(x2)) then
-	  x2 = m1/p/x1
-	endif
-	x1 = x1 + abs(p*x1)/p*Ieps
-	x2 = x2 - abs(p*x2)/p*Ieps
+        r = sqrt(dcmplx(p*(p - 2*(m1 + m2)) + (m1 - m2)**2))
+        q = p + m1 - m2
+        x1 = (q + r)/2D0/p
+        x2 = (q - r)/2D0/p
+        if(abs(x2) .gt. abs(x1)) then
+          x1 = m1/p/x2
+        else if(abs(x1) .gt. abs(x2)) then
+          x2 = m1/p/x1
+        endif
+        x1 = x1 + abs(p*x1)/p*Ieps
+        x2 = x2 - abs(p*x2)/p*Ieps
 
-	q = p - m1 + m2
-	y2 = (q + r)/2D0/p
-	y1 = (q - r)/2D0/p
-	if(abs(y2) .gt. abs(y1)) then
-	  y1 = m2/p/y2
-	else if(abs(y1) .gt. abs(y2)) then
-	  y2 = m2/p/y1
-	endif
-	y1 = y1 - abs(p*y1)/p*Ieps
-	y2 = y2 + abs(p*y2)/p*Ieps
-	end
+        q = p - m1 + m2
+        y2 = (q + r)/2D0/p
+        y1 = (q - r)/2D0/p
+        if(abs(y2) .gt. abs(y1)) then
+          y1 = m2/p/y2
+        else if(abs(y1) .gt. abs(y2)) then
+          y2 = m2/p/y1
+        endif
+        y1 = y1 - abs(p*y1)/p*Ieps
+        y2 = y2 + abs(p*y2)/p*Ieps
+        end
 c************************************************************************
-	double complex function fpv(n, x, y)
+        double complex function fpv(n, x, y)
 c from LoopTools http://www.feynarts.de/looptools/
-	implicit none
-	integer n
-	double complex x, y
-	double precision mudim2, divergence, lambda2
-	common /su_cutoff/ mudim2, divergence, lambda2
-	double precision acc, eps
-	double complex Ieps, onePeps, oneMeps
-	parameter (acc = 1D-12)
-	parameter (eps = 1D-20)
-	parameter (Ieps = (0,1)*eps)
-	parameter (onePeps = 1 + Ieps)
-	parameter (oneMeps = 1 - Ieps)
+        implicit none
+        integer n
+        double complex x, y
+        double precision mudim2, divergence, lambda2
+        common /su_cutoff/ mudim2, divergence, lambda2
+        double precision acc, eps
+        double complex Ieps, onePeps, oneMeps
+        parameter (acc = 1D-12)
+        parameter (eps = 1D-20)
+        parameter (Ieps = (0,1)*eps)
+        parameter (onePeps = 1 + Ieps)
+        parameter (oneMeps = 1 - Ieps)
 
-	integer m
-	double complex xm
+        integer m
+        double complex xm
 
-	if(abs(x) .lt. 10) then
-	  if(n .eq. 0) then
-	    fpv = -log(-y/x)
-	  else if(abs(x) .lt. acc) then
-	    fpv = -1D0/n
-	  else
-	    fpv = 0
-	    xm = 1
-	    do m = 0, n - 1
-	      fpv = fpv - xm/(n - m)
-	      xm = xm*x
-	    enddo
-	    fpv = fpv - xm*log(-y/x)
-	  endif
-	else
-	  fpv = 0
-	  xm = 1
-	  do m = 1, 30
-	    xm = xm/x
-	    fpv = fpv + xm/(m + n)
-	    if(abs(xm/fpv) .lt. acc**2) return
-	  enddo
-	endif
-	end
+        if(abs(x) .lt. 10) then
+          if(n .eq. 0) then
+            fpv = -log(-y/x)
+          else if(abs(x) .lt. acc) then
+            fpv = -1D0/n
+          else
+            fpv = 0
+            xm = 1
+            do m = 0, n - 1
+              fpv = fpv - xm/(n - m)
+              xm = xm*x
+            enddo
+            fpv = fpv - xm*log(-y/x)
+          endif
+        else
+          fpv = 0
+          xm = 1
+          do m = 1, 30
+            xm = xm/x
+            fpv = fpv + xm/(m + n)
+            if(abs(xm/fpv) .lt. acc**2) return
+          enddo
+        endif
+        end
 c************************************************************************
-	double complex function yfpv(n, x, y)
+        double complex function yfpv(n, x, y)
 c from Looptools http://www.feynarts.de/looptools/
-	implicit none
-	integer n
-	double complex x, y
+        implicit none
+        integer n
+        double complex x, y
 
-	double complex fpv
-	external fpv
+        double complex fpv
+        external fpv
 
-	if(abs(y) .eq. 0) then
-	  yfpv = 0
-	else
-	  yfpv = y*fpv(n, x, y)
-	endif
-	end
+        if(abs(y) .eq. 0) then
+          yfpv = 0
+        else
+          yfpv = y*fpv(n, x, y)
+        endif
+        end
 c************************************************************************
-	double complex function xlogx(x)
-	implicit none
-	double complex x
+        double complex function xlogx(x)
+        implicit none
+        double complex x
 
-	if(abs(x) .eq. 0) then
-	  xlogx = 0
-	else
-	  xlogx = x*log(x)
-	endif
-	end
+        if(abs(x) .eq. 0) then
+          xlogx = 0
+        else
+          xlogx = x*log(x)
+        endif
+        end
 c  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++      
       COMPLEX*16 FUNCTION SU_B1(s,mi,mj)
       implicit real*8 (a-h,m-z)
@@ -4426,39 +4426,39 @@ c
 c
 c     =================== Chargino masses and matrix elements =============
 c
-	delta=dabs(b-.25*pi)
-	ddd=mu*dcos(b)+m2*dsin(b)
-	ccc=mu*dsin(b)+m2*dcos(b)
-	if(delta.lt.0.01d0) then
-	phim=pi/4.d0-.5d0*datan((m2-mu)/(2.d0*mw))
-	phip=phim
-	else if	(dabs(ccc).lt.1.d-5) then
-	phim=0.d0
-	phip=datan(dsqrt(2.d0)*mw*dsin(b)/(m2+1.d-5))
-	else if	(dabs(ddd).lt.1.d-5) then
-	phip=0.d0
-	phim=datan(dsqrt(2.d0)*mw*dcos(b)/(m2+1.d-5))
-	else
-	rad=dsqrt((m2**2-mu**2)**2+4.d0*mw**4*dcos(2.d0*b)**2
-     +	+4.d0*mw**2*(m2**2+mu**2+2.d0*m2*mu*dsin(2.d0*b)))
-	phip=datan((rad-(m2**2-mu**2+2.d0*mw**2*dcos(2.d0*b)))
-     +	/(2.d0*dsqrt(2.d0)*mw*(mu*dcos(b)+m2*dsin(b))))
-	phim=datan((rad-(m2**2-mu**2-2.d0*mw**2*dcos(2.d0*b)))
-     +	/(2.d0*dsqrt(2.d0)*mw*(mu*dsin(b)+m2*dcos(b))))
-	endif
-	cp=dcos(phip)
-	sp=dsin(phip)
-	cm=dcos(phim)
-	sm=dsin(phim)
+        delta=dabs(b-.25*pi)
+        ddd=mu*dcos(b)+m2*dsin(b)
+        ccc=mu*dsin(b)+m2*dcos(b)
+        if(delta.lt.0.01d0) then
+        phim=pi/4.d0-.5d0*datan((m2-mu)/(2.d0*mw))
+        phip=phim
+        else if (dabs(ccc).lt.1.d-5) then
+        phim=0.d0
+        phip=datan(dsqrt(2.d0)*mw*dsin(b)/(m2+1.d-5))
+        else if (dabs(ddd).lt.1.d-5) then
+        phip=0.d0
+        phim=datan(dsqrt(2.d0)*mw*dcos(b)/(m2+1.d-5))
+        else
+        rad=dsqrt((m2**2-mu**2)**2+4.d0*mw**4*dcos(2.d0*b)**2
+     +  +4.d0*mw**2*(m2**2+mu**2+2.d0*m2*mu*dsin(2.d0*b)))
+        phip=datan((rad-(m2**2-mu**2+2.d0*mw**2*dcos(2.d0*b)))
+     +  /(2.d0*dsqrt(2.d0)*mw*(mu*dcos(b)+m2*dsin(b))))
+        phim=datan((rad-(m2**2-mu**2-2.d0*mw**2*dcos(2.d0*b)))
+     +  /(2.d0*dsqrt(2.d0)*mw*(mu*dsin(b)+m2*dcos(b))))
+        endif
+        cp=dcos(phip)
+        sp=dsin(phip)
+        cm=dcos(phim)
+        sm=dsin(phim)
 c  my convention
-	u(2,2)=cm
-	u(2,1)=-sm
-	u(1,2)=sm
-	u(1,1)=cm
-	v(1,1)=cp
-	v(1,2)=sp
-	v(2,1)=-sp
-	v(2,2)=cp
+        u(2,2)=cm
+        u(2,1)=-sm
+        u(1,2)=sm
+        u(1,1)=cm
+        v(1,1)=cp
+        v(1,2)=sp
+        v(2,1)=-sp
+        v(2,2)=cp
         x(1,1)=m2
         x(1,2)=dsqrt(2.d0)*mw*dsin(b)
         x(2,1)=dsqrt(2.d0)*mw*dcos(b)
@@ -5213,10 +5213,10 @@ c
        bw2tR=0.d0
       
        do i=1,4
-       aNtR(i) = Z(i,1)*ap1tR +Z(i,2)*ap2tR +Z(i,3)*ap3tR +Z(i,4)*ap4tR	  
-       bNtR(i) = Z(i,1)*bp1tR +Z(i,2)*bp2tR +Z(i,3)*bp3tR +Z(i,4)*bp4tR	  
-       aNtL(i) = Z(i,1)*ap1tL +Z(i,2)*ap2tL +Z(i,3)*ap3tL +Z(i,4)*ap4tL	  
-       bNtL(i) = Z(i,1)*bp1tL +Z(i,2)*bp2tL +Z(i,3)*bp3tL +Z(i,4)*bp4tL	  
+       aNtR(i) = Z(i,1)*ap1tR +Z(i,2)*ap2tR +Z(i,3)*ap3tR +Z(i,4)*ap4tR
+       bNtR(i) = Z(i,1)*bp1tR +Z(i,2)*bp2tR +Z(i,3)*bp3tR +Z(i,4)*bp4tR
+       aNtL(i) = Z(i,1)*ap1tL +Z(i,2)*ap2tL +Z(i,3)*ap3tL +Z(i,4)*ap4tL
+       bNtL(i) = Z(i,1)*bp1tL +Z(i,2)*bp2tL +Z(i,3)*bp3tL +Z(i,4)*bp4tL
        enddo
 c
        do i=1,2
@@ -5321,7 +5321,7 @@ c
      .    -2.d0*rmb*gmc(i)*gttLL(i)*dble(SU_B0(pscale**2,gmc(i),rmb))     
       enddo 
 c
-      crLL=-cpi*(crLLqcd+crLLyuk+crLLgau+crLLhyp+crLLnino+crLLcino)	    
+      crLL=-cpi*(crLLqcd+crLLyuk+crLLgau+crLLhyp+crLLnino+crLLcino)
 c       
 c-------------------- RR contribution: 
 c
@@ -5391,7 +5391,7 @@ c
      .    -2.d0*rmb*gmc(i)*gttRR(i)*dble(SU_B0(pscale**2,gmc(i),rmb))     
       enddo 
 c
-      crRR=-cpi*(crRRqcd+crRRyuk+crRRgau+crRRhyp+crRRnino+crRRcino)	    
+      crRR=-cpi*(crRRqcd+crRRyuk+crRRgau+crRRhyp+crRRnino+crRRcino)
 c       
 c-------------------- LR contribution: 
 c
@@ -5435,7 +5435,7 @@ c
      .    -2.d0*rmb*gmc(i)*gttLR(i)*dble(SU_B0(pscale**2,gmc(i),rmb))     
       enddo 
 c
-      crLR=-cpi*(crLRqcd+crLRyuk+crLRgau+crLRhyp+crLRnino+crLRcino)	              
+      crLR=-cpi*(crLRqcd+crLRyuk+crLRgau+crLRhyp+crLRnino+crLRcino)
 c
  100  continue
       end
@@ -5779,39 +5779,39 @@ c===== charged higgs couplings sfermions
       gcen(2,2)=0.d0 
 c=====  neutral higgs couplings to neutralinos
         tanw=dsqrt(sw2)/dsqrt(1.d0-sw2) 
-	do 11 i=1,4
-	do 11 j=1,4
-	qqn(i,j)=1.d0/2.d0*(z(i,3)*(z(j,2)-tanw*z(j,1))+z(j,3)*
-     .		(z(i,2)-tanw*z(i,1)))
-	ssn(i,j)=1.d0/2.d0*(z(i,4)*(z(j,2)-tanw*z(j,1))+z(j,4)*
-     .		(z(i,2)-tanw*z(i,1)))
- 11	continue
-	do 21 i=1,4
-	do 21 j=1,4
-	an1(i,j)= qqn(i,j)*dcos(a)-ssn(i,j)*dsin(a)
-	an2(i,j)=-qqn(i,j)*dsin(a)-ssn(i,j)*dcos(a)
-	an3(i,j)= qqn(i,j)*dsin(bet)-ssn(i,j)*dcos(bet)
- 21	continue
+        do 11 i=1,4
+        do 11 j=1,4
+        qqn(i,j)=1.d0/2.d0*(z(i,3)*(z(j,2)-tanw*z(j,1))+z(j,3)*
+     .          (z(i,2)-tanw*z(i,1)))
+        ssn(i,j)=1.d0/2.d0*(z(i,4)*(z(j,2)-tanw*z(j,1))+z(j,4)*
+     .          (z(i,2)-tanw*z(i,1)))
+ 11     continue
+        do 21 i=1,4
+        do 21 j=1,4
+        an1(i,j)= qqn(i,j)*dcos(a)-ssn(i,j)*dsin(a)
+        an2(i,j)=-qqn(i,j)*dsin(a)-ssn(i,j)*dcos(a)
+        an3(i,j)= qqn(i,j)*dsin(bet)-ssn(i,j)*dcos(bet)
+ 21     continue
 c=====  neutral higgs couplings to charginos 
-	do 12 i=1,2
-	do 12 j=1,2
-	qqc(i,j)=dsqrt(1.d0/2.d0)*uu(j,2)*vv(i,1)
-	ssc(i,j)=dsqrt(1.d0/2.d0)*uu(j,1)*vv(i,2)
- 12	continue
-	do 22 i=1,2
-	do 22 j=1,2	
-	ac1(i,j)= qqc(i,j)*dcos(a)+ssc(i,j)*dsin(a)
-	ac2(i,j)=-qqc(i,j)*dsin(a)+ssc(i,j)*dcos(a)	
+        do 12 i=1,2
+        do 12 j=1,2
+        qqc(i,j)=dsqrt(1.d0/2.d0)*uu(j,2)*vv(i,1)
+        ssc(i,j)=dsqrt(1.d0/2.d0)*uu(j,1)*vv(i,2)
+ 12     continue
+        do 22 i=1,2
+        do 22 j=1,2
+        ac1(i,j)= qqc(i,j)*dcos(a)+ssc(i,j)*dsin(a)
+        ac2(i,j)=-qqc(i,j)*dsin(a)+ssc(i,j)*dcos(a)
         ac3(i,j)= qqc(i,j)*dsin(bet)+ssc(i,j)*dcos(bet)
- 22	continue
+ 22     continue
 c=====  charged higgs couplings to charginos-neutralinos 
-	do 13 i=1,2
-	do 13 j=1,4
+        do 13 i=1,2
+        do 13 j=1,4
         acnl(i,j)=dcos(bet)*(z(j,4)*vv(i,1)+(z(j,2)+z(j,1)*tanw)
      .       *vv(i,2)/dsqrt(2.d0)) 
         acnr(i,j)=dsin(bet)*(z(j,3)*uu(i,1)-(z(j,2)+z(j,1)*tanw)
      .       *uu(i,2)/dsqrt(2.d0)) 
- 13     continue 
+ 13         continue 
 c
       if(imodel.ge.1)then
 C ============ gluino and heaviest chargino mass needed for subh ======
@@ -5984,11 +5984,11 @@ c full one-loop Higgs calculation but neglecting any two-loops
 c
       endif
 c     add two-loop tadpoles in running mA:
-       if(imodel.ge.2) tad1loop= tad1st+tad1sb+tad1w+tad1l+tad1bl   	
+       if(imodel.ge.2) tad1loop= tad1st+tad1sb+tad1w+tad1l+tad1bl   
       dVdvd2=-tad1
       if(imodel.ge.2) dVdvd2=dVdvd2+tad1loop
 
-       if(imodel.ge.2) tad2loop=tad2st+tad2sb+tad2w+tad2l+tad2bl	
+       if(imodel.ge.2) tad2loop=tad2st+tad2sb+tad2w+tad2l+tad2bl
       dVdvu2=-tad2
       if(imodel.ge.2) dVdvu2=dVdvu2+tad2loop
 
@@ -6227,7 +6227,7 @@ c ! affects only pure 1-loop Higgs mass choice:
       return
 111   return
       end
-c   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
+c   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 c  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       SUBROUTINE SU_HLOOP(q2,mhiggs,MU,AT,AB,AL,
      .           pis1s1,pis1s2,pis2s2,piaa,picc,pizz,piww,tad1,tad2) 
@@ -6699,7 +6699,7 @@ c
        gs1t1t1 = ct**2*s1tLtL +2*ct*st*s1tLtR +st**2*s1tRtR 
        gs1t2t2 = st**2*s1tLtL -2*ct*st*s1tLtR +ct**2*s1tRtR 
        gs1t1t2 = st*ct*(s1tRtR-s1tLtL) +(ct**2-st**2)*s1tLtR
-	
+
 c
        gs2t1t1 = ct**2*s2tLtL +2*ct*st*s2tLtR +st**2*s2tRtR 
        gs2t2t2 = st**2*s2tLtL -2*ct*st*s2tLtR +ct**2*s2tRtR 
@@ -7580,12 +7580,12 @@ c
 c final contributions including 2-loop corrections:
        
         tad1 = -cpi*(confd + dvdsf +dvdH +dvdWZ +dvdino) 
-        tad1loop= tad1st+tad1sb+tad1w+tad1l+tad1bl   	
+        tad1loop= tad1st+tad1sb+tad1w+tad1l+tad1bl   
         dVdvd2=tad1+tad1loop
 
         tad2 = -cpi*(confu + dvusf +dvuH +dvuWZ +dvuino)   
-     	tad2loop=tad2st+tad2sb+tad2w+tad2l+tad2bl	
-        dVdvu2=tad2+tad2loop	
+        tad2loop=tad2st+tad2sb+tad2w+tad2l+tad2bl
+        dVdvu2=tad2+tad2loop
 c    
 c-----------------------------------------------------------------
 c                 Z boson self-energy at q**2=mz**2
@@ -7755,7 +7755,7 @@ c  new modif to speed up RGE integration in the safe zone far from GUT :
         CALL SU_RKQC(y,dydx,nvar,x,h,eps,yscal,hdid,hnext,su_derivs)
           else
         CALL SU_RKQC(y,dydx,nvar,x,h1,eps,yscal,hdid,hnext,su_derivs)
-	  endif
+          endif
         if(hdid.eq.h)then
           nok=nok+1
         else
@@ -7918,7 +7918,7 @@ c  Note that the number of running parameters consist of the 22 parameters
 c  of the phenomenological MSSM; + the 3 gauge and the  3 Yukawa couplings, 
 c  +3 parameters (vu, vd, B) which are in fact linearly dependent of others.
 cc  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-c           SUBROUTINE SU_DERIV1(x,y,dydx)		  
+c           SUBROUTINE SU_DERIV1(x,y,dydx)
 c           SUBROUTINE SU_DERIV2(x,y,dydx)
 c  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 c  These are the derivatives of the RG running parameters y(xN), i.e the beta 
@@ -9169,12 +9169,12 @@ c i.e. for small mixing angle, slepton_1 should be mostly slepton_L
       xnl(ii,2) = -yuk*z(ii,3)*ccl - gau*ssl
         enddo    
 
-	do 13 i=1,4
-	do 13 j=1,2
+        do 13 i=1,4
+        do 13 j=1,2
         anl(i,j)=ml/msl(j)**2*(xnl(i,j)*xnl(i,j)+xnr(i,j)*xnr(i,j))
      .            *fgm2a(mn(i)**2/msl(j)**2)
      .   +mn(i)/msl(j)**2*xnl(i,j)*xnr(i,j)*fgm2b(mn(i)**2/msl(j)**2)       
- 13	continue
+ 13     continue
        anltot=anl(1,1)+anl(2,1)+anl(3,1)+anl(4,1)
      .       +anl(1,2)+anl(2,2)+anl(3,2)+anl(4,2)
 
@@ -9316,15 +9316,15 @@ c what follows is in case specific SuSpect block SU_ALGO undefined in file:
 c then take defaut values of these algorithm control parameters
       algo_warn=-1d0
              ichoice(2)= 21     ! 2-loop RGE by defaut
-	     ichoice(3)=1       ! GUT gauge coupling unif. request by defaut
-	     ichoice(4)=2     ! RGE accuracy high by defaut
-	     ichoice(5)=1     ! radiative EWSB by defaut
-	     ichoice(6)=1     ! Mhu,Mhd input by defaut
-	     ichoice(7)=2     ! rad. corr. for all sparticles by defaut
-	     ichoice(8)=1    ! EWSB scale =sqrt(mst1*mst2) by defaut
-	     ichoice(9)=2    ! final spectrum accuracy high by defaut
-	     ichoice(10)=2   ! 2-loop rad. corr. to Higgs masses by defaut
-	     ichoice(11)=0  ! higher order Higgs scheme: DRbar masses in loops
+             ichoice(3)=1       ! GUT gauge coupling unif. request by defaut
+             ichoice(4)=2     ! RGE accuracy high by defaut
+             ichoice(5)=1     ! radiative EWSB by defaut
+             ichoice(6)=1     ! Mhu,Mhd input by defaut
+             ichoice(7)=2     ! rad. corr. for all sparticles by defaut
+             ichoice(8)=1    ! EWSB scale =sqrt(mst1*mst2) by defaut
+             ichoice(9)=2    ! final spectrum accuracy high by defaut
+             ichoice(10)=2   ! 2-loop rad. corr. to Higgs masses by defaut
+             ichoice(11)=0  ! higher order Higgs scheme: DRbar masses in loops
       do ism=1,7
       smval(ism)=unlikely    !protection against undefined input
       enddo
@@ -9394,7 +9394,7 @@ c -- look for Block SU_ALGO --(SuSpect algorithm control parameters)
                call SU_READ_SU_ALGO(ninlha,ichoice,done)
                if (done) then
                   check(22) = 1
-		  algo_warn=0d0
+                  algo_warn=0d0
                   goto 1111
                else
             algo_warn=-1d0
@@ -9457,7 +9457,7 @@ c are supersed by block EXTPAR below
       m0 = minval(1)
 c
         mhd2= m0**2
-	mhu2= m0**2
+        mhu2= m0**2
         MSL      = m0
         MTAUR    = m0
         MSQ      = m0
@@ -9552,10 +9552,10 @@ c
       if(extval(23).ne.u) then
       mu = extval(23)
         if(mu.ne.0d0) then
-	sgnmu0 = mu/dsqrt(mu)
+        sgnmu0 = mu/dsqrt(mu)
         else
-	sgnmu0 = minval(4)! modif to define sgn(mu) if MU not input in EXTPAR
-	endif
+        sgnmu0 = minval(4)! modif to define sgn(mu) if MU not input in EXTPAR
+        endif
       endif
       if(extval(24).ne.u) madr2 = extval(24)   ! running DRbar m^2_A
       if(extval(25).ne.u) tgbeta = extval(25)
@@ -10261,10 +10261,10 @@ c    input for AMSB models:
 c def. of EXTPAR names:
         extcom(0) = ' EWSB scale'          
         extcom(10) = ' GUT scale'
-	extcom(23) = ' mu(EWSB)'
-	extcom(24) = ' m^2_A_run(EWSB)'
+        extcom(23) = ' mu(EWSB)'
+        extcom(24) = ' m^2_A_run(EWSB)'
         extcom(25) = ' tanbeta(in)'
-	extcom(26) = ' MA_pole'
+        extcom(26) = ' MA_pole'
         extcom(1) = ' M_1'
         extcom(2) = ' M_2'
         extcom(3) = ' M_3'
@@ -10409,14 +10409,14 @@ c ------------------------------------------------------------------- c
          do i=1,iimax,1                                 !still from MINPAR     
       if(minval(i).ne.unlikely) write(nout,52) i,minval(i),mincom(i)
          end do
-	 if(ichoice(1).ge.10) then
+         if(ichoice(1).ge.10) then
       write(nout,105)
       write(nout,51) 'EXTPAR','Input parameters'
       if(ichoice(8).eq.1) extval(0) = scale
       extcom(0) ='EWSB scale'
       write(nout,72) 0,extval(0),extcom(0)
         if(extval(10).ne.unlikely.and.extval(10).ne.0d0) then
-	extcom(10)='High boundary scale'
+        extcom(10)='High boundary scale'
       write(nout,72) 0,extval(10),extcom(10)
         endif
          endif

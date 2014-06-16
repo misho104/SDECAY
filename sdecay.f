@@ -8761,7 +8761,7 @@ c Selectron_R decays c
 c ------------------ c
 
       if(selrtot2.ne.0.D0) then
-      write(21,*)		
+      write(21,*)
       write(21,*) " SELECTRONR DECAYS ",selrtot2
       write(21,*) " ----------------- "
       write(21,201) " ser- --> chi0_1 e- ",selrneute(1),
@@ -8845,7 +8845,7 @@ c Stau_1 decays c
 c ------------- c
 
       if(stau1tot2.ne.0.D0) then
-      write(21,*)			
+      write(21,*)
       write(21,*) " STAU1 DECAYS ",stau1tot2
       write(21,*) " ------------ "
       write(21,201) " stau1 --> chi0_1 tau-",stau1neut(1),
@@ -12830,7 +12830,7 @@ c -------------------------------------------------------------------- c
          btau(1,k) = sl*dsqrt(2.D0)*sw*(zp(k,2)*tw-zp(k,1))
      .               -cl*ytauc*z(k,3)
          btau(2,k) = cl*dsqrt(2.D0)*sw*(zp(k,2)*tw-zp(k,1))
-     .               +sl*ytauc*z(k,3)	
+     .               +sl*ytauc*z(k,3)
       enddo
 
 c Feynman rule: ig*[ atau(1/2,k)*P_R + btau(1/2,k)*P_L ] 
@@ -12843,7 +12843,7 @@ c -------------------------------------------------------------------- c
          anu(1,k) = -zp(k,2)/dsqrt(2.D0)/cw
          anu(2,k) = 0.D0
          bnu(1,k) = 0.D0
-         bnu(2,k) = 0.D0	
+         bnu(2,k) = 0.D0
       enddo
 
 c Feynman rule: ig*[ anu(2,k)*P_R + bnu(2,k)*P_L ]
@@ -12856,7 +12856,7 @@ c -------------------------------------------------------------------- c
          antau(1,k) = -zp(k,2)/dsqrt(2.D0)/cw
          antau(2,k) = 0.D0
          bntau(1,k) = 0.D0
-         bntau(2,k) = 0.D0	
+         bntau(2,k) = 0.D0
       enddo
 
 c Feynman rule: ig*[ antau(1/2,k)*P_R + bntau(1/2,k)*P_L ]
@@ -12873,7 +12873,7 @@ c -------------------------------------------------------------------- c
          btop(1,k) = -2.D0*st*dsqrt(2.D0)*sw*(zp(k,2)*tw-zp(k,1))/3.D0
      .               -ct*ytc*z(k,4)
          btop(2,k) = -2.D0*ct*dsqrt(2.D0)*sw*(zp(k,2)*tw-zp(k,1))/3.D0
-     .               +st*ytc*z(k,4)	
+     .               +st*ytc*z(k,4)
       enddo
 
 c Feynman rule: ig*[ atop(1/2,k)*P_R + btop(1/2,k)*P_L ]
@@ -12890,7 +12890,7 @@ c -------------------------------------------------------------------- c
          bbo(1,k) = sb*dsqrt(2.D0)*sw*(zp(k,2)*tw-zp(k,1))/3.D0
      .              -cb*ybc*z(k,3)
          bbo(2,k) = cb*dsqrt(2.D0)*sw*(zp(k,2)*tw-zp(k,1))/3.D0
-     .              +sb*ybc*z(k,3)	
+     .              +sb*ybc*z(k,3)
       enddo
 
 c Feynman rule: ig*[ abo(1/2,k)*P_R + bbo(1/2,k)*P_L ] 
@@ -12978,7 +12978,7 @@ c               -g*amz**2/amw*gatt stop1 in stop2 out
 c               +g*amz**2/amw*gatt stop2 in stop1 out
 
 c -------------------------------------------------------------------- c
-c                the Higgs-sbottom1-sbottom2 couplings		
+c                the Higgs-sbottom1-sbottom2 couplings
 c -------------------------------------------------------------------- c
 
       bhlb12 = amz*dsin(2.D0*theb)/2.D0/cw*(0.5D0-2.D0/3.D0*sw**2)*
@@ -13038,14 +13038,14 @@ c -------------------------------------------------------------------- c
       s12 = amb/dsqrt(2.D0)/amw*(adbot*tgbet+amu)
       s21 = amt/dsqrt(2.D0)/amw*(autop/tgbet+amu)
       s22 = 1.D0/dsqrt(2.D0)/amw*amb*amt*(1.D0/tgbet+tgbet)
-	
+
       chctb(1,1) = (-ct*cb*s11-st*sb*s22-ct*sb*s12-st*cb*s21)
       chctb(1,2) = (ct*sb*s11-ct*cb*s12+sb*st*s21-st*cb*s22)
       chctb(2,1) = (st*cb*s11+st*sb*s12-ct*cb*s21-ct*sb*s22)
       chctb(2,2) = (-st*sb*s11+st*cb*s12+ct*sb*s21-ct*cb*s22)
 
       gctb(1,1) = chctb(1,1)/amw
-      gctb(1,2) = chctb(1,2)/amw	
+      gctb(1,2) = chctb(1,2)/amw
       gctb(2,1) = chctb(2,1)/amw
       gctb(2,2) = chctb(2,2)/amw
 
@@ -13933,7 +13933,7 @@ c Feynman rule: ig*[ abot(1/2,k)*P_R + bbot(1/2,k)*P_L ]
          bbot(1,k)=sb*dsqrt(2.d0)*sw*(zp(k,2)*tw-zp(k,1))/3.d0
      .            -cb*scalb*z(k,3)
          bbot(2,k)=cb*dsqrt(2.d0)*sw*(zp(k,2)*tw-zp(k,1))/3.d0
-     .            +sb*scalb*z(k,3)	
+     .            +sb*scalb*z(k,3)
       enddo
 
       end
@@ -13967,7 +13967,7 @@ c Feynman rule: ig*[ atopr(1/2,k)*P_R + btopr(1/2,k)*P_L ]
          btopr(1,k)=-2.d0*st*dsqrt(2.d0)*sw*(zp(k,2)*tw-zp(k,1))/3.d0
      .             -ct*scalt*z(k,4)
          btopr(2,k)=-2.d0*ct*dsqrt(2.d0)*sw*(zp(k,2)*tw-zp(k,1))/3.d0
-     .             +st*scalt*z(k,4)	
+     .             +st*scalt*z(k,4)
       enddo
 
       end
@@ -14009,7 +14009,7 @@ c chcsntau(1,2) is for sneutrino_tau1-stau2
       chcsntau(2,2)=(-sn*sl*s11+sn*cl*s12+cn*sl*s21-cn*cl*s22)
 
       gcsntaur(1,1)=chcsntau(1,1)/amw
-      gcsntaur(1,2)=chcsntau(1,2)/amw	
+      gcsntaur(1,2)=chcsntau(1,2)/amw
       gcsntaur(2,1)=chcsntau(2,1)/amw
       gcsntaur(2,2)=chcsntau(2,2)/amw
 
@@ -14045,14 +14045,14 @@ c gctbr(1,2) is for stop1-sbottom2
       s12 = scalb*dcos(b)*(ad*tgbet+amu)
       s21 = scalt*dsin(b)*(au/tgbet+amu)
       s22 = dsqrt(2.d0)*amw*scalb*scalt
-	
+
       chctb(1,1)=(-ct*cb*s11-st*sb*s22-ct*sb*s12-st*cb*s21)
       chctb(1,2)=(ct*sb*s11-ct*cb*s12+sb*st*s21-st*cb*s22)
       chctb(2,1)=(st*cb*s11+st*sb*s12-ct*cb*s21-ct*sb*s22)
       chctb(2,2)=(-st*sb*s11+st*cb*s12+ct*sb*s21-ct*cb*s22)
 
       gctbr(1,1)=chctb(1,1)/amw
-      gctbr(1,2)=chctb(1,2)/amw	
+      gctbr(1,2)=chctb(1,2)/amw
       gctbr(2,1)=chctb(2,1)/amw
       gctbr(2,2)=chctb(2,2)/amw
 
@@ -14303,14 +14303,14 @@ c ---- derivative d/dmtop ----
       s12t = 0.D0
       s21t = tmpt*dsin(b)*(au/tgbet+amu)
       s22t = dsqrt(2.d0)*amw*scalb*tmpt
-	
+
       chctbdt(1,1)=(-ct*cb*s11t-st*sb*s22t-ct*sb*s12t-st*cb*s21t)
       chctbdt(1,2)=(ct*sb*s11t-ct*cb*s12t+sb*st*s21t-st*cb*s22t)
       chctbdt(2,1)=(st*cb*s11t+st*sb*s12t-ct*cb*s21t-ct*sb*s22t)
       chctbdt(2,2)=(-st*sb*s11t+st*cb*s12t+ct*sb*s21t-ct*cb*s22t)
 
       gcdmtr(1,1)=chctbdt(1,1)/amw
-      gcdmtr(1,2)=chctbdt(1,2)/amw	
+      gcdmtr(1,2)=chctbdt(1,2)/amw
       gcdmtr(2,1)=chctbdt(2,1)/amw
       gcdmtr(2,2)=chctbdt(2,2)/amw
 
@@ -14322,14 +14322,14 @@ c ---- derivative d/dmbottom ----
       s12b = tmpb*dcos(b)*(ad*tgbet+amu)
       s21b = 0.D0
       s22b = dsqrt(2.d0)*amw*tmpb*scalt
-	
+
       chctbdb(1,1)=(-ct*cb*s11b-st*sb*s22b-ct*sb*s12b-st*cb*s21b)
       chctbdb(1,2)=(ct*sb*s11b-ct*cb*s12b+sb*st*s21b-st*cb*s22b)
       chctbdb(2,1)=(st*cb*s11b+st*sb*s12b-ct*cb*s21b-ct*sb*s22b)
       chctbdb(2,2)=(-st*sb*s11b+st*cb*s12b+ct*sb*s21b-ct*cb*s22b)
 
       gcdmbr(1,1)=chctbdb(1,1)/amw
-      gcdmbr(1,2)=chctbdb(1,2)/amw	
+      gcdmbr(1,2)=chctbdb(1,2)/amw
       gcdmbr(2,1)=chctbdb(2,1)/amw
       gcdmbr(2,2)=chctbdb(2,2)/amw
 
@@ -14339,14 +14339,14 @@ c ---- derivative d/dAb ----
       s12ab = scalb*dcos(b)*tgbet
       s21ab = 0.D0
       s22ab = 0.D0
-	
+
       chctbab(1,1)=(-ct*cb*s11ab-st*sb*s22ab-ct*sb*s12ab-st*cb*s21ab)
       chctbab(1,2)=(ct*sb*s11ab-ct*cb*s12ab+sb*st*s21ab-st*cb*s22ab)
       chctbab(2,1)=(st*cb*s11ab+st*sb*s12ab-ct*cb*s21ab-ct*sb*s22ab)
       chctbab(2,2)=(-st*sb*s11ab+st*cb*s12ab+ct*sb*s21ab-ct*cb*s22ab)
 
       gcdabr(1,1)=chctbab(1,1)/amw
-      gcdabr(1,2)=chctbab(1,2)/amw	
+      gcdabr(1,2)=chctbab(1,2)/amw
       gcdabr(2,1)=chctbab(2,1)/amw
       gcdabr(2,2)=chctbab(2,2)/amw
 
@@ -14356,14 +14356,14 @@ c ---- derivative d/dAt ----
       s12at = 0.D0
       s21at = scalt*dsin(b)*1.D0/tgbet
       s22at = 0.D0
-	
+
       chctbat(1,1)=(-ct*cb*s11at-st*sb*s22at-ct*sb*s12at-st*cb*s21at)
       chctbat(1,2)=(ct*sb*s11at-ct*cb*s12at+sb*st*s21at-st*cb*s22at)
       chctbat(2,1)=(st*cb*s11at+st*sb*s12at-ct*cb*s21at-ct*sb*s22at)
       chctbat(2,2)=(-st*sb*s11at+st*cb*s12at+ct*sb*s21at-ct*cb*s22at)
 
       gcdatr(1,1)=chctbat(1,1)/amw
-      gcdatr(1,2)=chctbat(1,2)/amw	
+      gcdatr(1,2)=chctbat(1,2)/amw
       gcdatr(2,1)=chctbat(2,1)/amw
       gcdatr(2,2)=chctbat(2,2)/amw
 
@@ -14376,14 +14376,14 @@ c ---- derivative d/dtheta_t ----
       s12 = scalb*dcos(b)*(ad*tgbet+amu)
       s21 = scalt*dsin(b)*(au/tgbet+amu)
       s22 = dsqrt(2.d0)*amw*scalb*scalt
-	
+
       chctbtt(1,1)=(-ctt*cb*s11-stt*sb*s22-ctt*sb*s12-stt*cb*s21)
       chctbtt(1,2)=(ctt*sb*s11-ctt*cb*s12+sb*stt*s21-stt*cb*s22)
       chctbtt(2,1)=(stt*cb*s11+stt*sb*s12-ctt*cb*s21-ctt*sb*s22)
       chctbtt(2,2)=(-stt*sb*s11+stt*cb*s12+ctt*sb*s21-ctt*cb*s22)
 
       gcdthtr(1,1)=chctbtt(1,1)/amw
-      gcdthtr(1,2)=chctbtt(1,2)/amw	
+      gcdthtr(1,2)=chctbtt(1,2)/amw
       gcdthtr(2,1)=chctbtt(2,1)/amw
       gcdthtr(2,2)=chctbtt(2,2)/amw
 
@@ -14396,14 +14396,14 @@ c ---- derivative d/dtheta_b ----
       s12 = scalb*dcos(b)*(ad*tgbet+amu)
       s21 = scalt*dsin(b)*(au/tgbet+amu)
       s22 = dsqrt(2.d0)*amw*scalb*scalt
-	
+
       chctbbb(1,1)=(-ct*cbb*s11-st*sbb*s22-ct*sbb*s12-st*cbb*s21)
       chctbbb(1,2)=(ct*sbb*s11-ct*cbb*s12+sbb*st*s21-st*cbb*s22)
       chctbbb(2,1)=(st*cbb*s11+st*sbb*s12-ct*cbb*s21-ct*sbb*s22)
       chctbbb(2,2)=(-st*sbb*s11+st*cbb*s12+ct*sbb*s21-ct*cbb*s22)
 
       gcdthbr(1,1)=chctbbb(1,1)/amw
-      gcdthbr(1,2)=chctbbb(1,2)/amw	
+      gcdthbr(1,2)=chctbbb(1,2)/amw
       gcdthbr(2,1)=chctbbb(2,1)/amw
       gcdthbr(2,2)=chctbbb(2,2)/amw
 
@@ -16093,7 +16093,7 @@ c ---- final state masses included ----
 c -------------------------------------------------------------------- c
 c                     H+ stau/sneutrino_tau interference
 c -------------------------------------------------------------------- c
-	
+
       chipmhstau = 0.D0
 
 c ---- final state masses included ----
@@ -16146,7 +16146,7 @@ c -------------------------------------------------------------------- c
 c 	               interference W+ H-
 c -------------------------------------------------------------------- c
 
-      chipmwh=0.D0	
+      chipmwh=0.D0
 
       if((amneut(nj)+amtau).le.amchar(ni)) then      
          chipmwh=chipmwh-4.D0*g2**2/dh/dw*vwff*vchtau*(
@@ -16263,7 +16263,7 @@ c -------------------------------------------------------------------- c
       else
          chipmw=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                            W+ sel interference
 c -------------------------------------------------------------------- c
@@ -16285,24 +16285,24 @@ c -------------------------------------------------------------------- c
 c                         W+ sneutrino_e interference
 c -------------------------------------------------------------------- c
       
-	chipmwsnel=0.D0
+        chipmwsnel=0.D0
         
-	if(amneut(nj).le.amchar(ni)) then
+        if(amneut(nj).le.amchar(ni)) then
            do i=1,2
               chipmwsnel=chipmwsnel+g2**2*4.D0/dselb(i)/dw*(
      .             2.D0*alsne(i,ni)*anu(i,nj)*ol(nj,ni)*vwff*x2*y2
      .             -2.D0*xmneut(nj)/amchar(ni)*alsne(i,ni)*anu(i,nj)*
      .             or(nj,ni)*vwff*y3)
            end do
-	else
+        else
            chipmwsnel=0.D0
-	endif
+        endif
         
 c -------------------------------------------------------------------- c
 
         SD_chipmel = chipmsel+chipmw+chipmwsel+chipmwsnel
 
-	end
+        end
 
 c ==================================================================== c
 c ========================= neutralino up downbar ==================== c
@@ -16430,7 +16430,7 @@ c -------------------------------------------------------------------- c
       else
          chipmw=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                         W+ sdown interference
 c -------------------------------------------------------------------- c
@@ -16464,7 +16464,7 @@ c -------------------------------------------------------------------- c
       else
          chipmwsup=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 
       SD_chipmup = chipmsdown+chipmsup+chipmsdownsup+chipmw+
@@ -16768,7 +16768,7 @@ c ---- final state masses included ----
 c -------------------------------------------------------------------- c
 c                        H+ sbottom/stop interference
 c -------------------------------------------------------------------- c
-	
+
       chipmhsbot = 0.D0
 
 c ---- final state masses included ----
@@ -16837,7 +16837,7 @@ c -------------------------------------------------------------------- c
 c 	               interference W+ H-
 c -------------------------------------------------------------------- c
 
-      chipmwh=0.D0	
+      chipmwh=0.D0
 
       if((amneut(nj)+amt+amb).le.amchar(ni)) then      
          chipmwh=chipmwh-2.D0*g2**2/dh/dw*vwff*(
@@ -16947,7 +16947,7 @@ c -------------------------------------------------------------------- c
       else
          charz=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                      Z-sneutrino_el interference
 c -------------------------------------------------------------------- c
@@ -17251,7 +17251,7 @@ c -------------------------------------------------------------------- c
 c                     Hl-sneutrino_tau interference
 c -------------------------------------------------------------------- c
 
-      charhlsntau=0.D0	
+      charhlsntau=0.D0
 
 c ---- final state masses included ----
 
@@ -17285,7 +17285,7 @@ c -------------------------------------------------------------------- c
 c                     HH-sneutrino_tau interference
 c -------------------------------------------------------------------- c
 
-      charhhsntau=0.D0	
+      charhhsntau=0.D0
 
 c ---- final state masses included ----
 
@@ -17319,7 +17319,7 @@ c -------------------------------------------------------------------- c
 c                     HA-sneutrino_tau interference
 c -------------------------------------------------------------------- c
 
-      charhasntau=0.D0	
+      charhasntau=0.D0
 
 c ---- final state masses included ----
 
@@ -17354,7 +17354,7 @@ c -------------------------------------------------------------------- c
 c 	                interference Z and H/h/A
 c -------------------------------------------------------------------- c
 
-      charzhl=0.D0	
+      charzhl=0.D0
 
       if ((amchar(1)+2.D0*amtau).le.amchar(2)) then      
          charzhl=charzhl            
@@ -17368,7 +17368,7 @@ c -------------------------------------------------------------------- c
          charzhl=0.D0
       endif
 
-      charzhh=0.D0	
+      charzhh=0.D0
 
       if ((amchar(1)+2.D0*amtau).le.amchar(2)) then      
          charzhh=charzhh            
@@ -17490,7 +17490,7 @@ c -------------------------------------------------------------------- c
       else
          charz=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                      Z-selectron interference
 c -------------------------------------------------------------------- c
@@ -17600,7 +17600,7 @@ c -------------------------------------------------------------------- c
       else
          charz=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                        Z-stau interference
 c -------------------------------------------------------------------- c
@@ -17709,7 +17709,7 @@ c -------------------------------------------------------------------- c
       else
          charz=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                        Z-sdown interference
 c -------------------------------------------------------------------- c
@@ -17816,7 +17816,7 @@ c -------------------------------------------------------------------- c
       else
          charz=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                         Z-sup interference
 c -------------------------------------------------------------------- c
@@ -18141,7 +18141,7 @@ c -------------------------------------------------------------------- c
 c                         Hl-stop interference
 c -------------------------------------------------------------------- c
 
-      charhlstop=0.D0	
+      charhlstop=0.D0
 
 c ---- final state masses included ----
 
@@ -18175,7 +18175,7 @@ c -------------------------------------------------------------------- c
 c                         HH-stop interference
 c -------------------------------------------------------------------- c
 
-      charhhstop=0.D0	
+      charhhstop=0.D0
 
 c ---- final state masses included ----
 
@@ -18209,7 +18209,7 @@ c -------------------------------------------------------------------- c
 c                       HA-stop interference
 c -------------------------------------------------------------------- c
 
-      charhastop=0.D0	
+      charhastop=0.D0
 
 c ---- final state masses included ----
 
@@ -18244,7 +18244,7 @@ c -------------------------------------------------------------------- c
 c 	                interference Z and H/h/A
 c -------------------------------------------------------------------- c
 
-      charzhl=0.D0	
+      charzhl=0.D0
 
       if((amchar(1)+2.D0*amb).le.amchar(2)) then      
          charzhl=charzhl            
@@ -18258,7 +18258,7 @@ c -------------------------------------------------------------------- c
          charzhl=0.D0
       endif
 
-      charzhh=0.D0	
+      charzhh=0.D0
 
       if((amchar(1)+2.D0*amb).le.amchar(2)) then      
          charzhh=charzhh            
@@ -18598,7 +18598,7 @@ c -------------------------------------------------------------------- c
 c                      Hl-sbottom interference
 c -------------------------------------------------------------------- c
 
-      charhlsbot=0.D0	
+      charhlsbot=0.D0
 
 c ---- final state masses included ----
 
@@ -18632,7 +18632,7 @@ c -------------------------------------------------------------------- c
 c                        HH-sbottom interference
 c -------------------------------------------------------------------- c
 
-      charhhsbot=0.D0	
+      charhhsbot=0.D0
 
 c ---- final state masses included ----
 
@@ -18666,7 +18666,7 @@ c -------------------------------------------------------------------- c
 c                       HA-sbottom interference
 c -------------------------------------------------------------------- c
 
-      charhasbot=0.D0	
+      charhasbot=0.D0
 
 c ---- final state masses included ----
 
@@ -18700,7 +18700,7 @@ c -------------------------------------------------------------------- c
 c 	                interference Z and H/h/A
 c -------------------------------------------------------------------- c
 
-      charzhl=0.D0	
+      charzhl=0.D0
 
       if((amchar(1)+2.D0*amt).le.amchar(2)) then      
          charzhl=charzhl
@@ -18714,7 +18714,7 @@ c -------------------------------------------------------------------- c
          charzhl=0.D0
       endif
 
-      charzhh=0.D0	
+      charzhh=0.D0
 
       if((amchar(1)+2.D0*amt).le.amchar(2)) then      
          charzhh=charzhh
@@ -18728,7 +18728,7 @@ c -------------------------------------------------------------------- c
          charzhh=0.D0
       endif
 
-      charzha=0.D0	
+      charzha=0.D0
 
       if((amchar(1)+2.D0*amt).le.amchar(2)) then      
          charzha=charzha
@@ -18770,7 +18770,7 @@ c ==================================================================== c
       dimension alup(2,2),aldo(2,2),bldo(2,2),blup(2,2)
 
       COMMON/SD_massgino/amneut,xmneut,amchar
-      COMMON/SD_gluino/mgluino	      
+      COMMON/SD_gluino/mgluino
       COMMON/SD_param/sdgf,amz,amw,pi,g2
       COMMON/SD_indices/ni,nj
       COMMON/SD_squarkud/asup1,asup2,asdown1,asdown2
@@ -18846,7 +18846,7 @@ c -------------------------------------------------------------------- c
             enddo
          enddo
       else 
-         SD_gluiupdb=0.D0	
+         SD_gluiupdb=0.D0
       endif
 
       end
@@ -18865,7 +18865,7 @@ c ==================================================================== c
       dimension alsbot(2,2),aksbot(2,2),alstor(2,2),akstor(2,2)
 
       COMMON/SD_massgino/amneut,xmneut,amchar
-      COMMON/SD_gluino/mgluino	      
+      COMMON/SD_gluino/mgluino
       COMMON/SD_fermion/amt,amb,amtau
       COMMON/SD_squarktb/ast1,ast2,asb1,asb2
       COMMON/SD_param/gf,amz,amw,pi,g2
@@ -18999,7 +18999,7 @@ c ---- final state masses included ----
             enddo
          enddo
       else 
-         SD_gluitopbb=0.D0	
+         SD_gluitopbb=0.D0
       endif
 
       end
@@ -20264,7 +20264,7 @@ c -------------------------------------------------------------------- c
       do i=1,4,1
          kgamma(i) = zp(i,1)**2
          kz(i)     = zp(i,2)**2+0.5D0*(z(i,3)*dcos(bet)
-     .               -z(i,4)*dsin(bet))**2	
+     .               -z(i,4)*dsin(bet))**2
          khl(i)    = (z(i,3)*dsin(alp)-z(i,4)*dcos(alp))**2
          khh(i)    = (z(i,3)*dcos(alp)+z(i,4)*dsin(alp))**2
          kha(i)    = (z(i,3)*dsin(bet)+z(i,4)*dcos(bet))**2
@@ -20526,7 +20526,7 @@ c -------------------------------------------------------------------- c
 c -------------------------------------------------------------------- c
 c --------------------------- gluino b bbar -------------------------- c
 c -------------------------------------------------------------------- c
-	
+
       do ni=1,4,1
          xmu1=amb**2/amneut(ni)**2
          xmu2=amb**2/amneut(ni)**2
@@ -20995,7 +20995,7 @@ c -------------------------------------------------------------------- c
             enddo
          enddo
       else 
-         SD_xgluiup=0.D0	
+         SD_xgluiup=0.D0
       endif
 
       end
@@ -21235,7 +21235,7 @@ c --- mass dependence included ---
             enddo
          enddo
       else 
-         SD_xgluitop=0.D0	
+         SD_xgluitop=0.D0
       endif
 
       end
@@ -21390,7 +21390,7 @@ c --- mass dependence included ---
             enddo
          enddo
       else 
-         SD_xgluibot=0.D0	
+         SD_xgluibot=0.D0
       endif
 
       end
@@ -21487,7 +21487,7 @@ c -------------------------------------------------------------------- c
 c -------------------------------------------------------------------- c
 c                            Z-sup interference
 c -------------------------------------------------------------------- c
-	
+
       xneutzsup=0.D0
 
       if (amneut(nj).le.amneut(ni)) then
@@ -21605,7 +21605,7 @@ c -------------------------------------------------------------------- c
 c -------------------------------------------------------------------- c
 c                           Z-sdown interference
 c -------------------------------------------------------------------- c
-	
+
       xneutzsdow=0.D0
 
       if (amneut(nj).le.amneut(ni)) then
@@ -22028,7 +22028,7 @@ c -------------------------------------------------------------------- c
 c                        interference Hl-stop
 c -------------------------------------------------------------------- c
 
-      xneuthlstop=0.D0	
+      xneuthlstop=0.D0
 
 c ---- final state masses included ----
 
@@ -22070,7 +22070,7 @@ c -------------------------------------------------------------------- c
 c                      interference HH-stop
 c -------------------------------------------------------------------- c
 
-      xneuthhstop=0.D0	
+      xneuthhstop=0.D0
 
 c ---- final state masses included ----
 
@@ -22112,7 +22112,7 @@ c -------------------------------------------------------------------- c
 c 	                 interference HA-stop
 c -------------------------------------------------------------------- c
 
-      xneutastop=0.D0	
+      xneutastop=0.D0
       
 c ---- final state masses included ----
 
@@ -22156,7 +22156,7 @@ c -------------------------------------------------------------------- c
 c 	                interference Z and H/h/A
 c -------------------------------------------------------------------- c
 
-      xneutza=0.D0	
+      xneutza=0.D0
 
       if ((amneut(nj)+amt+amt).le.amneut(ni)) then      
          xneutza=xneutza-4.D0*g2**2/da/dz*azz*
@@ -22571,7 +22571,7 @@ c -------------------------------------------------------------------- c
 c 			interference Hl-sbottom
 c -------------------------------------------------------------------- c
 
-      xneuthlsbot=0.D0	
+      xneuthlsbot=0.D0
 
 c ---- final state masses included ----
 
@@ -22613,7 +22613,7 @@ c -------------------------------------------------------------------- c
 c                         interference HH-sbottom
 c -------------------------------------------------------------------- c
 
-      xneuthhsbot=0.D0	
+      xneuthhsbot=0.D0
 
 c ---- final state masses included ----
 
@@ -22655,7 +22655,7 @@ c -------------------------------------------------------------------- c
 c                        interference HA-sbottom
 c -------------------------------------------------------------------- c
 
-      xneutasbot=0.D0	
+      xneutasbot=0.D0
 
 c ---- final state masses included ----
 
@@ -22699,7 +22699,7 @@ c -------------------------------------------------------------------- c
 c 	                interference Z and H/h/A
 c -------------------------------------------------------------------- c
 
-      xneutza=0.D0	
+      xneutza=0.D0
 
       if((amneut(nj)+2.D0*amb).le.amneut(ni)) then      
          xneutza=-4.D0*g2**2/da/dz*azz*
@@ -22816,7 +22816,7 @@ c -------------------------------------------------------------------- c
       else
          xneutzel=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                        Z-selectron interference
 c -------------------------------------------------------------------- c
@@ -23218,7 +23218,7 @@ c -------------------------------------------------------------------- c
 c                           Hl-stau interference
 c -------------------------------------------------------------------- c
 
-      xneuthlstau=0.D0	
+      xneuthlstau=0.D0
 
 c ---- final state masses included ----
 
@@ -23264,7 +23264,7 @@ c -------------------------------------------------------------------- c
 c                            HH-stau interference
 c -------------------------------------------------------------------- c
       
-      xneuthhstau=0.D0	
+      xneuthhstau=0.D0
 
 c ---- final state masses included ----
 
@@ -23310,7 +23310,7 @@ c -------------------------------------------------------------------- c
 c 			   HA-stau interference
 c -------------------------------------------------------------------- c
 
-      xneutastau=0.D0	
+      xneutastau=0.D0
 
 c ---- final state masses included ----
 
@@ -23356,7 +23356,7 @@ c -------------------------------------------------------------------- c
 c 	                interference Z and H/h/A
 c -------------------------------------------------------------------- c
 
-      xneutza=0.D0	
+      xneutza=0.D0
 
       if ((amneut(nj)+2.D0*amtau).le.amneut(ni)) then      
          xneutza=xneutza-4.D0*g2**2/da/dz*azz*
@@ -23478,7 +23478,7 @@ c -------------------------------------------------------------------- c
       else
          xneutznl=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                          Z-snue interference
 c -------------------------------------------------------------------- c
@@ -23604,7 +23604,7 @@ c -------------------------------------------------------------------- c
       else
          xneutznt=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                      Z-selectron interference
 c -------------------------------------------------------------------- c
@@ -23739,7 +23739,7 @@ c -------------------------------------------------------------------- c
       else
          xneutwel=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                        W+-sfermion interference
 c -------------------------------------------------------------------- c
@@ -23981,7 +23981,7 @@ c --- with mass dependence ---
       else
          xneuthtau=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                        W+-sfermion interference
 c -------------------------------------------------------------------- c
@@ -24300,7 +24300,7 @@ c -------------------------------------------------------------------- c
       else
          xneutw=0.D0
       endif
-	
+
 c -------------------------------------------------------------------- c
 c                        W+-sfermion interference
 c -------------------------------------------------------------------- c
@@ -24664,7 +24664,7 @@ c --- with mass dependence
 c -------------------------------------------------------------------- c
 c                          H+ sfermion interference
 c -------------------------------------------------------------------- c
-	
+
       xneuthsf = 0.D0
 
 c --- with mass dependence ---
@@ -25403,7 +25403,7 @@ c ==================================================================== c
       subroutine SD_xinteggo(xintegoup,xintegodn,xintegotp,xintegobt,
      .     xintegoud,xintegotb,xinteghcst1b,xintegwst1b,xintegocc) 
 
-      implicit double precision (a-h,m,o-z)   	 
+      implicit double precision (a-h,m,o-z)   
       integer ni,nj,nx1t,ny1t
 
       dimension xintegoup(4),xintegodn(4),xintegotp(4),xintegobt(4),
@@ -25413,7 +25413,7 @@ c ==================================================================== c
       external SD_goup,SD_godn,SD_gobt,SD_gotp,SD_goud,SD_gotb,
      .         SD_ghcst1b,SD_gwst1b,SD_gocc
       external SD_ay,SD_by,SD_ax,SD_bx
-	
+
       COMMON/SD_nx1/nx1t,ny1t
       COMMON/SD_hmass/ama,aml,amh,amch,amar
       COMMON/SD_fermion/amt,amb,amtau
@@ -25679,7 +25679,7 @@ c -------------------------------------------------------------------- c
             enddo
          enddo
       else 
-         ghcsbot=0.D0	
+         ghcsbot=0.D0
       endif
 
 c -------------------------------------------------------------------- c
@@ -25699,7 +25699,7 @@ c -------------------------------------------------------------------- c
      .           gbr(i)*gtl(1)*ac)*(-xmuch-x2+xmub+xmust1+1.D0))
          enddo
       else 
-         ghcsbtop=0.D0	
+         ghcsbtop=0.D0
       endif
 
 
@@ -25791,7 +25791,7 @@ c -------------------------------------------------------------------- c
             enddo
          enddo
       else 
-         gwsbot=0.D0	
+         gwsbot=0.D0
       endif
 
 c -------------------------------------------------------------------- c
@@ -25815,7 +25815,7 @@ c -------------------------------------------------------------------- c
      .           -x2*xmub+x1*x2-xmust1*x1-x1)) )
          enddo
       else 
-         gwsbtop=0.D0	
+         gwsbtop=0.D0
       endif
 
 
@@ -25828,7 +25828,7 @@ c                    gluino --> neutralino up upbar
 c ==================================================================== c
 
       double precision function SD_goup(x1,x2)
-	
+
       implicit double precision (a-h,m,o-z)
       integer ni,nj
 
@@ -25894,9 +25894,9 @@ c ==================================================================== c
             enddo
          enddo
       else 
-         SD_goup=0.d0	
+         SD_goup=0.d0
       endif
-	
+
       end
 
 c ==================================================================== c
@@ -25904,7 +25904,7 @@ c                   gluino --> neutralino down downbar
 c ==================================================================== c
 
       double precision function SD_godn(x1,x2)
-	
+
       implicit double precision (a-h,m,o-z)
       integer ni,nj
 
@@ -25970,7 +25970,7 @@ c ==================================================================== c
             enddo
          enddo
       else 
-         SD_godn=0.d0	
+         SD_godn=0.d0
       endif
 
       end
@@ -25980,7 +25980,7 @@ c                 gluino --> neutralino bottom bottombar
 c ==================================================================== c
 
       double precision function SD_gobt(x1,x2)
-	
+
       implicit double precision (a-h,m,o-z)
       integer ni,nj
 
@@ -25989,7 +25989,7 @@ c ==================================================================== c
       dimension gtr(2),gtl(2),gbr(2),gbl(2),gur(2),gul(2),gdr(2),gdl(2)
       dimension abot(2,4),bbot(2,4)
       dimension abot1(2,4),bbot1(2,4),abot2(2,4),bbot2(2,4)
-	
+
       COMMON/SD_param/gf,amz,amw,pi,g2
       COMMON/SD_fermion/amt,amb,amtau
       COMMON/SD_gluino/mgluino
@@ -26119,7 +26119,7 @@ c --- formula with masses ---
             enddo
          enddo
       else 
-         SD_gobt=0.D0	
+         SD_gobt=0.D0
       endif
       
       end
@@ -26129,7 +26129,7 @@ c                   gluino --> neutralino top topbar
 c ==================================================================== c
 
       double precision function SD_gotp(x1,x2)
-	
+
       implicit double precision (a-h,m,o-z)
       integer ni,nj
 
@@ -26138,7 +26138,7 @@ c ==================================================================== c
       dimension gtr(2),gtl(2),gbr(2),gbl(2),gur(2),gul(2),gdr(2),gdl(2)
       dimension atopr(2,4),btopr(2,4)
       dimension atopr1(2,4),btopr1(2,4),atopr2(2,4),btopr2(2,4)
-	
+
       COMMON/SD_param/gf,amz,amw,pi,g2
       COMMON/SD_fermion/amt,amb,amtau
       COMMON/SD_gluino/mgluino
@@ -26268,7 +26268,7 @@ c --- formula with masses ---
             enddo
          enddo
       else 
-         SD_gotp=0.D0	
+         SD_gotp=0.D0
       endif
  
       end
@@ -26278,7 +26278,7 @@ c                   gluino --> chargino- up downbar
 c ==================================================================== c
 
       double precision function SD_goud(x1,x2)
-	
+
       implicit double precision (a-h,m,o-z)
       integer ni,nj
 
@@ -26286,7 +26286,7 @@ c ==================================================================== c
       dimension dsup(2),dsdn(2)
       dimension gtr(2),gtl(2),gbr(2),gbl(2),gur(2),gul(2),gdr(2),gdl(2)
       dimension alup(2,2),aldo(2,2),blup(2,2),bldo(2,2)
-	
+
       COMMON/SD_param/gf,amz,amw,pi,g2
       COMMON/SD_gluino/mgluino
       COMMON/SD_massgino/amneut,xmneut,amchar
@@ -26371,7 +26371,7 @@ c ==================================================================== c
       dimension dsbt(2),dstp(2)
       dimension gtr(2),gtl(2),gbr(2),gbl(2),gur(2),gul(2),gdr(2),gdl(2)
       dimension alsbot(2,2),aksbot(2,2),alstor(2,2),akstor(2,2)
-	
+
       COMMON/SD_param/gf,amz,amw,pi,g2
       COMMON/SD_gluino/mgluino
       COMMON/SD_massgino/amneut,xmneut,amchar
@@ -26500,7 +26500,7 @@ c --- the formula for massive final state fermions ---
             enddo
          enddo
       else 
-         SD_gotb=0.D0	
+         SD_gotb=0.D0
       endif
 
       end
@@ -26516,7 +26516,7 @@ c----------------------------------------------------------------------c
       dimension dsbt(2),dstp(2)
       dimension gtr(2),gtl(2),gbr(2),gbl(2),gur(2),gul(2),gdr(2),gdl(2)
       dimension alsbot(2,2),aksbot(2,2),alstor(2,2),akstor(2,2)
-	
+
       COMMON/SD_param/gf,amz,amw,pi,g2
       COMMON/SD_gluino/mgluino
       COMMON/SD_massgino/amneut,xmneut,amchar
@@ -26553,7 +26553,7 @@ c -- the running couplings --
          scalb = SD_yuk(2,runmb)
          scalt = SD_yuk(1,runmt)
       endif
-	
+
       call SD_charstopbot(alstor,akstor)
       call SD_charsbottop(alsbot,aksbot)
 
@@ -26645,7 +26645,7 @@ c --- the formula for massive final state fermions ---
             enddo
          enddo
       else 
-         SD_gocc=0.D0	
+         SD_gocc=0.D0
       endif
 
       end
@@ -28499,7 +28499,7 @@ c -----------------------------------------------
 c -------------------------------------------------------------------- c
 c                           sbottom exchange
 c -------------------------------------------------------------------- c
-	
+
       stbchiwbb=0.D0
 
       do k=1,2
@@ -28657,7 +28657,7 @@ c ========================== neutralino_j b H+ ======================= c
 c ==================================================================== c
 
       double precision function SD_stbchihc(x1,x2)
-	
+
       implicit double precision (a-h,m,o-z)
 
       dimension db(2),dchi(2),gmst(2),xmuchar(2),amchar(2),amneut(4),
@@ -34193,7 +34193,7 @@ c -------------------------------------------------------------------- c
       DIMENSION RX(1000),WX(1000),RY(1000),WY(1000)
       EXTERNAL F,SD_AY,SD_BY,SD_AX,SD_BX
       INTEGER NX,NY
-	
+
       AXX=SD_AX(xmu1,xmu2,xmu3)
       BXX=SD_BX(xmu1,xmu2,xmu3)
 
@@ -34210,7 +34210,7 @@ c -------------------------------------------------------------------- c
             SY=SY+WY(J)*F(X,RY(J))
  2       CONTINUE
          SX=SX+WX(K)*SY
- 1    CONTINUE		
+ 1    CONTINUE
       SUM=SX
       END
 
@@ -34306,7 +34306,7 @@ C
       NI(L)=NI(L)-1
       NR=NR+NG(L)
       END IF
- 11	 CONTINUE
+ 11      CONTINUE
       IF(NR.NE.0) WRITE (*,*) 'ERROR IN GAUSS: NR=',NR
       END IF
 C
@@ -39601,7 +39601,7 @@ c -- assignments old-new names of variables --
          ae4bod(1,k)=0.d0
          ae4bod(2,k)=-dsqrt(2.d0)*(zp(k,1)*sw+(0.5d0-sw**2)*zp(k,2)/cw)
          be4bod(1,k)=dsqrt(2.d0)*sw*(zp(k,2)*tw-zp(k,1))
-         be4bod(2,k)=0.d0	
+         be4bod(2,k)=0.d0
       enddo
       
       do k=1,4
@@ -39701,7 +39701,7 @@ c ------------------------- slepton exchange ------------------------- c
             aesnaesnesn=0.d0
             asusdasusdsu=0.d0
             asusdasusdsd=0.d0
-            asusdasusdsusd=0.d0	
+            asusdasusdsusd=0.d0
             asusdsusdsu=0.D0
             
             do i=1,2
@@ -39909,7 +39909,7 @@ c ---------------------------- W exchange ---------------------------- c
             pwpw=SD_scal(pw,pw)
             ptpt=SD_scal(pt,pt)
             pchipchi=SD_scal(pchi,pchi)
-            pstopsto=SD_scal(psto,psto)	
+            pstopsto=SD_scal(psto,psto)
             psnpsn=SD_scal(psn,psn)
             
             Dsb(1)=(psbpsb-asb1**2)
@@ -40080,9 +40080,9 @@ c ---------------------- interference stau top ----------------------- c
 
 c -------------------------- interference stau chi ------------------- c
 
-	astoachi=0.d0
+        astoachi=0.d0
 
-	do i=1,2
+        do i=1,2
            do j=1,2
               do m=1,2
                  a1=amneut(1)*ol(1,i)
@@ -40096,31 +40096,31 @@ c -------------------------- interference stau chi ------------------- c
      .                *(a1*p1-2.d0*a2*p2)
               enddo
            enddo
-	enddo
+        enddo
 
 c -------------------- interference sneutrino sbottom ---------------- c
 
-	asnasbo=0.d0
+        asnasbo=0.d0
 
-	p1=ppb*pchipfb*p0pf - pbpfb*pchip*p0pf +
+        p1=ppb*pchipfb*p0pf - pbpfb*pchip*p0pf +
      .       ppb*p0pchi*pfpfb - p0pb*pchip*pfpfb - pbpfb*p0pchi*ppf +
      .       p0pb*pchipfb*ppf - ppb*pchipf*p0pfb + pbpf*pchip*p0pfb +
      .       pchipb*ppf*p0pfb + pbpfb*pchipf*p0p - pbpf*pchipfb*p0p - 
      .       pchipb*pfpfb*p0p + p0pb*pchipf*ppfb - pbpf*p0pchi*ppfb + 
      .       pchipb*p0pf*ppfb
 
-	do i=1,2
+        do i=1,2
            do j=1,2
               asnasbo=asnasbo-dsqrt(2.d0)*g2**3*alsto(1,i)*asnl*aw(1,j)
      .             *abo(j,1)*alsneu(i)/(dsb(j)*dw*dsn*dchi(i))*2.d0*p1
            enddo
-	enddo
+        enddo
 
 c ------------------------ interference sneutrino top ---------------- c
 
-	asnatop=0.d0
+        asnatop=0.d0
 
-	do i=1,2
+        do i=1,2
            a1=btop(1,1)*amneut(1)*amt
            a2=atop(1,1)
            p1=pbpf*pchipfb-pbpfb*pchipf+pchipb*pfpfb
@@ -40131,12 +40131,12 @@ c ------------------------ interference sneutrino top ---------------- c
      .          + p0pb*pchipf*ptpfb-pbpf*p0pchi*ptpfb-pchipb*p0pf*ptpfb
            asnatop=asnatop-2.d0*g2**3*alsto(1,i)*alsneu(i)*asnl/
      .          (dw*dt*dchi(i)*dsn)*(a1*p1+a2*p2)
-	enddo
+        enddo
 
 c ----------------------- interference sneutrino chi ----------------- c
 
-	asnachi=0.d0
-	do i=1,2
+        asnachi=0.d0
+        do i=1,2
            do j=1,2
               asnachi=asnachi+4.d0*g2**3*alsto(1,i)*alsto(1,j)*alsneu(j)
      .             *asnl/
@@ -40147,40 +40147,40 @@ c ----------------------- interference sneutrino chi ----------------- c
      .             pchipb*pchipfb
      .             *p0pf-amchar(i)*amneut(1)*or(1,i)*pchipb*pfpfb)
            enddo
-	enddo
+        enddo
 
 c ------------------- interference selectron sbottom ----------------- c
 
-	aeasb=0.d0
-	pa=(pbpf*ppfb-ppb*pfpfb+pbpfb*ppf)
+        aeasb=0.d0
+        pa=(pbpf*ppfb-ppb*pfpfb+pbpfb*ppf)
         
-	do i=1,2
+        do i=1,2
            do m=1,2
               aeasb=aeasb+2.d0*g2**3*
      .             dsqrt(2.d0)*aw(1,m)*abo(m,1)*ale4bod(2,1)*
      .             alsto(1,i)*ale4bod(2,i)
      .             *amchar(i)*amneut(1)/(dw*dchi(i)*dsel*dsb(m))*pa
            enddo
-	enddo
+        enddo
 
 c -------------------- interference selectron top -------------------- c
 
-	aeatop=0.d0
+        aeatop=0.d0
 
-	do i=1,2
+        do i=1,2
            a1=btop(1,1)*amt
            a2=atop(1,1)*amneut(1)
            p1=pbpf*p0pfb
            p2=pbpf*ptpfb
            aeatop=aeatop-4.d0*g2**3*ale4bod(2,1)*alsto(1,i)*ale4bod(2,i)
      .          *amchar(i)/(DW*Dt*Dchi(i)*Dsel)*(a1*p1-a2*p2)
-	enddo
+        enddo
         
 c --------------------- interference selectron chi ------------------- c
 
-	aeachi=0.d0
+        aeachi=0.d0
 
-	do i=1,2
+        do i=1,2
            do j=1,2
               a1=amneut(1)*ol(1,i)
               a2=amchar(i)*or(1,i)
@@ -40192,32 +40192,32 @@ c --------------------- interference selectron chi ------------------- c
      .             Dchi(i)*Dchi(j))
      .             *(a1*p1-2.d0*a2*p2)
            enddo
-	enddo
+        enddo
 
 c ------------------ interference sneutrino_el sbottom --------------- c
 
-	asneasbo=0.d0
+        asneasbo=0.d0
 
-	p1=ppb*pchipfb*p0pf - pbpfb*pchip*p0pf +
+        p1=ppb*pchipfb*p0pf - pbpfb*pchip*p0pf +
      .       ppb*p0pchi*pfpfb - p0pb*pchip*pfpfb - pbpfb*p0pchi*ppf +
      .       p0pb*pchipfb*ppf - ppb*pchipf*p0pfb + pbpf*pchip*p0pfb +
      .       pchipb*ppf*p0pfb + pbpfb*pchipf*p0p - pbpf*pchipfb*p0p - 
      .       pchipb*pfpfb*p0p + p0pb*pchipf*ppfb - pbpf*p0pchi*ppfb + 
      .       pchipb*p0pf*ppfb
         
-	do i=1,2
+        do i=1,2
            do j=1,2
               asneasbo=asneasbo-dsqrt(2.d0)*g2**3*alsto(1,i)*asnl*
      .             aw(1,j)
      .             *abo(j,1)*alsneu(i)/(dsb(j)*dw*dsn*dchi(i))*2.d0*p1
            enddo
-	enddo
+        enddo
 
 c ------------------- interference sneutrino_el top ------------------ c
 
-	asneatop=0.d0
+        asneatop=0.d0
 
-	do i=1,2
+        do i=1,2
            a1=btop(1,1)*amneut(1)*amt
            a2=atop(1,1)
            p1=pbpf*pchipfb-pbpfb*pchipf+pchipb*pfpfb
@@ -40228,12 +40228,12 @@ c ------------------- interference sneutrino_el top ------------------ c
      .          + p0pb*pchipf*ptpfb-pbpf*p0pchi*ptpfb-pchipb*p0pf*ptpfb
            asneatop=asneatop-2.d0*g2**3*alsto(1,i)*alsneu(i)*asnl/
      .          (dw*dt*dchi(i)*dsn)*(a1*p1+a2*p2)
-	enddo
+        enddo
 
 c --------------------- interference sneutrino_el chi ---------------- c
 
-	asneachi=0.d0
-	do i=1,2
+        asneachi=0.d0
+        do i=1,2
            do j=1,2
               asneachi=asneachi+4.d0*g2**3*alsto(1,i)*alsto(1,j)*
      .             alsneu(j)*asnl/
@@ -40244,27 +40244,27 @@ c --------------------- interference sneutrino_el chi ---------------- c
      .             pchipb*pchipfb
      .             *p0pf-amchar(i)*amneut(1)*or(1,i)*pchipb*pfpfb)
            enddo
-	enddo
+        enddo
 
 c ----------------------- interference sdown sbottom ----------------- c
 
-	asdasb=0.d0
-	pa=(pbpf*ppfb-ppb*pfpfb+pbpfb*ppf)
+        asdasb=0.d0
+        pa=(pbpf*ppfb-ppb*pfpfb+pbpfb*ppf)
 
-	do i=1,2
+        do i=1,2
            do m=1,2
               asdasb=asdasb+2.d0*g2**3*
      .             dsqrt(2.d0)*aw(1,m)*abo(m,1)*ado4bod(2,1)*
      .             alsto(1,i)*aldo4bod(2,i)
      .             *amchar(i)*amneut(1)/(dw*dchi(i)*dsd*dsb(m))*pa
            enddo
-	enddo
+        enddo
 
 c ------------------------ interference sdown top -------------------- c
 
-	asdatop=0.d0
+        asdatop=0.d0
 
-	do i=1,2
+        do i=1,2
            a1=btop(1,1)*amt
            a2=atop(1,1)*amneut(1)
            p1=pbpf*p0pfb
@@ -40272,13 +40272,13 @@ c ------------------------ interference sdown top -------------------- c
            asdatop=asdatop-4.d0*g2**3*ado4bod(2,1)*alsto(1,i)*
      .          aldo4bod(2,i)
      .          *amchar(i)/(DW*Dt*Dchi(i)*Dsd)*(a1*p1-a2*p2)
-	enddo
+        enddo
 
 c ------------------------- interference sdown chi ------------------- c
 
-	asdachi=0.d0
+        asdachi=0.d0
 
-	do i=1,2
+        do i=1,2
            do j=1,2
               a1=amneut(1)*ol(1,i)
               a2=amchar(i)*or(1,i)
@@ -40290,33 +40290,33 @@ c ------------------------- interference sdown chi ------------------- c
      .             dchi(i)*dchi(j))
      .             *(a1*p1-2.d0*a2*p2)
            enddo
-	enddo
+        enddo
 
 c ----------------------- interference sup sbottom ------------------- c
 
-	asuasbo=0.d0
+        asuasbo=0.d0
 
-	p1=ppb*pchipfb*p0pf - pbpfb*pchip*p0pf +
+        p1=ppb*pchipfb*p0pf - pbpfb*pchip*p0pf +
      .       ppb*p0pchi*pfpfb - p0pb*pchip*pfpfb - pbpfb*p0pchi*ppf +
      .       p0pb*pchipfb*ppf - ppb*pchipf*p0pfb + pbpf*pchip*p0pfb +
      .       pchipb*ppf*p0pfb + pbpfb*pchipf*p0p - pbpf*pchipfb*p0p - 
      .       pchipb*pfpfb*p0p + p0pb*pchipf*ppfb - pbpf*p0pchi*ppfb + 
      .       pchipb*p0pf*ppfb
         
-	do i=1,2
+        do i=1,2
            do j=1,2
               asuasbo=asuasbo-dsqrt(2.d0)*g2**3*alsto(1,i)
      .             *aup4bod(2,1)*aw(1,j)
      .             *abo(j,1)*alup4bod(2,i)/(dsb(j)*dw*dsu*dchi(i))*
      .             2.d0*p1
            enddo
-	enddo
+        enddo
 
 c ------------------------ interference sup top ---------------------- c
 
-	asuatop=0.d0
+        asuatop=0.d0
 
-	do i=1,2
+        do i=1,2
            a1=btop(1,1)*amneut(1)*amt
            a2=atop(1,1)
            p1=pbpf*pchipfb-pbpfb*pchipf+pchipb*pfpfb
@@ -40328,12 +40328,12 @@ c ------------------------ interference sup top ---------------------- c
            asuatop=asuatop-2.d0*g2**3*alsto(1,i)*alup4bod(2,i)
      .          *aup4bod(2,1)/
      .          (dw*dt*dchi(i)*dsu)*(a1*p1+a2*p2)
-	enddo
+        enddo
 
 c ------------------------- interference sup chi --------------------- c
 
-	asuachi=0.d0
-	do i=1,2
+        asuachi=0.d0
+        do i=1,2
            do j=1,2
               asuachi=asuachi+4.d0*g2**3*alsto(1,i)*alsto(1,j)
      .             *alup4bod(2,j)*aup4bod(2,1)/
@@ -40344,22 +40344,22 @@ c ------------------------- interference sup chi --------------------- c
      .             pchipb*pchipfb
      .             *p0pf-amchar(i)*amneut(1)*or(1,i)*pchipb*pfpfb)
            enddo
-	enddo
+        enddo
 
 c -------------------------------- result ---------------------------- c
-	
-	atotatot=a1a1+achiachi+abab+2.d0*achiat+2.d0*atab+2.d0*abachi
-	ainterainter=+(astoasb+astoato+
-     .                 astoachi+asnasbo+asnatop+asnachi)	
-	aewaew=atotatot+2*(aeasb+aeatop+aeachi+asneasbo+asneatop+
+
+        atotatot=a1a1+achiachi+abab+2.d0*achiat+2.d0*atab+2.d0*abachi
+        ainterainter=+(astoasb+astoato+
+     .                 astoachi+asnasbo+asnatop+asnachi)
+        aewaew=atotatot+2*(aeasb+aeatop+aeachi+asneasbo+asneatop+
      .                     asneachi)
-	asuwasuw=atotatot+2*(asdasb+asdatop+asdachi
+        asuwasuw=atotatot+2*(asdasb+asdatop+asdachi
      .                       +asuasbo+asuatop+asuachi)
         
-	resuw=resuw+wt*atotatot/irunw
-	resuinter=resuinter+ainterainter/irunw*wt
-	resuew=resuew+wt*aewaew/irunw
-	resusuw=resusuw+asuwasuw/irunw*wt	
+        resuw=resuw+wt*atotatot/irunw
+        resuinter=resuinter+ainterainter/irunw*wt
+        resuew=resuew+wt*aewaew/irunw
+        resusuw=resusuw+asuwasuw/irunw*wt
       enddo
 
       sigmaw=resuw/2.d0/ast1/(2.d0*pi)**8
@@ -40439,7 +40439,7 @@ c ---------------------------- Higgs exchange ------------------------ c
             pwpw=SD_scal(pw,pw)
             ptpt=SD_scal(pt,pt)
             pchipchi=SD_scal(pchi,pchi)
-            pstopsto=SD_scal(psto,psto)	
+            pstopsto=SD_scal(psto,psto)
             
             dsb(1)=(psbpsb-asb1**2)
             dsb(2)=(psbpsb-asb2**2)
@@ -40497,7 +40497,7 @@ c --------------------------- chi exchange --------------------------- c
                   ahchiahchi=ahchiahchi+a*(a1*p1+amchar(i)*amneut(1)*
      .                 a2*p2+
      .                 amchar(i)*amchar(k)*a3*p3+amneut(1)*amchar(k)*
-     .                 a4*p4)	
+     .                 a4*p4)
                enddo
             enddo
 
@@ -40511,7 +40511,7 @@ c ---------------------- interference top sbottom -------------------- c
                a2=btop(1,1)
                p1=p0pb
                p2=ptpb
-               ahtahb=ahtahb-a*(a1*amt*p1-amneut(1)*a2*p2)	
+               ahtahb=ahtahb-a*(a1*amt*p1-amneut(1)*a2*p2)
             enddo
 
 c ---------------------- interference sbottom chi -------------------- c
@@ -40638,159 +40638,159 @@ C "ELLE EST NECESSAIRE POUR LE 'LPSHPD'."
 
 C
 C INITIALIZATION STEP@D FACTORIALS FOR THE PHASE SPACE WEIGHT
-	      IF(IBEGIN.NE.0) GOTO 103
-	      IBEGIN=1
-	      TWOPI=8.*DATAN(1.D0)
-	      PO2LOG=DLOG(TWOPI/4.)
-	      Z(2)=PO2LOG
-	      DO 101 K=3,100
+              IF(IBEGIN.NE.0) GOTO 103
+              IBEGIN=1
+              TWOPI=8.*DATAN(1.D0)
+              PO2LOG=DLOG(TWOPI/4.)
+              Z(2)=PO2LOG
+              DO 101 K=3,100
  101          Z(K)=Z(K-1)+PO2LOG-2.*DLOG(DFLOAT(K-2))
-	      DO 102 K=3,100
+              DO 102 K=3,100
  102          Z(K)=(Z(K)-DLOG(DFLOAT(K-1)))
 C
 C CHECK ON THE NUMBER OF PARTICLES
  103          IF(N.GT.1.AND.N.LT.101) GOTO 104
-	      PRINT 1001,N
-	      STOP
+              PRINT 1001,N
+              STOP
 C
 C CHECK WHETHER TOTAL ENERGY IS SUFFICIENT. COUNT NONZERO MASSES
  104          XMT=0.
-	      NM=0
-	      DO 105 I=1,N
-	      IF(XM(I).NE.0.D0) NM=NM+1
+              NM=0
+              DO 105 I=1,N
+              IF(XM(I).NE.0.D0) NM=NM+1
  105          XMT=XMT+DABS(XM(I))
-	      IF(XMT.LE.ET) GOTO 201
-	      PRINT 1002,XMT,ET
-	      STOP
+              IF(XMT.LE.ET) GOTO 201
+              PRINT 1002,XMT,ET
+              STOP
 
 C
 C THE PARAMETER VALUES ARE NOW ACCEPTED
 C
 C GENERATE N MASSLESS MOMENTA IN INFINITE PHASE SPACE
  201          DO 202 I=1,N
-	      C=2.*SD_RN(1)-1.
+              C=2.*SD_RN(1)-1.
 c	write(*,*)'µµµµµµµµµµRN(1)',RN(1),RN(2),RN(3),RN(4)
-	      S=DSQRT(1.-C*C)
-	      F=TWOPI*SD_RN(2)
-	      Q(4,I)=-DLOG(SD_RN(3)*SD_RN(4))
-	      Q(3,I)=Q(4,I)*C
-	      Q(2,I)=Q(4,I)*S*DCOS(F)
+              S=DSQRT(1.-C*C)
+              F=TWOPI*SD_RN(2)
+              Q(4,I)=-DLOG(SD_RN(3)*SD_RN(4))
+              Q(3,I)=Q(4,I)*C
+              Q(2,I)=Q(4,I)*S*DCOS(F)
  202          Q(1,I)=Q(4,I)*S*DSIN(F)
 C
 C CALCULATE THE PARAMETERS OF THE CONFORMAL TRANSFORMATION
-	      DO 203 I=1,4
+              DO 203 I=1,4
  203          R(I)=0.
-	      DO 204 I=1,N
-	      DO 204 K=1,4
+              DO 204 I=1,N
+              DO 204 K=1,4
  204          R(K)=R(K)+Q(K,I)
-	      RMAS=DSQRT(R(4)**2-R(3)**2-R(2)**2-R(1)**2)
+              RMAS=DSQRT(R(4)**2-R(3)**2-R(2)**2-R(1)**2)
 c	write(*,*)"Proutbou", R(4)**2-R(3)**2-R(2)**2-R(1)**2,
 c     .R(4)**2,R(3)**2,R(2)**2,R(1)**2
-	      DO 205 K=1,3
+              DO 205 K=1,3
  205          B(K)=-R(K)/RMAS
-	      G=R(4)/RMAS
-	      A=1./(1.+G)
-	      X=ET/RMAS
+              G=R(4)/RMAS
+              A=1./(1.+G)
+              X=ET/RMAS
 c	write(*,*)'X',X,ET,RMAS
 C
 C TRANSFORM THE Q'S CONFORMALLY INTO THE P'S
-	      DO 207 I=1,N
+              DO 207 I=1,N
 c	write(*,*)'P(K,I)1',P(4,1)
-	      BQ=B(1)*Q(1,I)+B(2)*Q(2,I)+B(3)*Q(3,I)
-	      DO 206 K=1,3
+              BQ=B(1)*Q(1,I)+B(2)*Q(2,I)+B(3)*Q(3,I)
+              DO 206 K=1,3
 c	      write(*,*)'*****ET*****',ET
  206          P(K,I)=X*(Q(K,I)+B(K)*(Q(4,I)+A*BQ))
 c	write(*,*)'P2(I)2',P(4,I),X,Q(4,I),B(3),A,BQ
  207          P(4,I)=X*(G*Q(4,I)+BQ)
 C
 C CALCULATE WEIGHT AND POSSIBLE WARNINGS
-	      WT=DLOG(TWOPI/4.)
+              WT=DLOG(TWOPI/4.)
 c	write(*,*)'*********wt1*********',WT,PO2LOG,
 c     .TWOPI/4.,DLOG(TWOPI/4.)
-	      IF(N.NE.2) WT=(2.*N-4.)*DLOG(ET)+Z(N)
+              IF(N.NE.2) WT=(2.*N-4.)*DLOG(ET)+Z(N)
 c	write(*,*)'*********wt2*********',WT
-	      IF(WT.GE.-180.D0) GOTO 208
-	      IF(IWARN(1).LE.5) PRINT 1004,WT
-	      IWARN(1)=IWARN(1)+1
+              IF(WT.GE.-180.D0) GOTO 208
+              IF(IWARN(1).LE.5) PRINT 1004,WT
+              IWARN(1)=IWARN(1)+1
  208           IF(WT.LE. 174.D0) GOTO 209
-	      IF(IWARN(2).LE.5) PRINT 1005,WT
+              IF(IWARN(2).LE.5) PRINT 1005,WT
 c	write(*,*)"PROUTRAMBO",WT
-	      IWARN(2)=IWARN(2)+1
+              IWARN(2)=IWARN(2)+1
 
 C
 C RETURN FOR WEIGHTED MASSLESS MOMENTA
  209          IF(NM.NE.0) GOTO 210
-	      WT=DEXP(WT)
-	      RETURN
+              WT=DEXP(WT)
+              RETURN
 C
 C MASSIVE PARTICLES@D RESCALE THE MOMENTA BY A FACTOR X
-	    
+
  210          XMAX=DSQRT(1.-(XMT/ET)**2)
-	      DO 301 I=1,N
-	      XM2(I)=XM(I)**2
+              DO 301 I=1,N
+              XM2(I)=XM(I)**2
  301          P2(I)=P(4,I)**2
 c	write(*,*)'P2(I)3',P2(1)
-	      ITER=0
-	      X=XMAX
-	      ACCU=ET*ACC
+              ITER=0
+              X=XMAX
+              ACCU=ET*ACC
 c	write(*,*)'X1',X
 c	write(*,*)'*****ACCU*****',ACCU
  302          F0=-ET
 c	write(*,*)'X2',X
-	      G0=0.D0
+              G0=0.D0
 c	write(*,*)'X3',X
-	      X2=X*X
+              X2=X*X
 c	write(*,*)'XMAX',XMAX,XMT,ET,X
 c	write(*,*)'=XM(I)',XM2(1),X2,P2(1)
-	      DO 303 I=1,N
+              DO 303 I=1,N
 c	write(*,*)'*****F01*****',F0,ET
-	      E(I)=DSQRT(XM2(I)+X2*P2(I))
-	      F0=F0+E(I)
+              E(I)=DSQRT(XM2(I)+X2*P2(I))
+              F0=F0+E(I)
 c	write(*,*)'E(I)',E(1),E(2)
  303          G0=G0+P2(I)/E(I)
-	      IF(DABS(F0).LE.ACCU) GOTO 305
-	      ITER=ITER+1
-	      IF(ITER.LE.ITMAX) GOTO 304
-	      PRINT 1006,ITMAX
-	      GOTO 305
+              IF(DABS(F0).LE.ACCU) GOTO 305
+              ITER=ITER+1
+              IF(ITER.LE.ITMAX) GOTO 304
+              PRINT 1006,ITMAX
+              GOTO 305
  304          X=X-F0/(X*G0)
-	      GOTO 302
+              GOTO 302
  305          DO 307 I=1,N
-	      V(I)=X*P(4,I)
-	      DO 306 K=1,3
+              V(I)=X*P(4,I)
+              DO 306 K=1,3
  306          P(K,I)=X*P(K,I)
  307          P(4,I)=E(I)
 C
 C CALCULATE THE MASS-EFFECT WEIGHT FACTOR
-	      WT2=1.
-	      WT3=0.
-	      DO 308 I=1,N
-	      WT2=WT2*V(I)/E(I)
+              WT2=1.
+              WT3=0.
+              DO 308 I=1,N
+              WT2=WT2*V(I)/E(I)
  308          WT3=WT3+V(I)**2/E(I)
-	      WTM=(2.*N-3.)*DLOG(X)+DLOG(WT2/WT3*ET)
+              WTM=(2.*N-3.)*DLOG(X)+DLOG(WT2/WT3*ET)
 C
 C RETURN FOR  WEIGHTED MASSIVE MOMENTA
-	      WT=WT+WTM
-	      IF(WT.GE.-180.D0) GOTO 309
-	      IF(IWARN(3).LE.5) PRINT 1004,WT
-	      IWARN(3)=IWARN(3)+1
+              WT=WT+WTM
+              IF(WT.GE.-180.D0) GOTO 309
+              IF(IWARN(3).LE.5) PRINT 1004,WT
+              IWARN(3)=IWARN(3)+1
  309           IF(WT.LE. 174.D0) GOTO 310
-	      IF(IWARN(4).LE.5) PRINT 1005,WT
-	      IWARN(4)=IWARN(4)+1
+              IF(IWARN(4).LE.5) PRINT 1005,WT
+              IWARN(4)=IWARN(4)+1
  310          WT=DEXP(WT)
-	      RETURN
+              RETURN
 C
  1001         FORMAT(' RAMBO FAILS@D # OF PARTICLES =',I5,
      . ' IS NOT ALLOWED')
  1002         FORMAT(' RAMBO FAILS@D TOTAL MASS =',D15.6,' IS NOT',
-     .		 ' SMALLER THAN TOTAL ENERGY =',D15.6)
+     . ' SMALLER THAN TOTAL ENERGY =',D15.6)
  1004         FORMAT(' RAMBO WARNS@D WEIGHT = EXP(',F20.9,
      . ') MAY UNDERFLOW')
- 1005	      FORMAT(' RAMBO WARNS@D WEIGHT = EXP(',F20.9,
+ 1005         FORMAT(' RAMBO WARNS@D WEIGHT = EXP(',F20.9,
      . ') MAY  OVERFLOW')
  1006         FORMAT(' RAMBO WARNS@D',I3,' ITERATIONS DID NOT GIVE THE',
-     . 		 ' DESIRED ACCURACY =',D15.6)
-	      END
+     . ' DESIRED ACCURACY =',D15.6)
+              END
  
  
 C -------------------------------------------------------------------- C
@@ -40808,76 +40808,76 @@ C    .     'I,C,J,RN :',I15,D15.6,I15,D15.6)
 C     GOTO 1
  
 c    1 IDMY=IDMY
-	      SD_RN=DBLE(SD_UNIV(IDMY))
-	      RETURN
-	      END
+              SD_RN=DBLE(SD_UNIV(IDMY))
+              RETURN
+              END
 c 
 c PPT16340
  
-	        FUNCTION SD_UNIV(IDMY)
-	 
+                FUNCTION SD_UNIV(IDMY)
+
 C----------------------------------------------------------------------
 C  A UNIVERSAL RANDOM NUMBER GENERATOR
  
-	        REAL U(97)
-	        COMMON /SET1/ U,C,CD,CM,I,J
-	        SD_UNIV=U(I)-U(J)
-	        IF(SD_UNIV.LT.0.) SD_UNIV=SD_UNIV+1.
-	        U(I)=SD_UNIV
-	        I=I-1
-	        IF(I.EQ.0) I=97
-	        J=J-1
-	        IF(J.EQ.0) J=97
-	        C=C-CD
-	        IF(C.LT.0.) C=C+CM
-	        SD_UNIV=SD_UNIV-C
-	        IF(SD_UNIV.LT.0.) SD_UNIV=SD_UNIV+1
-	        RETURN
-	        END
-	 
-	        SUBROUTINE SD_RSTART(I,J,K,L)
+                REAL U(97)
+                COMMON /SET1/ U,C,CD,CM,I,J
+                SD_UNIV=U(I)-U(J)
+                IF(SD_UNIV.LT.0.) SD_UNIV=SD_UNIV+1.
+                U(I)=SD_UNIV
+                I=I-1
+                IF(I.EQ.0) I=97
+                J=J-1
+                IF(J.EQ.0) J=97
+                C=C-CD
+                IF(C.LT.0.) C=C+CM
+                SD_UNIV=SD_UNIV-C
+                IF(SD_UNIV.LT.0.) SD_UNIV=SD_UNIV+1
+                RETURN
+                END
+
+                SUBROUTINE SD_RSTART(I,J,K,L)
  
 C----------------------------------------------------------------------
 C INITIALIZING THE RANDOM NUMBER GENERATOR
 C TO INITIALIZE CALL RSTART(12,34,56,78)
  
-	        REAL U(97)
-	        COMMON /SET1/ U,C,CD,CM,ISTART,JSTART
-	
-		IP=I
-		JP=J
-		KP=K
-		LP=L
-	
-	        IF ((IP.LT.0).OR.(IP.GT.178 )) STOP 
-     &		    'FIRST SEED .LT.0 OR .GT.178'
-	        IF ((JP.LT.0).OR.(JP.GT.178 )) STOP 
-     &		    'SECOND SEED .LT.0 OR .GT.178'
-	        IF ((KP.LT.0).OR.(KP.GT.178 )) STOP 
-     &  	    'THIRD SEED .LT.0 OR .GT.178'
-	        IF ((LP.LT.0).OR.(LP.GT.168 )) STOP 
-     &  	    'FOURTH SEED .LT.0 OR .GT.168'
-	        IF ( (IP.EQ.1).AND.(JP.EQ.1).AND.(KP.EQ.1) ) STOP
-     &  	    'FIRST, SECOND AND THIRD SEEDS ARE ALL EQUAL TO 1'
-	        ISTART=97
-	        JSTART=33
-	        DO 2 II=1,97
-	        S=0.
-	        T=.5
-	        DO 3 JJ=1,24
-	          M=MOD(MOD(IP*JP,179)*KP,179)
-	          IP=JP
-	          JP=KP
-	          KP=M
-	          LP=MOD(53*LP+1,169)
-	          IF(MOD(LP*M,64).GE.32) S=S+T
+                REAL U(97)
+                COMMON /SET1/ U,C,CD,CM,ISTART,JSTART
+
+                IP=I
+                JP=J
+                KP=K
+                LP=L
+
+                IF ((IP.LT.0).OR.(IP.GT.178 )) STOP 
+     &              'FIRST SEED .LT.0 OR .GT.178'
+                IF ((JP.LT.0).OR.(JP.GT.178 )) STOP 
+     &              'SECOND SEED .LT.0 OR .GT.178'
+                IF ((KP.LT.0).OR.(KP.GT.178 )) STOP 
+     &              'THIRD SEED .LT.0 OR .GT.178'
+                IF ((LP.LT.0).OR.(LP.GT.168 )) STOP 
+     &              'FOURTH SEED .LT.0 OR .GT.168'
+                IF ( (IP.EQ.1).AND.(JP.EQ.1).AND.(KP.EQ.1) ) STOP
+     &              'FIRST, SECOND AND THIRD SEEDS ARE ALL EQUAL TO 1'
+                ISTART=97
+                JSTART=33
+                DO 2 II=1,97
+                S=0.
+                T=.5
+                DO 3 JJ=1,24
+                  M=MOD(MOD(IP*JP,179)*KP,179)
+                  IP=JP
+                  JP=KP
+                  KP=M
+                  LP=MOD(53*LP+1,169)
+                  IF(MOD(LP*M,64).GE.32) S=S+T
    3            T=.5*T
    2            U(II)=S
-	        C=362436./16777216.
-	        CD=7654321./16777216.
-	        CM=16777213./16777216.
-	        RETURN
-	        END
+                C=362436./16777216.
+                CD=7654321./16777216.
+                CM=16777213./16777216.
+                RETURN
+                END
 
 C     ************* FUNCTION SCALAR PRODUCTS *************************
       DOUBLE PRECISION FUNCTION SD_SCAL(A,B)
