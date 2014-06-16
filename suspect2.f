@@ -5899,7 +5899,7 @@ c
 
        pizzp = pizz              
 c 
-      ihdr=0.d0
+c     ihdr=0.d0
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%   two--loop alphas corrections (P. Slavich)
  1     if(imodel.ge.2) then
       call SU_DSZHiggs(rmtDR**2,am3,mst1**2,mst2**2,sxt,cxt,scale**2,
@@ -9827,7 +9827,7 @@ c -------------------------------------------------------------------- c
        subroutine SU_READ_SU_ALGO(ninlha,ichoice,done)
 
       implicit double precision (a-h,m,o-z)
-      integer ichoice(1:11)
+      integer ichoice(1:11), val
       character line1*1
       logical done
 

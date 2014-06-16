@@ -38912,7 +38912,7 @@ c -------------------------------------------------------------------- c
       REAL*8 R(0:2)
       COMPLEX*16 SD_C03,SD_CCSPEN,SD_ETA,IEPS,IM
       COMPLEX*16 ALP(0:2),X(0:2,2),Y0(0:2),Y(0:2,2)
-      COMPLEX*16 CDUM
+      COMPLEX*16 CDUM,CX,CY
 C     REAL*8 SD_KAPPA
       COMPLEX*16 SD_KAPPA
 c maggie changed 17/2/03
