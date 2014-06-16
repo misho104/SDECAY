@@ -1,17 +1,17 @@
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 c
-c     The program SUSPECT for the calculation of the SUSY Spectrum 
+c  The program SuSpect: calculating the MSSM (or related models) Spectrum 
 c
 c  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-c  Written by: Abdelhak Djouadi, Jean-Loic Kneur and Gilbert Moultaka
-c              (LPMT, CNRS & Universite de Montpellier II). 
-c  VERSION 2.34  
-c  Last modifications : May 13, 2005 by the SuSpect authors
-c  Last modifications : October 24, 2007 by M.M.Muehlleitner.
+c  Authors: Abdelhak Djouadi, Jean-Loïc Kneur and Gilbert Moultaka
+c  (main coding and maintenance: J-L Kneur)
+c              (LPTA, CNRS & Universite de Montpellier II). 
+c  VERSION 2.43  
+c  Last modifications : May 23, 2013
 c  The reference to be used for the program is: hep-ph/0211331 
-c  2-loop corrections to the Higgs spectrum are from Pietro Slavich et al.
+c                 (published in Comput. Phys. Commun. 176:426) 
 c  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-c  This program calculates the SUSY and Higgs particle spectrum in the
+c  This code calculates the supersymmetric + Higgs particle spectrum in the
 c  unconstrained Minimal Supersymmetric Standard Model (MSSM), as well as 
 c  constrained models such as the minimal Supergravity (mSUGRA), the 
 c  gauge mediated SUSY (GMSB) and anomaly mediated SUSY (AMSB) breaking 
@@ -19,9 +19,8 @@ c  models. All important features are included:
 c  - Renormalization Group evolution between low and high energy scales.
 c  - Consistent implementation of radiative electroweak symmetry breaking. 
 c  - Calculation of the physical masses with radiative corrections.
-c  This new version includes now all radiative corrections to the Higgs masses
-c  a la Brignole, Degrassi, Slavich and Zwirner and presently the tadpole
-c  corrections a la Dedes and Slavich are also included.
+c  (including e.g. all leading 2-loop corrections to the Higgs masses
+c   in the DRbar scheme -courtesy of Pietro Slavich)
 c  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 c  For the users manual, updated information, changes, maintenance, see 
 c  Home page: http://w3.lpta.univ-montp2.fr/~kneur/Suspect/
@@ -44,32 +43,35 @@ c  -- IKNOWL=1:
 c  some warning/error messages are collected in the SuSpect2.out file
 c  (this is the recommended choice).  
 c
-c  INPUT: is for the physical input setting and works in three modes:
-c   -- INPUT=0: the model and option parameters ichoice(1)-(11) as well as the
-c   values of the physical input parameters are read from the file SuSpect.in
-c   -- INPUT=1: when you want to define yourself all the relevant input choices
-c   and parameters within your calling program. The required list of parameters
-c   to be defined (with consistent names, etc...), can be found in the commons 
-c   given below, and their meaning is explained in the SuSpect2.in file.
-c   -- INPUT=11: same as input=1, but with no output file SuSpect.out generated
-c   (this option is appropriate e.g. for multiple successive calls, e.g to
-c   perform scans on the input parameter space).
-   
+c  INPUT: sets input (and output) control, it offers now 4 possibilities:
+c  =0: model and option input parameters ONLY read in file suspect2.in.
+c  (output generated in both suspect2.out and SLHA format suspect2_lha.out) 
+c  =1: define yourself IN suspect2_call.f all relevant input and parameters.
+c  (i.e. NO reading of input files): 
+c  see example of  input in accompanying file suspect2_call.f
+c  Maybe more convenient e.g. for scan over the model parameter space.
+c  (output generated in both suspect2.out and SLHA format suspect2_lha.out) 
+c  =2: same as input =0 but read SLHA format input file: suspect2_lha.in
+c (it writes also all output in the SLHA format file: suspect2_lha.out)
+c  =11: same as input=1, but NO output file(s) suspect*.out generated
+c   
 c  ICHOICE: initializes the various options for the models to be considered, 
 c           the degree of accuracy to be required, the features to be 
 c           included, etc. There are 10 possible choice at present and the
-c           options are described in more details in the input file: 
+c           options are described in more details in the input file:
+c !! NB: ICHOICE(..) superseded if using SLHA input file mode: in this
+c   case we follow SLHA standards and conventions (now adapted to ver. 2).  
 c  -- ICHOICE(1): Choice of the model to be considered.
-c  -- ICHOICE(2): For the perturbative order (1 or 2 loop) of the RGEs. 
+c  -- ICHOICE(2): choice of perturbative order (1 or 2 loop) of the RGEs. 
 c  -- ICHOICE(3): To impose or not the GUT scale. 
-c  -- ICHOICE(4): For the accuracy of the RGEs.
+c  -- ICHOICE(4): Accuracy of the RGEs.
 c  -- ICHOICE(5): To impose or not the radiative EWSB. 
-c  -- ICHOICE(6): To chose different input in the pMSSM.
-c  -- ICHOICE(7): For the radiative corrections to the (s)particles masses. 
-c  -- ICHOICE(8): To set the value of the EWSB scale.
-c  -- ICHOICE(9): For the number of (long: RGE + full spectrum) iterations. 
-c  -- ICHOICE(10): For choosing the calculation of the Higgs boson masses.
-c  -- ICHOICE(11): (!New v2.3 option) running/pole H masses used in loops.
+c  -- ICHOICE(6): Chose different input in the Higgs sector (MA,MU,Mhu,Mhd)
+c  -- ICHOICE(7): Choice of radiative corrections to (s)particles masses. 
+c  -- ICHOICE(8): Choice of the EWSB scale
+c  -- ICHOICE(9): Accuracy of the physical spectrum calculation. 
+c  -- ICHOICE(10): different options for calculation of Higgs boson masses.
+c  -- ICHOICE(11):  running/pole H masses used in loops.
 c
 c  ERRMESS: which provides a useful set of warning/error message flags,
 c           that are automatically written in the output file SUSPECT2.OUT:
@@ -113,7 +115,7 @@ c interface with other codes.
 c     ****************************************************************
 c   "Standard model" INPUT parameters (couplings and fermion masses):
       COMMON/SU_smpar/dalfinv,dsw2,dalphas,dmt,dmb,dmc,dmtau
-c !!NEW!! dmt,dmtau are pole masses but dmb is mb(mb)_MSbar !
+c !!NB: dmt,dmtau are pole masses but dmb is mb(mb)_MSbar 
 c  RG evolution scale parameters EWSB scale, high and low RGE ends):
       COMMON/SU_rgscal/dqewsb,dehigh,delow
 c   MSSM parameters of the scalar sector:     
@@ -166,8 +168,9 @@ c low-energy contrained parameter values: rho-1, g_mu-2, Br(b->s gamma):
 c     ****************************************************************
 c     COMMONs INTERNAL to the routine 
 c
-c ("internal" means that normally the user does not have to care
-c about the parameters defined by the commons etc below. )
+c ("internal" means that normally the user does not have to care about 
+c any parameters defined by the commons etc below: in particular none 
+c of these commons below should be necessary for interface with other codes)
 c     ****************************************************************  
       COMMON/SU_strc/irge,irgmax,ifix,isfrc,inorc
       COMMON/SU_stepwi/wistep,h1,kpole
@@ -189,6 +192,7 @@ c     ****************************************************************
       COMMON/SU_tbewsb/vuewsb,vdewsb 
        common/su_allewsb/yewsb
       COMMON/SU_treesfer/msbtr1,msbtr2,msttr1,msttr2
+      common/su_mixflip/istflip,isbflip
       COMMON/SU_hmass/ma,ml,mh,mch,marun
       COMMON/SU_break/msl,mtaur,msq,mtr,mbr,al,au,ad,
      .            mu,m1,m2,m3
@@ -233,6 +237,7 @@ c  reinitialize various control parameters + other parameters:
           irpb=0
           tachsqrc=0.d0
           icount=0
+          iremember=0
            do irg=1,31
            y(irg)=0.d0
            enddo
@@ -261,6 +266,7 @@ c
       mh=0.d0
       mch=0.d0
       marun=0.d0
+       mapole = 1.d0  ! initialization at 1st call (value later superseded)
 c
       piaa=0.d0
       tadba=0.d0
@@ -309,7 +315,7 @@ c  Physical input parameters:
       if(input.eq.0) then
 c  Read all relevant physical parameters from the input file:)
       OPEN(NI,FILE='suspect2.in',status='unknown')
-      do i=1,9
+      do i=1,10
       read(ni,*)
       enddo
       read(ni,*) ichoice(1)
@@ -378,6 +384,8 @@ c
 c   Minimal supergravity input 
       if(ichoice(1).eq.10) then
       read(ni,*) rm0,  rmhalf,  a0,  tgbeta,  sgnmu0
+      m0=rm0
+      mhalf=rmhalf
       else if(ichoice(1).eq.11) then
 c  Gauge Mediated Supersymmetry Breaking  input: 
       do i=1,4
@@ -410,6 +418,9 @@ c  i.e. non-universal arbitrary input case
       mu = sgnmu0*dabs(mu)     ! add to avoid inconsistent user's input
       endif
       close(ni)
+       if(gf.eq.0d0) gf = 1.16639d-5  ! only if not already defined
+       if(mz.eq.0d0) mz = 91.187d0  ! only if not already defined
+c  
 c simple renaming for SLHA output purpose:
       dalfinv = alfinv 
       dalphas = alphas
@@ -450,6 +461,46 @@ c this is the case where input file is read in SLHA format:
         call SU_read_leshouches(input,ninlha,ichoice,imod)  
         close(ninlha)
       endif 
+c      
+      if(ichoice(1).eq.10.or.ichoice(1).eq.1) then
+      igut_in=1
+      else
+      igut_in=0
+      endif
+      if(input.ne.2.and.igut_in.eq.0) goto 8765 ! all cases =/= SLHA input file
+c this is the case when input is read from suspect2.in or from a calling
+c file for mSUGRA        
+c nb this series of IF is due to the various ways in which input may be defined
+      if(input.eq.0) then
+      m0=rm0
+      mhalf=rmhalf
+      endif
+      if(input.ne.2.and.ichoice(1).eq.10) then
+      al0=a0
+      ad0=a0
+      au0=a0
+      al10=a0
+      ad10=a0
+      au10=a0
+      mhu2=m0**2
+      mhd2=m0**2
+      mtaur0=m0
+      msl0=m0
+      mbr0=m0
+      mtr0=m0
+      msq0=m0
+      mer0=m0
+      mel0=m0
+      mdr0=m0
+      mur0=m0
+      muq0=m0
+      m10=mhalf
+      m20=mhalf
+      m30=mhalf
+      endif
+ 8765 continue
+c      endif
+c
       if(input.ne.0) then  
       alfinv   =dalfinv
 cc      sw2      =dsw2
@@ -470,6 +521,8 @@ c
       rmhalf   = mhalf
 c (nb parameters a0 and sgnmu already defined via common)
 c
+      if(input.eq.2.or.input.eq.11.or.ichoice(1).eq.1) then
+        if(input.eq.11.and.ichoice(1).eq.10) goto 8766
       mhu2     = dmhu2
       mhd2     = dmhd2
 c
@@ -498,22 +551,29 @@ c
 c
       ma       = dma
       mu       = dmu      
-        if(sgnmu0.ne.1.d0.and.sgnmu0.ne.-1.d0) then
-      sgnmu0 = mu/dabs(mu)
-        else
+ 8766 continue
+      endif
+        if(sgnmu0.ne.1d0.and.sgnmu0.ne.-1d0) then
+           if(mu.ne.0d0) then 
+	   sgnmu0 = mu/dabs(mu)
+           else 
+	   sgnmu0=1d0
+	   endif
+	else
       mu = sgnmu0*dabs(mu)     !added to avoid inconsistent user's input
         endif
       if(input.eq.1) call SU_read_leshouches(input,ninlha,ichoice,imod)  
       endif
 c
 c  ! added reinitialization of mhu2,mhd2 for scans:
-      if(ichoice(6).eq.0) then
+      if(ichoice(1).ne.2.and.ichoice(6).eq.0) then
       mhu2=1.d4
       mhd2=1.d4
 c (nb ichoice(6)=0 -> MA,MU input thus these mhu2,mhd2 values are
 c irrelevant but only initialized for convergence of iteration control)
       endif
       ihflag= ichoice(10)
+      ihrcsave=ihflag
       ipolemz=ichoice(11)
       tgbet0 = tgbeta
       beta_z = datan(tgbet0)  
@@ -521,16 +581,13 @@ c irrelevant but only initialized for convergence of iteration control)
 c  blind use: assign protection default values to control parameters:
         if(ichoice(2).eq.0) ichoice(2)=11
 c  (i.e. 1-loop RGE at first run by default, if 2-loop not chosen) 
-        if(ichoice(3).eq.0.and.ichoice(1).ne.2) ichoice(3)=1
+c:essai        if(ichoice(3).eq.0.and.ichoice(1).ne.2) ichoice(3)=1
 c (i.e. GUT scale always consitently recalculated as g1(gut)=g2(gut)
         if(ichoice(4).ne.1.and.ichoice(4).ne.2) ichoice(4)=1
         iaccsave=ichoice(4)
 c (i.e. protections against wrong or undefined rge accuracy setup)
         if(ichoice(5).ne.1) ichoice(5)=1
 c (i.e. always EWSB)
-        if(ichoice(1).ge.10) ichoice(6)=1
-c (protection agains wrong input use: 
-c in msugra case M_Hu(GUT)=M_Hd(GUt) = m0 necesseraly as input
         if(ichoice(8).ne.0) ichoice(8) = 1
 c (i.e to be sure that not choosing default EWSB scale 
 c  =(m_t_L*m_t_R)^(1/2) is on purpose) 
@@ -570,11 +627,12 @@ c amsb case
       sgnm3  = -1.d0
       endif
 c
-c  save input parameters again for some special purpose
-c
+c  rename input parameters for SLHA  and other input choice purpose
+cc      if(input.eq.2.or.input.eq.0) then
+      if(input.ne.2.and.ichoice(1).eq.10) goto 9876 
       mhu20 = mhu2
       mhd20 = mhd2
-c 
+c
       msl0=msl
       mtaur0=mtaur
       msq0=msq
@@ -598,15 +656,17 @@ c
       m10=m1
       m20=m2
       m30=m3
+ 9876 continue
+cc      endif
       beta = datan(tgbeta)
 c
 c some other basic parameter definitions
        pi = 4*datan(1.d0)
        cpi = 1.d0/(16*pi*pi)
-       gf = 1.16639d-5
+       if(gf.eq.0d0) gf = 1.16639d-5  ! only if not already defined
        sw2 = .2221d0   ! only starting value! sw2_DRbar calculated below
        fermi=gf
-       mz = 91.187d0
+       if(mz.eq.0d0) mz = 91.187d0  ! only if not already defined
        zm = mz
 c  guess starting point for susym , elow, ehigh scales:
        elow = mz
@@ -633,7 +693,7 @@ c  mw, sw^2 msbar at Z scale (values may be changed):
        cw =dsqrt(cw2)
        mw = mz*cw
        wm = mw
-       mc=1.40d0
+       mc=1.42d0
        rmtau=mtau
        rmtau2=rmtau**2
 c
@@ -657,7 +717,7 @@ c passing from alpha_S(MZ) MSbar to alpha_S(MZ) DRbar:
 c (NB value in fact used at first RG only, does not include SUSY etc R.C.)
 c
 c passing from alpha(MZ) MSbar to alpha(MZ) DRbar:      
-       alpha =1.d0/(alfinv -1.d0/pi/6)   ! corrected 1/(6 Pi) term
+       alpha =1.d0/(alfinv -1.d0/pi/6)   
 c (NB value used at first RG iteration only, does not include SUSY etc R.C.)
        e2=4*pi*alpha
        sw20=sw2
@@ -678,7 +738,6 @@ c
       rmbms=runm(mz,5)
       mb=mbpole
       mb0=mb
-c      write(*,*)'check: rmb(mb)ms,Mbpole: ',runm(mbmb,5),mbpole
 c rmbms is mb running(MZ) in MSbar scheme
       mc=runm(mz,4)
 c
@@ -693,13 +752,18 @@ c
        rmb2=rmb**2
        rmtop = runm(mt,6)
        rmt2=rmtop**2
+      if(ichoice(1).eq.2.and.ichoice(6).eq.1) then
+      iremember=1
+      ichoice(1)=0   ! a trick to simplify the bottom-up case
+      endif
 c
 c     ****************************************************************
 c     Long iteration (on RGE + spectrum once defined) starts here:
 c     ****************************************************************
 c
  44    irge=irge+1
-
+c ! reinitialize at each RGE iter Higgs RC choice (1 or 2 loop):
+       ihflag=ihrcsave
 c reinitialize  error messages until last iteration:
        if(irge.le.irgmax) then
        do i=1,10
@@ -770,7 +834,7 @@ c QCD corrections to mt(mz) (yt(mz)=y(6)) in DRbar including Logs:
         delmt = alphas/pi*(5.d0/3 -mtlog)
      . +alphas**2*(0.876d0 -0.384*mtlog +0.038*mtlog**2) 
 c       
-       y(6) = mt/vu*(1.d0-delmt)
+       y(6) = rmtop/vu*(1.d0-delmt)
        y(5) = rmb/vd
        endif
 c - higgs vev at Z scale: y(7)=Ln vu, y(8)=Ln vd
@@ -800,7 +864,7 @@ c
 c note ehigh = 1.e17 will be superseded 
 c by true unification scale (where y(1)=y(2) by def.)):
 c
-       if(ichoice(1).eq.0.or.ichoice(1).eq.2) then
+       if(ichoice(1).eq.0) then
 c Case where only mass spectrum at EWSB scale is calculated:
 c it is then assumed that all MSSM parameters are defined at EWSB scale,
 c except tanbeta(mz). The EWSB scale is an input arbitrarily chosen, and
@@ -831,16 +895,18 @@ c means all other cases where RGE is performed from mz to GUT scales
         endif  
       endif 
        x1 = dlog(zm)
-       x2 = dlog(1.d20)       
+       x2 = dlog(1d17)       
+c!essai       if(ichoice(1).eq.2.and.ehigh.ne.0d0) x2=dlog(ehigh)
+       if(ichoice(3).eq.0.and.ehigh.ne.0d0) x2=dlog(ehigh)
        endif
 c
         ifirst=0
         jfirst=0
         scale = qewsb
 
-c        write(*,*) 'INITIAL CONDITIONS:'
-c        write(*,*) y
-c 
+c  first step: run from mz to high scale with initial conditions
+c g_i(mz), yukawa_i, find GUT scale etc.
+c
        if(ichoice(2).eq.11) then
       CALL SU_ODEINT(y,n,x1,x2,eps,h1,1.d-8,nok,nbad,su_deriv1,su_rkqc)
        else if(ichoice(2).eq.21) then
@@ -851,7 +917,7 @@ c protection against RGE num. pbs (Landau poles, non-perturbativity):
        errmess(10)=-1.d0
        goto 801
        endif
-       if(ichoice(1).eq.0.or.ichoice(1).eq.2) then
+       if(ichoice(1).eq.0) then
        g1ewsb = dsqrt(3*y(1)/5)
        g2ewsb = dsqrt(y(2))
        alsewsb = y(3)/4/pi
@@ -866,7 +932,7 @@ c protection against RGE num. pbs (Landau poles, non-perturbativity):
 
 c        
 c (exact) gauge (g1=g2) unif. if required:
- 882   if(egut.ne.0.d0) then
+ 882   if(egut.ne.0.d0.and.ichoice(3).ne.0) then
        ehigh=egut
          do irg=1,31
          y(irg)=ygut(irg)
@@ -882,79 +948,49 @@ c
        mtaugut=vd*y(4)
        mbgut = vd*y(5)
        mtgut=vu*y(6)
-       if(ichoice(1).eq.2.and.irge.eq.irgmax) then
-       mhu2gut =y(12)
-       mhd2gut =y(13)
-       mtaurgut = dsqrt(y(14))
-       msLgut = dsqrt(y(15))
-       mbrgut =dsqrt(y(16))
-       mtrgut =dsqrt(y(17))
-       msQgut =dsqrt(y(18))
-       mergut =dsqrt(y(24))
-       melgut =dsqrt(y(25))
-       mdrgut =dsqrt(y(26))
-       murgut =dsqrt(y(27))
-       muQgut =dsqrt(y(28))
-       algut =y(9)
-       adgut =y(10)
-       augut =y(11)
-       al1gut =y(29)
-       ad1gut =y(30)
-       au1gut =y(31)
 c
-       Bgut = y(19)
-       mugut = sgnmu0*dexp(y(23))
-       M1gut=sgnM1*dexp(y(20))
-       M2gut=sgnM2*dexp(y(21))
-       M3gut=sgnM3*dexp(y(22))
-
+       if(ichoice(1).eq.2.and.irge.eq.irgmax) then
+       dmhu2 =y(12)
+       dmhd2 =y(13)
+       dmtaur = dsqrt(y(14))
+       dmsL = dsqrt(y(15))
+       dmbr =dsqrt(y(16))
+       dmtr =dsqrt(y(17))
+       dmsQ =dsqrt(y(18))
+       dmer =dsqrt(y(24))
+       dmel =dsqrt(y(25))
+       dmdr =dsqrt(y(26))
+       dmur =dsqrt(y(27))
+       dmuQ =dsqrt(y(28))
+       dal =y(9)
+       dad =y(10)
+       dau =y(11)
+       dal1 =y(29)
+       dad1 =y(30)
+       dau1 =y(31)
+c
+       dB = y(19)
+       dmu = sgnmu0*dexp(y(23))
+       dM1=sgnM1*dexp(y(20))
+       dM2=sgnM2*dexp(y(21))
+       dM3=sgnM3*dexp(y(22))
+       goto 801
        endif
 c******************************************************************
 c      2d stage: evolution from HIGH (GUT) scale down to low energy
 c******************************************************************
 c
-c     check of CCB and UFB at GUT scale (only indicated as a warning flag)
-            if(irge.eq.irgmax) then
-c  UFB test:
-      test2 = y(12)+y(13)+ 2*dexp(2*y(23)) +2*y(19)*sgnmu0*dexp(y(23))
-      test3 = y(12)+y(13)+ 2*dexp(2*y(23)) -2*y(19)*sgnmu0*dexp(y(23))
-      if(test2.lt.0.d0.or.test3.lt.0.d0) then
-      errmess(8)=-1.d0
-      endif
-c  CCB test:
-          ccbt= y(11)**2-3*(y(18) +y(17) +y(12) +dexp(2*y(23)) )
-          ccbb= y(10)**2-3*(y(18) +y(16) +y(12) +dexp(2*y(23)) )
-          ccbtau= y(9)**2-3*(y(15) +y(14) +y(12) +dexp(2*y(23)) )
-          ccbu= y(31)**2-3*(y(28) +y(27) +y(12) +dexp(2*y(23)) )
-          ccbd= y(30)**2-3*(y(28) +y(26) +y(12) +dexp(2*y(23)) )
-          ccbl= y(29)**2-3*(y(25) +y(24) +y(12) +dexp(2*y(23)) )
-          if(ccbt.gt.0.d0.or.ccbb.gt.0.d0.or.ccbtau.gt.0.d0) then
-c ! these are points which do not pass those naive CCB constraints
-          errmess(8)=-1.d0
-          endif
-          if(ccbu.gt.0.d0.or.ccbd.gt.0.d0.or.ccbl.gt.0.d0) then
-          errmess(8)=-1.d0
-          endif
-            endif
-         if(ichoice(1).eq.2) goto 886  
-c
 c Now taking input rmu0,B0 values (!only guess initialization values)
-       if(ichoice(6).eq.0) then
-c  mu(0) is really an input then:
-       rmu0=MU
-       sgnmu0=rmu0/dabs(rmu0)
-c and M^2_Hu, M^2_Hd will be calculated consistently at low-energy
-c from EWSB. At high scale just give  initialization values:
-c a not too bad is the average of non-universal other scalar masses
-c (i.e. this is a smooth departure from msugra case)
-       scalav= (msl+mtaur+msq+mtr+mbr+mel+mer+muq+mur+mdr)/10
-       mhu2 = scalav**2
-       mhd2 = scalav**2
-       else
+       if(ichoice(6).eq.0.and.irge.gt.1) then
+       mhu2 = y(12)
+       mhd2=y(13)
+c i.e. for MA_pole,MU(EWSB) input: in this case mhu2,mhd2(GUT) should not 
+c  be reinitialized (except at first RGE iteration where they are undefined)
+       endif
 c guess mu(GUT) value at first time run (later superseeded by EWSB MU) 
 c this apply in particular in mSUGRA or non-univ cases:
+       if(rm0.eq.0d0) rm0 = 1d-4   ! protection
        if(irge.eq.1) rmu0 = 1.1*rm0
-       endif
 c
    7   rmu0=sgnmu0*dabs(rmu0)
 c also guess value for b(GUT):
@@ -983,18 +1019,9 @@ c icount is a counter for things to be done only at first iteration
 c errhu,hd,ifix are convergence control parameters for ichoice(6)=0
 c if on different high-energy input (msugra, amsb,gmsb,..) starts here:
 c
-  77     if(ichoice(1).eq.1) then
-c  Unconstrained MSSM: general case
-c msl:      SUSY breaking mass of left handed stau
-c mtaur:    SUSY breaking mass of right handed stau
-c msq:      SUSY breaking mass of left handed stop
-c mtr:      SUSY breaking mass of right handed stop
-c mbr:      SUSY breaking mass of right handed sbottom
-c mel:      SUSY breaking mass of left handed selectron, smuon 
-c mer:      SUSY breaking mass of right handed selectron, smuon 
-c muq:      SUSY breaking mass of left-handed sup, scharm
-c mur:      SUSY breaking mass of right handed sup, scharm
-c mdr:      SUSY breaking mass of right handed sdown, sstrange 
+  77     if(ichoice(1).eq.1.or.ichoice(1).eq.10) then
+c  Unconstrained MSSM: general case; ! now includes SUGRA case with 
+c  universality as special case in same algorithm
        y(9)=al0
        y(10)=ad0
        y(11)=au0
@@ -1018,30 +1045,28 @@ c mdr:      SUSY breaking mass of right handed sdown, sstrange
        y(20)=dlog(dabs(m10))
        y(21)=dlog(dabs(m20))
        y(22)=dlog(dabs(m30))
-c      
-       else if(ichoice(1).eq.10) then
-c Minimal SUGRA case: only m0,m1/2,a0,sgn(mu0) arbitrary)
-c then forces radiative EW breaking (if was not chosen before:)
-       ichoice(5)=1
-c - soft susy-breaking terms: universality at GUT scale
+c                 
+       else if(ichoice(1).eq.2.and.irge.eq.1) then
+c Bottom-up RGE case with soft(EWSB) input: initialize reasonable GUT
+c scale (guess) values at firt RGE iteration to catch convergence
        do j= 9,11
-       y(j) = a0
+       y(j) = 0d0
        end do
        do j= 29,31
-       y(j) = a0
+       y(j) = 0d0
        end do
        do kk=12,18
-       y(kk) = rm0*rm0
+       y(kk) = 100d0
        end do
        do kk=24,28
-       y(kk) =rm0*rm0
+       y(kk) = 100d0
        end do
-       if(irge.eq.1) y(19) = b0
+       y(19) = b0
        do l=20,22
-       y(l) = dlog(rmhalf)
+       y(l) = dlog(100d0)
        end do
-       if(irge.eq.1) y(23) = dlog(dabs(rmu0))
-c      
+       y(23) = 0d0
+c           
        else if(ichoice(1).eq.12) then
 c AMSB case:  m3/2, m0,c_q, etc (coeffs of m0),sgn(mu0) input)
       CALL SU_AMSBSUB(rm0,m32,cq,cu,cd,cl,ce,chu,chd,y(1),y(2),y(3),
@@ -1065,10 +1090,8 @@ c  Generic end of running scale: determined "consistently" by default:
 c  - at MZ scale for gauge+yukawas couplings, that are defined at MZ,
 c  - at EWSB scale (!by default = sqrt(mst_L*mst_R)).
 c  For all others RG parameters 
-
-c        write(*,*) 'after imposing conditions at Q=MGUT:'
-c        write(*,*) y
-
+c
+       if(scale.eq.0d0) scale =mz+1d-1    ! protection against undefined
        xewsb=dlog(scale)
        x2=dlog(mz)
        h1=-h1
@@ -1086,7 +1109,7 @@ c  RGE is made in two steps from Gut scale to EWSB; then MZ
      . su_deriv2,su_rkqc)
        endif
            else
-c GMSB case: input are mgmmess,mgmgsusy,nl,nq, sgn(mu) and tbeta)
+c this is GMSB case: input are mgmmess,mgmgsusy,nl,nq, sgn(mu) and tbeta)
 c but intermediate (messenger) scale: mgmmess for RGE of soft terms
 c
        if(irge.eq.1) y(19) = B0
@@ -1100,9 +1123,6 @@ c
      .               su_rkqc)
        endif
 
-c        write(*,*) 'at M_mess=',mgmmess
-c        write(*,*) y
-
 c - Now input soft susy-breaking terms at messenger scale:
         CALL SU_GMSBSUB(mgmmess,mgmsusy,nl,nq, y(1),y(2),y(3),
      . y(9),y(10),y(11),y(29),y(30),y(31),y(12),y(13),y(14),y(15),y(16),
@@ -1114,9 +1134,6 @@ c
        do i=29,31
        y(i) = 0.d0
        enddo
-
-c        write(*,*) 'after imposing conditions at M_mess=',mgmmess
-c        write(*,*) y
 
 c next RGE down to EWSB scale: forces as usual radiative EW breaking:
        ichoice(5)=1
@@ -1147,16 +1164,44 @@ c check for problems (non-perturbativity or/and Landau poles) in RGE:
        if(errmess(10).eq.-1.d0) then
        goto 801
        endif
-c
+       if(ichoice(1).eq.2) then
+c  ! new algorithm for EWSB soft terms input with bottom-up RGE
+c  Unconstrained MSSM: general case: note in this case al0 etc are
+c supposed to be soft terms input values at low EWSB input scale
+       y(9)=al0
+       y(10)=ad0
+       y(11)=au0
+       y(29)=al10
+       y(30)=ad10
+       y(31)=au10
+       if(ichoice(6).eq.1.or.irge.eq.1) then
+       y(12)=mhu2
+       y(13)=mhd2
+       endif
+c (nb otherwise it means that MA_pole and MU(EWSB) are input)        
+       y(14)=mtaur0**2
+       y(15)=msl0**2
+       y(16)=mbr0**2
+       y(17)=mtr0**2
+       y(18)=msq0**2
+       if(irge.eq.1) y(19)=b0
+       if(irge.eq.1) y(23)=dlog(dabs(rmu0))
+       y(24)=mer0**2
+       y(25)=mel0**2
+       y(26)=mdr0**2
+       y(27)=mur0**2
+       y(28)=muq0**2
+       y(20)=dlog(dabs(m10))
+       y(21)=dlog(dabs(m20))
+       y(22)=dlog(dabs(m30))
+c      
+
+       endif
        vu=dexp(y(7))
        vd=dexp(y(8))
-cc       rmtau=y(4)*vd
-cc       rmb = y(5)*vd
-cc       rmtop =y(6)*vu
 c
 c saving all rge parameters at ewsb scale:
        do ip=1,31
-cc       ysav2(ip)=y(ip)
        yewsb(ip)=y(ip)
        enddo
 c saving also Yukawas and others at EWSB scale:
@@ -1177,16 +1222,15 @@ c saving also Yukawas and others at EWSB scale:
        au1=y(31)       
        rmhu2 = y(12)
        rmhd2 = y(13)
-c  !! added: change (after 10 iter) of standard fixed point algorithm:
+c  !! change (after 10 iter) of standard fixed point algorithm:
 c  mhu_new = mhu_ewsb -> mhu_new = (1-c)*mhu_old + c*mhu_ewsb, c=0.3
-c   to try recovering convergence if on the boarder:
+c  this trick may help recovering convergence if on the boarder:
 c  also increasing RGE accuracy in this case:
            if(irge.ge.10) then
        rmhu2= .7d0*rmhu2old +.3d0*rmhu2
        ichoice(4)=2 
 c  (i.e. also increasing RGE accuracy in this case)
            endif
-c       if(irge.ge.10) write(*,*)'modif fp algo used on mHu!'
 c
        do kk=14,18
        if(y(kk).lt.0.d0) then  
@@ -1224,7 +1268,7 @@ c
        rmur=dsqrt(y(27))
        rmuQ=dsqrt(y(28))
 c!! modif (temporary, until final conv) rescue in case tachyon RGE sf 
-       if(irge.lt.irgmax) then    ! new protections 
+       if(irge.lt.irgmax) then    ! protections against NaN 
        if(y(14).lt.0.d0) rmtaur=1.d0
        if(y(15).lt.0.d0) rmL=1.d0
        if(y(16).lt.0.d0) rmbr=1.d0
@@ -1253,8 +1297,12 @@ c
        endif
 c
        B = y(19)
-       if(ichoice(1).eq.2) rmu0=mu  
+       if(ichoice(1).eq.2.and.ichoice(6).eq.0) then    ! if MU(ewsb) input
+       rmu0=mu   
+       y(23)=dlog(dabs(mu))
+       endif 
        rmu = sgn(rmu0)*dexp(y(23))
+       if(ichoice(6).eq.0) rmu=mu   ! if MU(ewsb) input
        if(ichoice(5).eq.1) then
        Bold  =B
        rmuold =1.d0
@@ -1297,8 +1345,7 @@ c (extracted from COMMON/SU_tbewsb/vuewsb,vdewsb )
       tbeta= vuewsb/vdewsb
       beta = datan(tbeta)
 c
-c set EWSB scale (used in RGE, eff. potential, and susy R.C):
-      if(ichoice(1).eq.2.and.bup.eq.1.d0) qewsb=ehigh  
+c set EWSB scale IF not defaut value (used in RGE, V_eff, and susy R.C):
       if(ichoice(8).eq.0) then
       scale= qewsb 
       ewsb2= qewsb**2
@@ -1332,7 +1379,6 @@ c
        dmn2=xmn(2)
        dmn3=xmn(3)
        dmn4=xmn(4)
-       if(ichoice(1).eq.2) goto 880 
 c       
 c******************************************************************
 c- Set up the conditions for radiative sym. break. and stability:
@@ -1345,39 +1391,56 @@ c*******************************************************************
 c
                  if(ichoice(6).eq.0) then
 c========================================
-c  input is ma, mu(high). Consistent M^2_Hu, M^2_d from EWSB
+c  input is MA_pole!, MU(EWSB). Consistent M^2_Hu, M^2_d from EWSB
 c  with iteration. 
-       ifix=ifix+1
+ 66      ifix=ifix+1
        inonpert=0
        if(ichoice(1).eq.0) then
        ewsb2= qewsb**2
        ytewsb = rmtop/vu
        endif
+c   Gaugino masses
+ccc        if(ichoice(7).eq.2.and.irge.eq.irgmax) inorc =1  !commented jlk 30/01/2013 
+        CALL SU_GAUGINO(mu,m1,m2,m3,beta,a,gmc,gmn,xmn)
+       if(inonpert.eq.-1.and.irge.eq.irgmax) then
+       errmess(10)=-1.d0
+       goto 801
+       endif
+c
+c  sfermion masses
+       CALL SU_SFERMION(msq,mtr,mbr,msl,mtaur,al,au,ad,mu,
+     .                 gmst,msb,gmsl,gmsu,gmsd,gmse,gmsn)
+         if(sterr.eq.-1.d0.or.sberr.eq.-1.d0.or.stauerr.eq.-1.d0.
+     . or.stnuerr.eq.-1.d0) then
+c means there is really the tachyonic sfermion mass problem:
+c can't even calculate Higgs spectrum etc, so has to stop really.
+         errmess(4)=-1.d0
+         goto 801
+         endif
+c
+c   Higgs masses
 c the user's Ma input value is used in Higgs spectrum calc.:
-       CALL SU_SUSYCP(tgbeta)  
+        ma2 = ma**2
+        mapole2=ma2     !! in that case the input is really MA_pole
+       if(ewsb2.lt.mz**2) ewsb2=qewsb**2
+      CALL SU_SUSYCP(tgbeta)      
        if(inonpert.eq.-1.and.irge.eq.irgmax) then 
        errmess(10) =-1.d0
        goto 801
        endif
-c
-c  Calculate sfermion masses and mixing angle:
-c
-       CALL SU_SFERMION(msq,mtr,mbr,msl,mtaur,al,au,ad,mu,
-     .               gmst,msb,gmsl,gmsu,gmsd,gmse,gmsn)
-         if(ifix.gt.5) then
-         errmess(4)=-1.d0
-           if(sterr.eq.-1.d0) gmst(1)=0.d0
-           if(sberr.eq.-1.d0) msb(1)=0.d0
-           if(stauerr.eq.-1.d0) gmsl(1)=0.d0
-             if(iknowl.eq.2) then
-         write(*,'(a)')' CAUTION: m^2_sf < 0! . was changed to 0  '
-             endif
-         endif
+      alfa= a
 c
 c  call one-loop effective potential corrections to Mh^2_1,2:
 c  dVdvd2, dVdvu2 are d(V_eff)/d(vd^2) and d(V_eff)/d(vu^2) which
 c  add corrections to m^2_Phid (rmhd2) and m^2_Phiu (rmhu2) resp. 
-c  
+       rmtaur = mtaur
+       rml = msl
+       rmbr= mbr
+       rmtr= mtr
+       rmq = msq
+       atau= al
+       ab= ad
+       atop = au
        rmst12= msttr1**2
        rmst22= msttr2**2
        rmsb12= msbtr1**2
@@ -1392,7 +1455,14 @@ c
        dmse2=gmse(2)
        dmsn1=gmsn(1)
        dmsntau=gmsn(3)
-       alfa=a
+       dmc1=gmc(1)
+       dmc2=gmc(2)
+       dmn1=xmn(1)
+       dmn2=xmn(2)
+       dmn3=xmn(3)
+       dmn4=xmn(4)
+       rmu=mu
+       ewsb2 = scale**2
 c   
        if(ytewsb.eq.0.d0) ytewsb=rmtop/vu
        if(ytauewsb.eq.0.d0) ytauewsb=rmtau/vu
@@ -1402,11 +1472,6 @@ c
        errmess(10) =-1.d0
        goto 801
        endif
-c  Check of EWSB in this parametrization:
-c  (note it includes the 1-loop effective potential contributions)   
-c  However at first iteration neglect V_eff correction in the EWSB
-c  consistency relation: that to avoid a totally wrong temporary
-c  sfermion spectrum and (hope to) accelerate convergence..
           if(ifix.eq.1) then
           dVdvd2=0.d0
           dVdvu2=0.d0
@@ -1414,65 +1479,65 @@ c  sfermion spectrum and (hope to) accelerate convergence..
           rmhd2old=0.d0
           endif
 c
-      rmhu2 = (mu**2+mz**2/2)*(1.d0-tgbeta**2)/(1.d0+tgbeta**2) +
-     . (ma**2-2*mu**2)/(1.d0+tgbeta**2)   -dvdvu2
+c   
+      sb2=dsin(beta)**2
+      cb2=dcos(beta)**2
+      mzdr2= mz**2+pizz
+      madr2= mapole2 +piaa -tadba -D2MA
+      rmhu2 = (cb2-sb2)*mzdr2/2 +cb2*madr2 -mu**2   -dVdvu2 
+      rmhd2 = (sb2-cb2)*mzdr2/2 +sb2*madr2 -mu**2   -dVdvd2 
 c
-      rmhd2 = ma**2-rmhu2-2*mu**2    -dvdvd2
-      b=(rmhd2+dvdvd2 +rmhu2+dvdvu2+2*mu**2)*dsin(2*beta)/(2*mu)
-c
+c (Note: -dVdvi2: to get "tree-level" values of M^2_Hu, M^2_Hd, 
+c  thus without V_eff loop corrections)
+      dmhu2=rmhu2   
+      dmhd2=rmhd2
+      B=(rmhd2+rmhu2+dVdvd2+dVdvu2+2*rmu**2)*dsin(2*beta)/(2*rmu)
 c - to be compared to previous M^2_Hu,Hd values:
        errhuold=errhu
        errhdold=errhd
        errhu = (rmhu2-rmhu2old)/rmhu2
        errhd = (rmhd2-rmhd2old)/rmhd2
-       if(dabs(errhu).lt.1.d-3.and.dabs(errhd).lt.1.d-3) then
-       goto 8
-       endif
+       errstop=1d-2
+       if(ifix.gt.1) errstop=1d-4
+       if(dabs(errhu).gt.errstop.and.dabs(errhd).gt.errstop) then
        rmhu2old=rmhu2
        rmhd2old=rmhd2
+       goto 66
+       endif
 c
-c   running RGE UP to find corresponding M^2_Hu,M^2_Hd(high):
        y(12) = rmhu2 
        y(13) = rmhd2
-c (all other values have not changed)
-       x1=x2
-       x2=dlog(Ehigh)
-       h1=-h1
-       if(ichoice(2).eq.11) then
-      CALL SU_ODEINT(y,n,x1,x2,2.d-4,h1,1.d-8,nok,nbad,su_deriv1,
-     .              su_rkqc)
-       else if(ichoice(2).eq.21) then
-      CALL SU_ODEINT(y,n,x1,x2,2.d-4,h1,1.d-8,nok,nbad,su_deriv2,
-     .              su_rkqc)
-       endif
-       do i=1,8
-       y(i)=ysave(i)
-       end do
-       mhu2=y(12)
-       mhd2=y(13)
-       B0= y(19)
-c                if(ifix.gt.20) goto 88
-       goto 77      
 c
  8     continue
+       if(ichoice(6).eq.0) then
+c stop long (RGE) iterations on spectrum when xx % accuracy reached:
+c (usually needs ~ 3-4 iterations). NB conv. test is made on MA_run(EWSB)
+        if(irge.eq.1) madr2old=0.d0
+        if(ichoice(9).le.1) then                 
+        if(dabs(1.d0-madr2old/madr2).lt.2d-2) irgmax=irge
+        else                                     
+        if(dabs(1.d0-madr2old/madr2).lt.2d-4) irgmax=irge
+        endif
+        madr2old=madr2    
+        endif
 c
-c========================== if ichoice(6).neq.0
+c========================== Now comes ichoice(6).neq.0 i.e:
+c      input parameters M_Hu, M_Hd
+c      consistent mu, B from EWSB conditions
                         else
 c===========================                        
-c
-c      input parameters M^2_Hu, M^2_Hd
-c      consistent mu, B from EWSB conditions
-c
 c stop long iterations on spectrum when xx % accuracy reached:
 c (usually needs ~ 3-4 iterations)
+        if(ichoice(1).ne.2) then
         if(irge.eq.1) rmhu2old=0.d0
         if(ichoice(9).le.1) then                 ! 1% accuracy
-        if(dabs(1.d0-rmhu2old/rmhu2).lt.0.02d0) irgmax=irge
+        if(dabs(1.d0-rmhu2old/rmhu2).lt.2d-2) irgmax=irge
         else                                     ! 0.01% accuracy
-        if(dabs(1.d0-rmhu2old/rmhu2).lt.0.0002d0) irgmax=irge
+        if(dabs(1.d0-rmhu2old/rmhu2).lt.2d-4) irgmax=irge
         endif
         rmhu2old=rmhu2 
         if(irge.eq.irgsave) errmess(5)=-1.d0
+        endif
 c --- algorithm to find a consistent mu with V_eff corrections:
        errB=1.d5
        errmu=1.d5
@@ -1497,7 +1562,7 @@ c
        dmn3=xmn(3)
        dmn4=xmn(4)
 c 
-c equation for MA:
+c equation for MA_run:
         if(irge.eq.1) pizz=0.d0
         ma2 =(rmhu2+dVdvu2-rmhd2-dVdvd2)/dcos(2*beta)-zm**2-pizz 
         dmhu2=rmhu2
@@ -1513,7 +1578,7 @@ c and attempt to retrieve a correct MA via a correct MU etc.
 c Gives approximate MA_run(ewsb) values just so that calculation 
 c (EWSB iteration) can proceed for a while:
         ma=1.1d0
-        if(mapole.ne.0.d0) ma=mapole   
+        if(.NOT.(su_isNaN(mapole)).and.mapole.ne.0.d0) ma=mapole   
         masave=ma
        CALL SU_GAUGINO(mu,m1,m2,m3,beta,a,gmc,gmn,xmn)       
        if(inonpert.eq.-1.and.irge.eq.irgmax) then
@@ -1526,29 +1591,6 @@ c   Now Calculate sfermion masses and mixing angle:
 c
        CALL SU_SFERMION(msq,mtr,mbr,msl,mtaur,al,au,ad,mu,
      .                  gmst,msb,gmsl,gmsu,gmsd,gmse,gmsn)
-c  next is to protect against initial MU input that could be
-c  (temporarily!) inconsistent with m_sfermion^2 > 0 :
-          if(ifix.le.5) then    ! change: ifix.eq.1->ifix.le.5
-          if(sterr.eq.-1.d0.or.sberr.eq.-1.d0.or.stauerr.eq.-1.d0.
-     . or.stnuerr.eq.-1.d0) then 
-c calculate an apriori better MU value:
-       if(irge.eq.1) pizz=0.d0
-       rmu2 =(rmhd2-rmhu2*tbeta**2)/(tbeta**2-1.d0)
-     .        -(zm**2+pizz)/2.d0
-       sterr=0.d0
-       sberr=0.d0
-       stauerr=0.d0
-       stnuerr=0.d0
-       if(rmu2.le.0.d0) then
-       rmu= rmu/2.d0
-       else
-       rmu =sgn(rmu0)*dsqrt(rmu2)
-       endif 
-c then recalculate a corresponding, a priori better, Higgs+SF spectrum:
-       CALL SU_SFERMION(msq,mtr,mbr,msl,mtaur,al,au,ad,mu,
-     .               gmst,msb,gmsl,gmsu,gmsd,gmse,gmsn)
-         endif 
-         endif
          if(sterr.eq.-1.d0.or.sberr.eq.-1.d0.or.stauerr.eq.-1.d0.
      . or.stnuerr.eq.-1.d0) then
 c means there is really the tachyonic sfermion mass problem:
@@ -1599,7 +1641,7 @@ c
 c  call one-loop effective potential corrections to Mh^2_1,2:
 c 
 c  dVdvd2, dVdvu2 are d(V_eff)/d(vd^2) and d(V_eff)/d(vu^2) which
-c  add corrections to m^2_PHId (rmhd2) and m^2_PHIu (rmhu2) resp. 
+c  add corrections to m^2_Hd (rmhd2) and m^2_Hu (rmhu2) resp. 
 c   
        if(ytewsb.eq.0.d0) ytewsb=rmtop/vu
        if(ytauewsb.eq.0.d0) ytauewsb=rmtau/vu
@@ -1635,7 +1677,7 @@ c Tree-level EWSB conditions as (first time!) MU guess:
             if(iknowl.eq.2) then
        write(*,'(a)')'Warning: MU^2(EWSB) <0 (may be temporary) '
              endif    
-       if(irge.eq.irgmax.and.ifix.ge.5) then
+       if(irge.eq.irgmax.and.ifix.ge.5) then 
 c Consider the MU^2 < 0 problem irremediable:
        errmess(6)=-1.d0
        goto 801
@@ -1646,7 +1688,7 @@ c EWSB convergence:
        rmu= sgn(rmu0)*dsqrt((ma**2-rmhu2 -rmhd2)/2)
          else
 c take arbitrary small MU to attempt to retrieve EWSB convergence:
-        rmu=sgn(rmu0)*10.d0
+        rmu = sgn(rmu0)*10d0
          endif
        endif
 c       rmu= rmu/2.d0
@@ -1656,7 +1698,6 @@ c  !! added: change (after 10 iter) of standard fixed point algorithm:
 c   mu_new = mu_ewsb -> mu_new = (1-c)* mu_old + c*mu_ewsb, c=0.3
 c   to try recovering convergence if on the boarder:
        if(ifix.ge.10) rmu= .7d0*rmuold +.3d0*rmu 
-c       if(ifix.ge.10) write(*,*)'modif fp algo used on MU!'
        MU=rmu
        endif
 c      
@@ -1684,7 +1725,7 @@ c
        else
        if(ma2.le.0.d0.and.ifix.eq.5) goto 81
 c !!added to get out if really unconvergent EWSB:
-       if(dabs(errmu).gt.dabs(errmuold).and.ifix.gt.15) then
+       if(dabs(errmu).gt.dabs(errmuold).and.ifix.gt.15) then  
          if(irge.eq.irgmax) then
        errmess(6)=-1.d0
        goto 801
@@ -1725,9 +1766,9 @@ c
 c
        endif
 c    control SSB V stability (naive RG improved checks of UFB/CCB):
-      r1= rmhd2 +dvdvd2 +rmu2
-      r2= rmhu2 +dvdvu2 +rmu2
-      r3= B*rmu
+      r1= rmhd2 +dvdvd2 +mu**2
+      r2= rmhu2 +dvdvu2 +mu**2
+      r3= B*mu
       test1= r1*r2-r3*r3
       test2 = ma2 +2*r3
       test3 = ma2 -2*r3
@@ -1747,11 +1788,11 @@ c    control SSB V stability (naive RG improved checks of UFB/CCB):
 c CCB (simplest!) constraints, checked at EWSB scale:
             if(irge.eq.irgmax) then
           ccbt= atop**2-3*(msq**2 +mtr**2 +rmhu2 +rmu**2)
-          ccbb= ab**2-3*(msq**2 +mbr**2 +rmhu2 +rmu**2)
-          ccbtau= atau**2-3*(msl**2 +mtaur**2 +rmhu2 +rmu**2)
+          ccbb= ab**2-3*(msq**2 +mbr**2 +rmhd2 +rmu**2)
+          ccbtau= atau**2-3*(msl**2 +mtaur**2 +rmhd2 +rmu**2)
           ccbu= au1**2-3*(muq**2 +mur**2 +rmhu2 +rmu**2)
-          ccbd= ad1**2-3*(muq**2 +mdr**2 +rmhu2 +rmu**2)
-          ccbl= al1**2-3*(mel**2 +mer**2 +rmhu2 +rmu**2)
+          ccbd= ad1**2-3*(muq**2 +mdr**2 +rmhd2 +rmu**2)
+          ccbl= al1**2-3*(mel**2 +mer**2 +rmhd2 +rmu**2)
           if(ccbt.gt.0.d0.or.ccbb.gt.0.d0.or.ccbtau.gt.0.d0) then
 c ! these are points which do not pass those naive CCB constraints
           errmess(8)=-1.d0
@@ -1845,26 +1886,26 @@ c
 c Special case of unconstrained MSSM with low-en input:
 c =====================================================
 
- 880   if(ichoice(1).eq.0.or.ichoice(1).eq.2) then
+ 880   if(ichoice(1).eq.0) then
 c  case of the pMSSM (unconstrained MSSM, low-en input) 
 c
                                   if(ichoice(6).eq.0) then
-c   Input parameter of the pMSSM  is M_A , mu
+c   Input parameter of the pMSSM  is MA_pole , MU(EWSB)
 c stop long iterations on spectrum when xx % accuracy reached:
 c (usually needs ~ 3-4 iterations)
         if(irge.eq.1) mhu2old=0.d0
            if(irge.lt.irgmax) then
         if(ichoice(9).le.1) then
-        if(dabs(1.d0-mhu2old/mhu2).lt.0.02d0) irgmax=irge  ! 1% accuracy
+        if(dabs(1.d0-mhu2old/mhu2).lt.2d-2) irgmax=irge  ! 1% accuracy
         else
-        if(dabs(1.d0-mhu2old/mhu2).lt.0.0002d0) irgmax=irge ! .01%
+        if(dabs(1.d0-mhu2old/mhu2).lt.2d-6) irgmax=irge ! 1d-4 %
         endif
            endif
         mhu2old=mhu2 
         if(irge.eq.irgsave) errmess(5)=-1.d0
 c   Gaugino masses
   881   beta =datan(tbeta)
-        if(ichoice(7).eq.2.and.irge.eq.irgmax) inorc =1
+ccc        if(ichoice(7).eq.2.and.irge.eq.irgmax) inorc =1 !commented by jlk 30/01/2013
         CALL SU_GAUGINO(mu,m1,m2,m3,beta,a,gmc,gmn,xmn)
        if(inonpert.eq.-1.and.irge.eq.irgmax) then
        errmess(10)=-1.d0
@@ -1893,7 +1934,7 @@ c   Higgs masses
        endif
       alfa= a
 c Check of EWSB in this parametrization:
-c Note we include in the EWSB consistency relations al the 
+c Note we include in the EWSB consistency relations all the 
 c V_eff contributions +loop: indeed, it is consistent with the fact
 c that all Higgs masses are calculated with 1- +2-loop contributions:
 c  
@@ -1946,12 +1987,12 @@ c
       rmhu2 = (cb2-sb2)*mzdr2/2 +cb2*madr2 -mu**2   -dVdvu2 
       rmhd2 = (sb2-cb2)*mzdr2/2 +sb2*madr2 -mu**2   -dVdvd2 
 c
+c (Note: -dVdvi2: to get "tree-level" values of M^2_Hu, M^2_Hd, 
+c  thus without V_eff loop corrections)
       dmhu2=rmhu2   
       dmhd2=rmhd2
       B=(rmhd2+rmhu2+dVdvd2+dVdvu2+2*rmu**2)*dsin(2*beta)/(2*rmu)
 c
-c (Note: this is to take into account that we would like to get "tree-level" 
-c  values of M^2_Hu, M^2_Hd, thus without V_eff loop corrections)
 c  Control of SSB and V stability scales:
       r1= rmhd2 +dVdvd2  +rmu**2
       r2= rmhu2 +dVdvu2  +rmu**2
@@ -1980,7 +2021,7 @@ c
         if(test2.lt.0.d0.or.test3.lt.0.d0) then
        errmess(8)=-1.d0
         endif
-      if(ichoice(1).eq.2.and.irge.eq.irgmax+3.and.bup.eq.1.d0) goto 801
+      if(ichoice(1).eq.2.and.irge.eq.irgmax) goto 801
 c       
 c========================== Endif of ichoice(1) pMSSM
                        else
@@ -2074,8 +2115,8 @@ c
 c
 c
 c    control of SSB and V stability scales:
-      r1= rmhd2  +rmu2
-      r2= rmhu2  +rmu2
+      r1= rmhd2 +dVdvd2 +rmu2
+      r2= rmhu2 +dVdvu2 +rmu2
       r3= B*rmu
       test1= r1*r2-r3*r3
       test2= r1+r2+2*r3
@@ -2086,13 +2127,6 @@ c    control of SSB and V stability scales:
             endif
             if(test2.lt.0.d0.or.test3.lt.0.d0) then
        errmess(8)=-1.d0
-              if(iknowl.eq.2) then
-      write(*,'(a)')' Warning: Potential unbounded from below! '
-      write(*,'(a)')' Give new MHd2, MHu2 input: '
-      write(*,'(a)')' (0, 0 if proceed still)   '
-      read(*,*) rmhd2,rmhu2
-               endif
-c      if(rmhd2.eq.0.d0) goto 888
             endif
          if(ichoice(1).eq.0.or.ichoice(1).eq.2) then
         rmino1=m1
@@ -2110,22 +2144,15 @@ c
         endif
         endif
 c===================================
-       if(ichoice(1).eq.2.and.irge.eq.irgmax.and.bup.eq.0.d0) then
+       if(irge.eq.irgmax.and.iremember.eq.1) ichoice(1)=2 
+c (a trick to simplify the case of bottom-up evol with Mhu,Mhd input)       
+       if(ichoice(1).eq.2.and.irge.eq.irgmax) then
 c
 c unconstrained MSSM runned up to High scale 
-       bup=1.d0      
-       irge=1          ! reinitialization to reiterate on spectrum
-       irgmax=50
-       mhu2=1.d4
 c  Now the final run from Q_ewsb to Q_final:
        x1 = dlog(qewsb)
-       if(ichoice(3).eq.1) then
-       x2= dlog(1.d20)
-       else if(ichoice(3).eq.0) then
        x2=dlog(ehigh)
-       sgnh1=(x2-x1)/dabs(x2-x1)
-       h1= h1*sgnh1
-       endif
+       h1= dsign(h1,x2-x1)
 c
        if(ichoice(2).eq.11) then
       CALL SU_ODEINT(y,n,x1,x2,eps,h1,1.d-8,nok,nbad,su_deriv1,
@@ -2135,16 +2162,13 @@ c
      .              su_rkqc)
        endif
        goto 882
-       else if(ichoice(1).eq.2.and.bup.eq.1) then 
-       irge=irge+1
-       goto 880
        endif
 c
 c     ****************************************************************
 c      SUSY radiative corrections to tau,b,t and sparticle masses:
 c     ****************************************************************
 c recovering all rge parameter values at mz scale:
- 884      if(ichoice(1).ne.0.and.ichoice(1).ne.2.and.irge.ge.2) then
+ 884      if(ichoice(1).ne.0.and.irge.ge.2) then
        y(19)=b
        y(23)=dlog(dabs(mu))
        xewsb=dlog(qewsb)    !! added to be consistent with new
@@ -2166,7 +2190,7 @@ c                           !! protections for tachyonic sfermions
        mtaurun = rmtau
        mbrun = rmb
        mtrun = rmtop
-       else if(ichoice(1).eq.0.or.ichoice(1).eq.2) then 
+       else if(ichoice(1).eq.0) then 
        y(9)=al
        y(10)=ad
        y(11)=au
@@ -2237,7 +2261,7 @@ c first redefining all needed soft etc parameters now at mz scale:
        murz=dsqrt(y(27))
        muqz=dsqrt(y(28))
 c!! modif (temporary, until final conv) rescue in case tachyon RGE sf 
-       if(irge.lt.irgmax) then   ! new protections
+       if(irge.lt.irgmax) then   ! protections against NaN
        if(y(14).lt.0.d0) mtaurz=1.d0
        if(y(15).lt.0.d0) msLz=1.d0
        if(y(16).lt.0.d0) mbrz=1.d0
@@ -2297,6 +2321,7 @@ c stop/ put error flag: ma^2(mz)<0 at last iter, considered irremediable
      .      ,m3z,msqz,mtrz,mbrz,auz,adz,mu_mz,  delmb) 
 c Now susy RC to tau and top  masses:
        msntau_mz = dsqrt(msLz**2+0.5d0*(mz**2+pizz_mz)*dcos(2*beta_z)) 
+       if(su_isNaN(msntau_mz)) msntau_mz = 1d0   ! protection 
        CALL SU_TAUMSCR(tgbet0,mu_mz,m2z,msntau_mz,  delmtau) ! changed 
 c
        CALL SU_TOPMSCR(alphas,mt,mb0,rmtop,rmb,y(6),y(5),tgbet0,
@@ -2404,7 +2429,6 @@ c    ****************************************************************
 c    Now comes the writing in the outputs part. 
 c     ****************************************************************
  801  continue
-cc       write(*,*)'iter,mh,mH,mA,mu: ',irgmax,ml,mh,ma,mu
 c
 c additional theoretical and experimental limits checks (g-2 etc)
        errnogo =errmess(4)+errmess(9)+errmess(10)
@@ -2423,21 +2447,10 @@ c  3) What follow is for interface with b-> s gamma calculation:
         bsdeltp=0.9d0
         bsvkm=0.95d0    
         bsl=0.105d0
-c (re)define thet,theb angles to match b->s gamma routine conventions:
-      MSTL2_bs=MsQ**2+(0.5D0-2.D0/3*SW2)*MZ**2*DCOS(2*Beta)
-      MSTR2_bs=MTR**2+2.D0/3.D0*SW2*MZ**2*DCOS(2*Beta) 
-      MSBL2_bs=MsQ**2+(-0.5D0+1.D0/3*SW2)*MZ**2*DCOS(2*Beta)
-      MSBR2_bs=MBR**2-1.D0/3*SW2*MZ**2*DCOS(2*Beta) 
-        if(mstl2_bs.gt.mstr2_bs) then
+c (re)define st,sb mixing to match b->s gamma routine conventions:
+c = flip angles def so that m_sf_1 > m_sf_2 (bsg conventions)
         bsthet= (thet -pi/2)/pi
-        else
-        bsthet= thet/pi
-        endif
-        if(msbl2_bs.gt.msbr2_bs) then
         bstheb= (theb -pi/2)/pi
-        else
-        bstheb= theb/pi
-        endif
 c        
         xsuh = min(gmst(2),mgluino,gmsu(1),gmsd(1))
         xsul = max(gmst(1),gmc(1))
@@ -2469,6 +2482,12 @@ c 4) calculating some fine-tuning parameters for info
       endif
 c%%%%%%%%%%%%%%%%%%%%
 c saving final soft etc parameters and output masses:
+c    special case:
+      if(ichoice(1).eq.2) then
+      rmhu2=y(12)
+      rmhd2=y(13)
+      endif
+      if(ichoice(1).ne.2) then
       dmhu2=rmhu2
       dmhd2=rmhd2
       dm1=rmino1
@@ -2492,6 +2511,7 @@ c saving final soft etc parameters and output masses:
       dAU1      = au1
       dAD1      = ad1
       dMU       = mu 
+      endif
 c     
       dma=ma
       dml=ml
@@ -2533,19 +2553,19 @@ C ************  SUSPECT OUTPUT WRITING (in SUSPECT2.out)
       write(nout,'(a)')'CAUTION UNRELIABLE OUTPUT! check errmess below'
          endif
         if(ichoice(1).eq.10) then  
-        write(nout,'(a)')'             SUSPECT2.3 OUTPUT: MSUGRA CASE'
+        write(nout,'(a)')'             SUSPECT2.4 OUTPUT: MSUGRA CASE'
         write(nout,'(a)')'             ------------------------------'
         write(nout,'(a)')
         else if(ichoice(1).eq.11) then 
-        write(nout,'(a)')'             SUSPECT2.3 OUTPUT: GMSB CASE'
+        write(nout,'(a)')'             SUSPECT2.4 OUTPUT: GMSB CASE'
         write(nout,'(a)')'             ----------------------------'
         write(nout,'(a)')
         else if(ichoice(1).eq.12) then 
-        write(nout,'(a)')'             SUSPECT2.3 OUTPUT: AMSB CASE'
+        write(nout,'(a)')'             SUSPECT2.4 OUTPUT: AMSB CASE'
         write(nout,'(a)')'             ----------------------------'
         write(nout,'(a)')
         else
-        write(nout,'(a)')'             SUSPECT2.3 OUTPUT: pMSSM CASE'
+        write(nout,'(a)')'             SUSPECT2.4 OUTPUT: pMSSM CASE'
         write(nout,'(a)')'             -----------------------------'
        endif
         if(ichoice(1).eq.0) then        
@@ -2943,7 +2963,7 @@ c
 c
 c  gauginos 
       betg1 = 33.d0/5*g12 
-c$$  changes : adding 2-loop gauge+yukawa in boundary conditions:
+c adding 2-loop gauge+yukawa in boundary conditions:
      . +cpi*g12*((19*nf/15+9.d0/25)*g12
      . +(3*nf/5+9.d0/5)
      . *g22+44*nf/15*g32-26*ytop2/5-14*yb2/5-18*ytau2/5) 
@@ -3276,13 +3296,13 @@ c
      .     -2*dlog(abs(rmg)/mz) 
      .      -1.d0/6*(2*dlog(msu1/mz)+2*dlog(msu2/mz)
      .                + dlog(mst1/mz)+dlog(mst2/mz)           
-     .      +         + 2*dlog(msd1/mz)+2*dlog(msd2/mz)
+     .                + 2*dlog(msd1/mz)+2*dlog(msd2/mz)
      .                + dlog(msb1/mz)+dlog(msb2/mz)          ) )
       alphasdr=alphas/(1.d0-dalphas)
 
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 c Now we calculate sin^2theta_W in the DR-scheme. IN fact it turns out that
-c we do not the input value measured at LEP or for the W mass in principle.
+c we don't need input value measured at LEP or for the W mass in principle.
 c However, to define the tree level quantities we need the value of M_W
 c ----------
       cw2 = 1.d0 -sw2
@@ -3376,7 +3396,7 @@ c defining other parameters for the Higgs mass calculation
        me=0.5d-3
        mmu=0.106d0
        ms=0.190d0
-       mcq=1.40d0
+       mcq=1.42d0
        eps=1.d-2
        eps0=eps**2
 c  : 
@@ -4309,7 +4329,7 @@ c
       tw=sw/cw
 c  
 c      if(inorc.eq.1.and.irge.ge.2) then
-      if(inorc.eq.1) then   ! changed: only at very end of calculation
+      if(inorc.eq.1) then   !  only at very end of calculation
 c  Adding R.C to M1, M2, MU:
       m1save=m1
       m2save=m2
@@ -4369,7 +4389,9 @@ C     =============== Masses and couplings:
       yz(i,3)=zx(i,3)*zx(i,1)
       yz(i,4)=zx(i,4)*zx(i,1)
  10   continue
-c     ============ Ordering the disorder 
+c     ============ Ordering the disorder
+      if(mn(3).eq.mn(4)) mn(4)=mn(4)*(1d0+1.d-8)  !protection
+c  (such a degeneracy (within d.p. accuracy) may happen for very large MU) 
       xx0 = dmin1(mn(1),mn(2),mn(3),mn(4))
       xx1 = dmax1(mn(1),mn(2),mn(3),mn(4))
       idummy = 1
@@ -4587,7 +4609,7 @@ c      COMMON/SU_cpl/g12,g22,sw2
       COMMON/SU_yuka/ytau,yb,ytop
       COMMON/SU_treesfer/msb1,msb2,mst1,mst2
       COMMON/SU_strc/irge,irgmax,ifix,isfrc,inorc
-
+      common/su_mixflip/istflip,isbflip
       COMMON/SU_renscale/scale     
       integer kpole
       COMMON/SU_stepwi/wistep,h1,kpole
@@ -4629,12 +4651,6 @@ c up squarks:
       msu(2)=dsqrt(mstr2)
       msu1bp = msu(1)
       msu2bp =msu(2)
-cc UNdo re-ordering of masses to agree with SLHA output assignements
-cc      if(msu(1).gt.msu(2)) then
-cc      msutemp= msu(1)
-cc      msu(1)=msu(2)
-cc      msu(2)=msutemp
-cc      endif
 c
 c down squarks
       msbl2=mql1**2+(-0.5d0+1.d0/3.d0*sw2)*mz**2*dcos(2.d0*b)
@@ -4643,13 +4659,6 @@ c down squarks
       msd(2)=dsqrt(msbr2)
       msd1bp = msd(1)
       msd2bp =msd(2)
-cc UNdo re-ordering of masses to agree with SLHA output assignements
-cc      if(msd(1).gt.msd(2)) then
-cc      msdtemp= msd(1)
-cc      msd(1)=msd(2)
-cc      msd(2)=msdtemp
-cc      endif
-c
 c sleptons
       msel2=mel1**2+(-0.5d0+sw2)*mz**2*dcos(2.d0*b)
       mser2=mer1**2- sw2*mz**2*dcos(2.d0*b) 
@@ -4658,12 +4667,6 @@ c sleptons
       mse(2)=dsqrt(mser2)
       mse1bp = mse(1)
       mse2bp =mse(2)
-cc UNdo re-ordering of masses to agree with SLHA output assignements
-cc      if(mse(1).gt.mse(2)) then
-cc      msetemp= mse(1)
-cc      mse(1)=mse(2)
-cc      mse(2)=msetemp
-cc      endif
       if(msnl2.lt.0.d0) then   
       msn(1)= 1.d0
       if(irge.eq.irgmax) stnuerr=-1.d0
@@ -4692,6 +4695,7 @@ c     first some reinitializations:
        crll=0.d0
        crrr=0.d0
        crlr=0.d0
+       istflip = 0
 c Mb, Mt, Ml used in sfermion matrix elements should be running masses 
 c at EWSB scale, including SUSY radiative corrections
 
@@ -4735,8 +4739,11 @@ c defining stop parameters at EWSB scale in bpmz conventions
       if(su_isNaN(mst2bp)) mst2bp=1.d0  
          thetbp = thet         
          endif
-      if(mstl2.gt.mstr2) thet = thet + pi/2
-c        endif 
+        if(mstl2.gt.mstr2) then
+        thet = thet + pi/2
+        istflip = 1
+        endif       
+c 
       if(ifirst.eq.0) then
 c save tree-level values for other uses:
       mst1=mst(1)
@@ -4760,6 +4767,7 @@ c
 c
 c sbottom masses/mixing
 c
+      isbflip = 0
       msbl2=mql**2+(-0.5d0+1.d0/3*sw2ew)*mz**2*dcos(2*b)
       msbr2=mdr**2-1.d0/3*sw2ew*mz**2*dcos(2*b) 
       mlrb=ab-mu*tb
@@ -4787,8 +4795,11 @@ c defining sbottom parameters at EWSB scale in bpmz conventions
       if(su_isNaN(msb2bp)) msb2bp=1.d0   
          thebbp = theb
          endif
-      if(msbl2.gt.msbr2) theb = theb + pi/2
-c        endif  
+        if(msbl2.gt.msbr2) then
+        theb = theb + pi/2
+        isbflip =1
+        endif
+c       
        if(ifirst.eq.0) then
 c save tree-level values for other uses:
       msb1=msb(1)
@@ -4903,8 +4914,6 @@ cc
       mht2=1.d0/2*(ma2+mz2-sqrt((ma2+mz2)**2-(2*ma*mz*cos(2d0*b))**2))
       mhrunz=sqrt(abs(mhht2))
       mlrunz=sqrt(abs(mht2))
-c$$$      t2alt = tan(2d0*b)*(ma2+mz2)/(ma2-mz2)
-c$$$      alpharunz = 0.5d0*atan(t2alt)
       pi = 4*datan(1.d0)
       s2alt = -(ma2+mz2)*dsin(2d0*b)
       c2alt = -(ma2-mz2)*dcos(2d0*b)
@@ -5053,8 +5062,6 @@ c
      .  antR(4),antL(4),bntL(4),bntR(4),actL(2),actR(2),bctL(2),bctR(2),
      .  fttLL(4),gttLL(4),fttLR(4),gttLR(4),fttRR(4),gttRR(4), 
      .  fbtLL(2),gbtLL(2),fbtLR(2),gbtLR(2),fbtRR(2),gbtRR(2)   
-c$$$      COMMON/SU_hmass/ma,ml,mh,mch,mar      
-c$$$      COMMON/SU_outhiggs/dml,dmh,dmch,alfa 
       common/SU_runhiggsewsb/ma,ml,mh,mch,alfa
       COMMON/SU_outginos/mc1,mc2,mn1,mn2,mn3,mn4,mgluino
       COMMON/SU_matino/u,v,z,dxmn
@@ -5167,16 +5174,6 @@ c
        ggtRbR = 0.d0
        ggtLbR = yb*(-mu*sbet+Ab*cbet)
        ggtRbL = -yt*(-mu*cbet+At*sbet)
-c
-c       gctLb1=cb*gctLbL+sb*gctLbL
-c       gctLb2=-sb*gctLbL+cb*gctLbR
-c       gctRb1=cb*gctLbR+sb*gctRbR
-c       gctRb2=-sb*gctLbR+cb*gctRbR
-c  
-c       ggtLb1=cb*ggtLbL+sb*ggtLbL
-c       ggtLb2=-sb*ggtLbL+cb*ggtLbR
-c       ggtRb1=cb*ggtLbR+sb*ggtRbR
-c       ggtRb2=-sb*ggtLbR+cb*ggtRbR
 c
        gctLb1=cb*gctLbL+sb*gctLbR ! Corrected by P. Slavich
        gctLb2=-sb*gctLbL+cb*gctLbR
@@ -5417,7 +5414,6 @@ c
      . +ggtLb1*ggtRb1*dble(SU_B0(pscale**2,mw,msb1))
      . +ggtLb2*ggtRb2*dble(SU_B0(pscale**2,mw,msb2))
 c
-c  ! bug corrected (jlk 25/01/05) in next line: st -> ct*st 
       crLRgau=(2*g1*cw/3)**2*ct*st*(dble(SU_BF(pscale**2,mst1,zero))
      .                          -dble(SU_BF(pscale**2,mst2,zero)) )
      .  -g**2/cw**2*(.5d0-2*sw2/3)*(2*sw2/3)*st*ct*(
@@ -5466,7 +5462,7 @@ c
        mu=.005d0
        md=.015d0
        ms=.19d0
-       mc=1.40d0
+       mc=1.42d0
        msc1=msu1
        msc2=msu2
        mss1=msd1
@@ -5612,8 +5608,9 @@ c====================================================================
       s22qcd=xfac*als/pi*mt**4/sb**2*(4.d0+3*dlog(xr)**2
      .  +2*dlog(xr)-6*xt/dsqrt(ams2)-xt**2/ams2*(3*dlog(xr)+8.d0)
      .  +17*xt**4/12.d0/ams2**2 )
-      s22ew=-9*xfac**2/32.d0/sb**2*mt**6*(dlog(xr)**2-
-     .   -2*xt**2/ams2*dlog(xr)+xt**4/6.d0/ams2**2*dlog(xr))            
+      s22ew=-9*xfac**2/32.d0/sb**2*mt**6*(dlog(xr)**2
+c !  next term changes sign (-2*xt**2/ams2->+2 xt..) wrt ref.: corrected: 
+     .   +2*xt**2/ams2*dlog(xr)+xt**4/6.d0/ams2**2*dlog(xr))            
       s22=s22one+s22qcd+s22ew     
       
       xm11=ama**2*sb**2+amz**2*cb**2-s11
@@ -5904,7 +5901,7 @@ c
 c 
       ihdr=0.d0
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%   two--loop alphas corrections (P. Slavich)
-      if(imodel.ge.2) then
+ 1     if(imodel.ge.2) then
       call SU_DSZHiggs(rmtDR**2,am3,mst1**2,mst2**2,sxt,cxt,scale**2,
      .      -amu,tbeta,vev2,gstrong,0,S11s,S22s,S12s)
 c
@@ -5987,12 +5984,11 @@ c full one-loop Higgs calculation but neglecting any two-loops
 c
       endif
 c     add two-loop tadpoles in running mA:
-
-      tad1loop= tad1st+tad1sb+tad1w+tad1l+tad1bl   	
+       if(imodel.ge.2) tad1loop= tad1st+tad1sb+tad1w+tad1l+tad1bl   	
       dVdvd2=-tad1
       if(imodel.ge.2) dVdvd2=dVdvd2+tad1loop
 
-      tad2loop=tad2st+tad2sb+tad2w+tad2l+tad2bl	
+       if(imodel.ge.2) tad2loop=tad2st+tad2sb+tad2w+tad2l+tad2bl	
       dVdvu2=-tad2
       if(imodel.ge.2) dVdvu2=dVdvu2+tad2loop
 
@@ -6046,7 +6042,7 @@ c
       s2alfa=2.d0*mL12loop/(mH2dum-mLpole**2) 
       c2alfa= (mL11loop-mL22loop)/(mH2dum-mLpole**2)
        t2alfa=s2alfa/c2alfa   
-c change: to have correct alpha angle convention:
+c next is to have correct alpha angle convention:
        if(c2alfa.gt.0.d0) then
        a=0.5d0*datan(t2alfa)
        endif
@@ -6160,9 +6156,9 @@ C   Higgs couplings needed in SUSPECT:
       xghvv= ghvv
       xglvv= glvv
 C ===============================================================
-C ========== Pole Higgs masses for the routine SUBH_HDEC 
+C ========== Pole Higgs masses (but at one-loop)
 c      if(imodel.eq.1.or.imodel.eq.0)then 
-c ! corrected 01/18/2005 (jlk): affects only pure 1-loop Higgs mass choice:
+c ! affects only pure 1-loop Higgs mass choice:
       if(imodel.eq.0) then 
        xdlt=gf/(2.d0*dsqrt(2.d0)*pi**2)*glt**2*(-2.d0*mt**2+0.5d0*aml2)
      .     *dble(F0_hdec(mt,mt,aml2))
@@ -6292,7 +6288,7 @@ c defining other parameters for the Higgs mass calculation
        me=0.5d-3
        mmu=0.106d0
        ms=0.190d0
-       mcq=1.40d0
+       mcq=1.42d0
        eps=1.d-5
        eps0=eps**2
 c   
@@ -6320,17 +6316,16 @@ c
        if(irge.eq.irgmax)  inonpert=-1
        endif
 c
-       alfasave = alfa          ! CHANGED (alfa running)
+       alfasave = alfa          !  (alfa running)
        alfa =0.5*atan(tan(2d0*b)*(mar**2+mz**2+pizzp)
-     $      /(mar**2-mz**2-pizzp))
-c  !!change to take into account correct alpha sign convention:
+     .      /(mar**2-mz**2-pizzp))
+c  ! take into account correct alpha sign convention:
        if(cos(2d0*b)*(mar**2-mz**2-pizzp).gt.0.d0) alfa = alfa-pi/2
        sal=dsin(alfa)
        cal=dcos(alfa)
        s2a = 2*sal*cal 
        s2al=s2a
-
-c     compute running masses (CHANGED)
+c     compute running masses 
        vd2 = 2*(mz**2+pizzp)/(g1ewsb**2+g2ewsb**2)/(1.d0+tbeta**2)
        rmz= dsqrt(mz**2+pizzp)
        vu2 = vd2*tbeta**2
@@ -6414,8 +6409,6 @@ c
      .  *dble(SU_BT22(qsz,msta1,msta2))
      .      -8*(-.5d0+sw2)**2*dble(SU_BT22(qsz,mse1,mse1))
      .       -8*(-sw2)**2*dble(SU_BT22(qsz,mse2,mse2))
-c     .       -12*(.5d0)**2*dble(SU_BT22(qsz,msn1,msn1))
-c correction msn1-> msntau (jlk)
      .       -8*(.5d0)**2*dble(SU_BT22(qsz,msn1,msn1))
      .       -4*(.5d0)**2*dble(SU_BT22(qsz,msntau,msntau))
 c
@@ -6448,8 +6441,6 @@ c Sum of the susy contributions for pizz and final pizz(MZ**2)
       pizzsusy=alph/4.d0/pi/sw2/cw2*
      .        (pizzhS+pizzs+pizzn+pizzc)
       pizz=pizzsm+pizzsusy
-c      write(*,*)'PiZZ',pizzf,pizzb+pizzh0+pizzhS,pizzs,pizzn,pizzc
-c
 c----------------------------------------------------------------
       qsz=eps 
 c
@@ -6509,8 +6500,6 @@ c
      .  *dble(SU_BT22(qsz,msta1,msta2))
      .      -8*(-.5d0+sw2)**2*dble(SU_BT22(qsz,mse1,mse1))
      .       -8*(-sw2)**2*dble(SU_BT22(qsz,mse2,mse2))
-c     .       -12*(.5d0)**2*dble(SU_BT22(qsz,msn1,msn1))
-c correction msn1-> msntau (jlk)
      .       -8*(.5d0)**2*dble(SU_BT22(qsz,msn1,msn1))
      .       -4*(.5d0)**2*dble(SU_BT22(qsz,msntau,msntau))
 c
@@ -6571,9 +6560,6 @@ c
      .+dsin(thet)**2*dcos(theb)**2*dble(SU_BT22(qsw,mst2,msb1))
      .+dsin(thet)**2*dsin(theb)**2*dble(SU_BT22(qsw,mst2,msb2)) )
      .       -2*(  2*dble(SU_BT22(qsw,msn1,mse1)) 
-c     . + dcos(thel)**2*dble(SU_BT22(qsw,msn1,msta1))
-c     . + dsin(thel)**2*dble(SU_BT22(qsw,msn1,msta2)) )
-c correction msn1 -> msntau (jlk)
      . + dcos(thel)**2*dble(SU_BT22(qsw,msntau,msta1))
      . + dsin(thel)**2*dble(SU_BT22(qsw,msntau,msta2)) )
 c 
@@ -6593,9 +6579,7 @@ c
 c Sum of the susy contributions for piww and final piww(Mw**2)  
       piwwsm=alph/4.d0/pi/sw2*(piwwf+piwwb+piwwh0)
       piwwsusy=alph/4.d0/pi/sw2*(piwwhS+piwws+piwwnc)
-      piww=piwwsm+piwwsusy
-c      write(*,*)'PiWW',piwwf,piwwb+piwwh0+piwwhS,piwws,piwwnc
-       
+      piww=piwwsm+piwwsusy       
 c
 c-----------------------------------------------------------------
       qsw=eps
@@ -6622,9 +6606,6 @@ c
      .+dsin(thet)**2*dcos(theb)**2*dble(SU_BT22(qsw,mst2,msb1))
      .+dsin(thet)**2*dsin(theb)**2*dble(SU_BT22(qsw,mst2,msb2)) )
      .       -2*(  2*dble(SU_BT22(qsw,msn1,mse1)) 
-c     . + dcos(thel)**2*dble(SU_BT22(qsw,msn1,msta1))
-c     . + dsin(thel)**2*dble(SU_BT22(qsw,msn1,msta2)) )
-c correction msn1 -> msntau (jlk)
      . + dcos(thel)**2*dble(SU_BT22(qsw,msntau,msta1))
      . + dsin(thel)**2*dble(SU_BT22(qsw,msntau,msta2)) )
 c 
@@ -7177,9 +7158,6 @@ c correction msn1 -> msntau:
      .  6*(-g**2/cw**2*0.5d0*(0.5d0-2*sw2/3)*dcos(2*b)+g**2/2*
      .  dcos(2*b))*SU_A(msu1)+
      .  6*(-g**2/cw**2*0.5d0*(2*sw2/3)*dcos(2*b))*SU_A(msu2) +
-c     .  3*(-g**2/cw**2*0.5d0*(0.5d0)*dcos(2*b)+g**2/2*dcos(2*b))*
-c     .  SU_A(msn1)+
-c correction msn1 -> msntau:
      .  (-g**2/cw**2*0.5d0*(0.5d0)*dcos(2*b)+g**2/2*dcos(2*b))*
      .  2*SU_A(msn1) 
      . + (ytau**2*sbet**2-g**2/cw**2*0.5d0*(0.5d0)*dcos(2*b)
@@ -7225,7 +7203,7 @@ c
      . sal*(dcos(2*b)*sbet+2*cw**2*sbet))**2*dble(SU_B0(qsc,MH,mch)) +
      .(-sal*(-dcos(2*b)*cbet+2*cw**2*cbet)+
      . cal*(dcos(2*b)*sbet+2*cw**2*sbet))**2*dble(SU_B0(qsc,ml,mch)) )
-c --> add the  H+AG- term not present in PBMZ (sign?). 
+c --> add the  H+AG- term not present in PBMZ: 
      . + g**2*mw**2/4.d0*dble(SU_B0(qsc,ma,mw))
 c
       piccb=piccv+picch3+picch4
@@ -7247,7 +7225,7 @@ c
       do i=1,4
       do j=1,2      
 
-      fcoeff = g**2/2*       ! CHANGED BY PIETRO
+      fcoeff = g**2/2*       
      .((-sbet*(Z(i,1)*U(j,2)*sw/cw+Z(i,2)*U(j,2)-sq2*Z(i,3)*U(j,1)))**2 
      .+(cbet*(Z(i,1)*V(j,2)*sw/cw+Z(i,2)*V(j,2)+sq2*Z(i,4)*V(j,1)))**2)
 
@@ -7391,7 +7369,7 @@ c
       COMMON/SU_fmasses/mtau,mbpole,mtpole
       COMMON/SU_renscale/scale     
 
-      COMMON/runhiggs/ma,ml,mh,mch ! CHANGED BY PIETRO (use running)
+      COMMON/runhiggs/ma,ml,mh,mch 
       COMMON/SU_strc/irge,irgmax,ifix,isfrc,inorc
       common/su_nonpert/inonpert
 c
@@ -7415,7 +7393,7 @@ c defining mtau,mb,mt running masses at ewsb scale:
        if(irge.eq.irgmax)  inonpert=-1
        endif
        vd2 = 2*(mz**2+pizz)/(g1ewsb**2+g2ewsb**2)/(1.d0+tbeta**2)
-       rmz= dsqrt(mz**2+pizz)   ! CHANGED (USE RUNNING MW,MZ)
+       rmz= dsqrt(mz**2+pizz)   ! (use RUNNING MW,MZ)
        vu2 = vd2*tbeta**2
        vev2=2.d0*(vu2+vd2)
        vd= dsqrt(vd2)
@@ -7442,9 +7420,9 @@ c
        sbet=dsqrt(1.d0-cbeta2)
        c2b =2*cbeta2-1.d0
 c 
-       alfasave = alfa          ! CHANGED  (alfa running)
+       alfasave = alfa          !  alfa running
        alfa =0.5*atan(tan(2d0*beta)*(ma**2+mz**2)
-     $      /(ma**2-mz**2))
+     .      /(ma**2-mz**2))
        if(cos(2d0*beta)*(ma**2-mz**2).gt.0) alfa = alfa - pi/2d0
 c
        sal=dsin(alfa)
@@ -7513,7 +7491,7 @@ c
 c
 c  down fermion contributions: 
        confd= -2*ytau*rmtau/vd*SU_A(rmtau)
-     $      -2*3*yb*rmb/vd*SU_A(rmb)
+     .      -2*3*yb*rmb/vd*SU_A(rmb)
 c  up fermion contributions:
        confu = -2*3*yt*rmt/vu*SU_A(rmt)
 
@@ -7568,7 +7546,7 @@ c
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 c 2-loop tadpole parts: 
       if(imodel.ge.2) then
-c  !!change: introduction of 1-loop versus 2-loop possible choice:
+c  !  1-loop versus 2-loop possible choice:
       call SU_ewsb2loop(rmt**2,am3,mst1**2,mst2**2,st,ct,
      .     scale**2,-mu,tbeta,vev2,gstrong,tad1st,tad2st)
      
@@ -7618,7 +7596,7 @@ c-----------------------------------------------------------------
        me=0.5d-3
        mmu=0.106d0
        ms=0.190d0
-       mcq=1.40d0
+       mcq=1.42d0
        mt =rmt                 
        mb =rmb
 
@@ -7687,8 +7665,6 @@ c
      .  *dble(SU_BT22(qsz,msta1,msta2))
      .      -8*(-.5d0+sw2)**2*dble(SU_BT22(qsz,mse1,mse1))
      .       -8*(-sw2)**2*dble(SU_BT22(qsz,mse2,mse2))
-c     .       -12*(.5d0)**2*dble(SU_BT22(qsz,msn1,msn1))
-c correction msn1 -> msntau:
      .       -8*(.5d0)**2*dble(SU_BT22(qsz,msn1,msn1))
      .       -4*(.5d0)**2*dble(SU_BT22(qsz,msntau,msntau))
 c
@@ -7738,7 +7714,7 @@ c  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         SUBROUTINE SU_ODEINT(ystart,nvar,x1,x2,eps,h1,hmin,nok,nbad,
      .                      SU_DERIVS,SU_RKQC) 
 c  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-c This is the main subroutine (courtesy of Numercial Recipes) integrating
+c This is the main subroutine (from Numerical Recipes) integrating
 c (coupled) Ordinary Differential Equation 
 c    
       implicit real*8(a-h,o-z)
@@ -7774,7 +7750,12 @@ c
           endif
         endif
         if((x+h-x2)*(x+h-x1).gt.zero) h=x2-x
+c  new modif to speed up RGE integration in the safe zone far from GUT : 
+          if(x.lt.dlog(1d14)) then          
+        CALL SU_RKQC(y,dydx,nvar,x,h,eps,yscal,hdid,hnext,su_derivs)
+          else
         CALL SU_RKQC(y,dydx,nvar,x,h1,eps,yscal,hdid,hnext,su_derivs)
+	  endif
         if(hdid.eq.h)then
           nok=nok+1
         else
@@ -7986,7 +7967,7 @@ c freeze out the gauge +Yukawa+vu,vd couplings after that
        endif
        endif
 c simple (unique scale) threshold in beta functions:
-      st1= 1.d0                ! CHANGED (full MSSM RGEs)
+      st1= 1.d0                !  (full MSSM RGEs)
       st2=1.d0
       nu=2.d0 +st1
       nsq=3*st2
@@ -8057,11 +8038,6 @@ c
      . -y(3)*(8.d0-4.d0*(2)/3))*y(6)
 
 c  
-c  
-c        dydx(4) =cpi*Ytaubeta
-c        dydx(5) = cpi*Ybbeta
-c        dydx(6) = cpi*Ytbeta 
-c change to simpler (equivalent) expressions with full mssm (jlk) 
        dydx(4) = cpi*y(4)*(4*ytau2 +3*yb2-9*y(1)/5.d0-3*y(2))
 
        dydx(5) = cpi*y(5)*(6*yb2 +ytau2 +ytop2
@@ -8093,16 +8069,10 @@ c - y(9)--y(11) : Atau, Ab, Atop
 c - y(12)--y(13) : m^2(phi_u), m^2(phi_d)
        trym2 = y(18)-2*y(17)+y(16)-y(15)+y(14)+y(12)-y(13)
      .     +2*(y(28)-2*y(27)+y(26)-y(25)+y(24))
-       if(dabs(y(12)).gt.1.d3) then 
-       dydx(12) = 2*cpi*(3*ytop2*y(12)*
-     . (1.d0+y(18)/y(12)+y(17)/y(12)+y(11)*y(11)/y(12))
-     . +3.d0/10*y(1)*trym2 -3*y(1)/5*dexp(2*y(20))
-     . -3*y(2)*dexp(2*y(21)))
-       else
        dydx(12) =2*cpi*(3*ytop2*(y(12)+y(18)+y(17)+y(11)*y(11))
      . +3.d0/10*y(1)*trym2 -3*y(1)/5*dexp(2*y(20))
      . -3*y(2)*dexp(2*y(21)))
-        endif
+    
        dydx(13) = 2*cpi*(ytau2*(y(13)+y(15)+y(14)+y(9)*y(9))
      . +3*yb2*(y(13)+y(18)+y(16)+y(10)*y(10))
      . -3.d0/10*y(1)*trym2 -3*y(1)/5*dexp(2*y(20))
@@ -8421,7 +8391,7 @@ c - y(9)--y(11) : Atau, Ab, Atop
 c - (1-loop) y(12)--y(13) : m^2(phi_u), m^2(phi_d)
        trym2 = y(18)-2*y(17)+y(16)-y(15)+y(14)+y(12)-y(13)
      .     +2*(y(28)-2*y(27)+y(26)-y(25)+y(24))
-
+       
        dydx(12) =2*cpi*(3*ytop2*(y(12)+y(18)+y(17)+y(11)*y(11))
      . +3.d0/10*y(1)*trym2 -3*y(1)/5*mm1**2
      . -3*y(2)*mm2**2)
@@ -8450,7 +8420,7 @@ c     two-loop part
      $      +(8.d0/3*y(3)+1.5*y(2)+1.d0/30*y(1))*trmQ
      $      -(16.d0/3*y(3)+16.d0/15*y(1))*trmU
      $      +(8.d0/3*y(3)+2.d0/15*y(1))*trmD + 1.2*y(1)*trmE
-
+        
        sig1 = y(1)/5*(3*(y(12)+y(13))+trmQ+3*trmL+8*trmU
      $      + 2*trmD+6*trmE)
        sig2 = y(2)*(y(12)+y(13)+3*trmQ+trmL)
@@ -8792,7 +8762,7 @@ c 3-loop coeff3 in M_pole/M_running relation added 10/12/03
       nnlo =1  
 c (always use NNLO now)
 C     Define the light quark masses
-      AMC=1.40D0
+      AMC=1.42D0
       AMSB=0.19d0
 c      AMC=AMCA
       AMS=AMSB
@@ -8868,7 +8838,6 @@ c see its def. above
       mbsave=MBpole
       enddo
  2    AMB=MBpole
-c      write(*,*)'last iter, mbpole: ',i,mbpole
       imbmb=1
       endif
 c rest of calculation follows as before: 
@@ -9190,7 +9159,7 @@ C     Calculation of the chargino and neutralino couplings
       xcl(2) = yuk*u(2,2)
       xcr(1) = -v(1,1)/sw
       xcr(2) = -v(2,1)/sw
-c NB following lines corrected:
+c 
 c i.e. for small mixing angle, slepton_1 should be mostly slepton_L
         do ii = 1,4
       xnr(ii,1) = yuk*z(ii,3)*ccl + rt2/cw*z(ii,1)*ssl
@@ -9294,7 +9263,9 @@ c ------ file given in the SUSY Les Houches Accord format        ----- c
 c ------ hep-ph/0311123.                                         ----- c
 c ------ Thanks to Tilman Plehn for the first version which has  ----- c
 c ------ been expanded and changed here.                         ----- c
-c ------Modified and adapted for SuSpect 2.3 by J-L Kneur       -------c
+c ------Modified and adapted for SuSpect ver >=2.3 by J-L Kneur  ------c
+c ------Updated for ver 2.4 (JLK) to correct some mismatch between 
+c ------ SLHA and SuSpect for model choice input conventions
 c -------------------------------------------------------------------- c
 
       subroutine SU_read_leshouches(input,ninlha,ichoice,imod)
@@ -9321,6 +9292,7 @@ c -------------------------------------------------------------------- c
      .                      Qvalgauge,Qvalmsoft,Qvalau,Qvalad,Qvalae,
      .                      Qvalyu,Qvalyd,Qvalye
        COMMON/SU_SMPAR/alfinv,sw2,alphas,mt,mb,mc,mtau
+       COMMON/SU_param/gf,alpha,mz,mw
        COMMON/SU_RGSCAL/qewsb,ehigh,elow
        COMMON/SU_MSSMHPAR/mhu2,mhd2,ma,mu
        COMMON/SU_MSSMGPAR/m1,m2,m3 
@@ -9332,9 +9304,30 @@ c -------------------------------------------------------------------- c
        COMMON/SU_RADEWSB/sgnmu0,tgbeta
        COMMON/SU_GMSB/mgmmess,mgmsusy,nl,nq
        COMMON/SU_AMSB/m32,am0,cq,cu,cd,cl,ce,chu,chd
+       common/SU_slha_warn/smin_warn,extpar_warn,muma_warn,algo_warn
 c
       if(input.eq.2) then
-c case where the slha format input file suspect2_lha.in is actually read:
+c = case where the slha format input file suspect2_lha.in is actually read:
+      unlikely = -123456789d0    ! will be used for protection see later
+      smin_warn=0d0
+      extpar_warn=0d0
+      muma_warn=0d0
+c what follows is in case specific SuSpect block SU_ALGO undefined in file:
+c then take defaut values of these algorithm control parameters
+      algo_warn=-1d0
+             ichoice(2)= 21     ! 2-loop RGE by defaut
+	     ichoice(3)=1       ! GUT gauge coupling unif. request by defaut
+	     ichoice(4)=2     ! RGE accuracy high by defaut
+	     ichoice(5)=1     ! radiative EWSB by defaut
+	     ichoice(6)=1     ! Mhu,Mhd input by defaut
+	     ichoice(7)=2     ! rad. corr. for all sparticles by defaut
+	     ichoice(8)=1    ! EWSB scale =sqrt(mst1*mst2) by defaut
+	     ichoice(9)=2    ! final spectrum accuracy high by defaut
+	     ichoice(10)=2   ! 2-loop rad. corr. to Higgs masses by defaut
+	     ichoice(11)=0  ! higher order Higgs scheme: DRbar masses in loops
+      do ism=1,7
+      smval(ism)=unlikely    !protection against undefined input
+      enddo
 c -- start from the beginning of the file suspect_slha.in --
       rewind(ninlha)
 
@@ -9357,7 +9350,7 @@ c -- check if routine can be left --
 
 c -- read in new line --
          line1=' '
-         read(ninlha,'(a6,a100)',end=9900) line1,line2
+         read(ninlha,'(a6,a100)',end=9900,err=9900) line1,line2
          
 c -- rewrite line1(1:6) and line2(1:20) to upper case --
          do j1=1,6,1
@@ -9388,7 +9381,7 @@ c translate SLHA model choice imode values into SUSpect model ichoice values:
                 if(imod(2).eq.2) ichoice(1)=11   ! GMSB
                 if(imod(2).eq.3) ichoice(1)=12   ! AMSB
                 if(imod(2).eq.10) ichoice(1)=1   ! general MSSM at high scale
-                if(imod(2).eq.11) ichoice(1)=2   ! reserved for later use
+                if(imod(2).eq.-1) ichoice(1)=2   ! EWSB input and bottom-up RGE
                if (done) then
                   check(21) = 1
                   goto 1111
@@ -9399,40 +9392,100 @@ c translate SLHA model choice imode values into SUSpect model ichoice values:
 c -- look for Block SU_ALGO --(SuSpect algorithm control parameters)
             elseif(line2(1:7).eq.'SU_ALGO') then
                call SU_READ_SU_ALGO(ninlha,ichoice,done)
-               ichoice(7)=2
                if (done) then
                   check(22) = 1
+		  algo_warn=0d0
                   goto 1111
                else
-                  print*,'SU_read_leshouches: problem in SU_ALGO'
+            algo_warn=-1d0
+c case where specific SuSpect bloc SU_ALGO undefined: take defaut values
                endif
 
 c -- look for Block SMINPUTS --
             elseif(line2(1:8).eq.'SMINPUTS') then
                call SU_READ_SMINPUTS(ninlha,smval,done)
-      alfinv = smval(1)
-      alphas = smval(3)
+      u=unlikely
+      if(smval(1).ne.u) alfinv = smval(1)
+      if(smval(1).eq.u.or.smval(1).eq.0d0) alfinv= 127.934d0  
+c  this and following similar def. are protection againt undefined values
+      if(smval(2).ne.u) gf = smval(2)
+      if(smval(2).eq.u.or.smval(2).eq.0d0) gf = 1.16639d-5
+      if(smval(3).ne.u) alphas = smval(3)
+      if(smval(3).eq.u.or.smval(3).eq.0d0) alphas = .1172d0
 c
-      mb     = smval(5)      ! mb is mb(mb)_MSbar input
-      mt     = smval(6)
-      mtau   = smval(7)
+      if(smval(4).ne.u) mz = smval(4)
+      if(smval(4).eq.u.or.smval(4).eq.0d0) mz = 91.187d0
+      if(smval(5).ne.u) mb     = smval(5)    ! mb is mb(mb)_MSbar input
+      if(smval(5).eq.u.or.smval(5).eq.0d0) mb     = 4.25d0   
+      if(smval(6).ne.u) mt     = smval(6)
+      if(smval(6).eq.u.or.smval(6).eq.0d0) mt     = 175d0
+      if(smval(7).ne.u) mtau   = smval(7)
+      if(smval(7).eq.u.or.smval(7).eq.0d0) mtau   = 1.777d0
+      do ism=1,7
+      if(smval(ism).eq.u) smin_warn=-1d0
+      enddo
 c
                
                if (done) then
                   check(1) = 1
                   goto 1111
                else
-                  print*,'SU_read_leshouches: problem in SMINPUTS'
+      smin_warn=-1d0
+      alfinv = 127.934d0  
+      gf = 1.16639d-5
+      alphas = .1172d0
+      mz = 91.187d0
+      mb = 4.25d0
+      mt = 175d0
+      mtau = 1.777d0
+c --then create Block SMINPUTS --
+       smval(1)= alfinv
+       smval(2)= gf 
+       smval(3)= alphas 
+       smval(4)= mz
+       smval(5)= mb  
+       smval(6)= mt     
+       smval(7)= mtau 
                endif
 
 c -- look for Block MINPAR --
             elseif(line2(1:6).eq.'MINPAR') then
                call SU_READ_MINPAR(ninlha,minval,mincom,done)
       if(ichoice(1).eq.10) then
-c mSUGRA models
+c minimal SUGRA models with full universality: if non-universality, values
+c are supersed by block EXTPAR below
       m0 = minval(1)
+c
+        mhd2= m0**2
+	mhu2= m0**2
+        MSL      = m0
+        MTAUR    = m0
+        MSQ      = m0
+        MTR      = m0
+        MBR      = m0
+c
+        MEL      = m0
+        MER      = m0
+        MUQ      = m0
+        MUR      = m0
+        MDR      = m0
+c
       mhalf = minval(2)
+c
+      m1=mhalf         
+      m2=m1         
+      m3=m1         
+c
       A0 = minval(5)
+c
+      At=A0         
+      Ab=A0         
+      Atau=A0         
+c
+      Au=A0         
+      Ad=A0         
+      Al=A0         
+c
       tgbeta = minval(3)
       sgnmu0 = minval(4)
       elseif(ichoice(1).eq.11) then
@@ -9441,14 +9494,20 @@ c GMSB models
       mgmsusy = minval(1)
       tgbeta = minval(3)
       sgnmu0 = minval(4)
+      if(minval(5).eq.unlikely) minval(5)=1d0
+      if(minval(6).eq.unlikely) minval(6)=1d0
       nl     = minval(5)
       nq     = minval(6)
+c
       elseif(ichoice(1).eq.12) then
 c AMSB models
       m32 = minval(2)
       am0 = minval(1)
       tgbeta = minval(3)
       sgnmu0 = minval(4)
+      do ii=5,11
+      if(minval(ii).eq.unlikely) minval(ii)=1d0
+      enddo
       cq     = minval(5)
       cu     = minval(6)
       cd     = minval(7)
@@ -9457,6 +9516,8 @@ c AMSB models
       chu    = minval(10)
       chd    = minval(11)
       endif   
+c added 21/05/08 (jlk): read tbeta(mZ) from MINPAR even if modsel-0 or -1:
+      if(imod(2).le.0.and.minval(3).ne.u) tgbeta=minval(3)
                if (done) then
                   check(2) = 1
                   goto 1111
@@ -9467,42 +9528,59 @@ c AMSB models
 c -- look for Block EXTPAR --
             elseif(line2(1:6).eq.'EXTPAR') then
                call SU_READ_EXTPAR(ninlha,extval,extcom,done)
-      if(ichoice(8).eq.0) Qewsb = extval(0)
-      if(ichoice(1).eq.2) ehigh = extval(10)
+      if(ichoice(8).eq.0.and.extval(0).ne.unlikely) Qewsb = extval(0)
+c! essai      if(ichoice(1).eq.2) ehigh = extval(10)
+        if(extval(10).ne.unlikely) ehigh = extval(10) 
+c special case (new) to adapt non-universal SUGRA to former SuSpect:
+      u=unlikely
+c what follows is to avoid soft terms values with silly input. I didn't find
+c a more astute way.      
+      if(extval(1).ne.u) m1=extval(1)         
+      if(extval(2).ne.u) m2=extval(2)         
+      if(extval(3).ne.u) m3=extval(3)         
 c
-      if(ichoice(1).le.2) then 
-      m1=extval(1)         
-      m2=extval(2)         
-      m3=extval(3)         
+      if(extval(11).ne.u) At=extval(11)         
+      if(extval(12).ne.u) Ab=extval(12)         
+      if(extval(13).ne.u) Atau=extval(13)         
 c
-      At=extval(11)         
-      Ab=extval(12)         
-      Atau=extval(13)         
+      if(extval(14).ne.u) Au=extval(14)         
+      if(extval(15).ne.u) Ad=extval(15)         
+      if(extval(16).ne.u) Al=extval(16)         
 c
-      Au=extval(14)         
-      Ad=extval(15)         
-      Al=extval(16)         
-c
-      mhd2 = extval(21)
-      mhu2 = extval(22)
+      if(extval(21).ne.u) mhd2 = extval(21)
+      if(extval(22).ne.u) mhu2 = extval(22)
+      if(extval(23).ne.u) then
       mu = extval(23)
-      sgnmu0 = mu/dsqrt(mu)
-      madr2 = extval(24)   ! running DRbar m^2_A
-      tgbeta = extval(25)
-      ma = extval(26)     ! pole A mass
+        if(mu.ne.0d0) then
+	sgnmu0 = mu/dsqrt(mu)
+        else
+	sgnmu0 = minval(4)! modif to define sgn(mu) if MU not input in EXTPAR
+	endif
+      endif
+      if(extval(24).ne.u) madr2 = extval(24)   ! running DRbar m^2_A
+      if(extval(25).ne.u) tgbeta = extval(25)
+      if(extval(26).ne.u) ma = extval(26)     ! pole A mass
+      if(extval(23).ne.u.and.extval(26).ne.u) then 
+      ichoice(6)=0 
+      else
+      ichoice(6)=1
+      endif
+c      i.e impose MA,MU input algorithm in this case if user didn't specify
+c      and impose Mhu,Mhd input otherwise
+      if(extval(23).ne.u.and.extval(22).ne.u) mamu_warn=-1d0
 c
-        MSL      = extval(33)
-        MTAUR    = extval(36)
-        MSQ      = extval(43)
-        MTR      = extval(46)
-        MBR      = extval(49)
+      if(extval(33).ne.u) MSL = extval(33)
+      if(extval(36).ne.u) MTAUR = extval(36)
+      if(extval(43).ne.u) MSQ = extval(43)
+      if(extval(46).ne.u) MTR = extval(46)
+      if(extval(49).ne.u) MBR = extval(49)
 c
-        MEL      = extval(31)
-        MER      = extval(34)
-        MUQ      = extval(41)
-        MUR      = extval(44)
-        MDR      = extval(47)
-        endif
+      if(extval(31).ne.u) MEL = extval(31)
+      if(extval(34).ne.u) MER = extval(34)
+      if(extval(41).ne.u) MUQ = extval(41)
+      if(extval(44).ne.u) MUR = extval(44)
+      if(extval(47).ne.u) MDR = extval(47)
+c
                if (done) then
                   check(23) = 1
                   goto 1111
@@ -9541,15 +9619,16 @@ c --create Block MODSEL --
        if(ichoice(1).eq.2)  imod(2) = 11
 c
        if(imod(2).eq.0) modselval = 'general MSSM low scale'
-       if(imod(2).eq.1) modselval = 'mSUGRA'
+       if(imod(2).eq.1) modselval = 'SUGRA'
        if(imod(2).eq.2) modselval = 'GMSB'
        if(imod(2).eq.3) modselval = 'AMSB'
        if(imod(2).eq.10) modselval = 'general MSSM High scale'
        if(imod(2).eq.11) modselval = 'general MSSM low scale'
 c --create Block SMINPUTS --
        smval(1)= alfinv 
+       smval(2)= gf
        smval(3)= alphas 
-c
+       smval(4)= mz
        smval(5)= mb  
        smval(6)= mt     
        smval(7)= mtau 
@@ -9620,12 +9699,16 @@ c a trick to jump over undefined parameters in subsequent writings:
       extval(0) = Qewsb
       endif
       extcom(0) = 'EWSB_scale'
-      if(ichoice(1).eq.2) then
+c!essai      if(ichoice(1).eq.2) then
+      if(ehigh.ne.0d0) then
       extval(10) = ehigh
-      extcom(10) = 'Final_scale'
+      if(ichoice(1).eq.2) then
+      extcom(10) = 'RGE final scale'
+      else
+      extcom(10) = 'RGE initial scale'
+      endif
       endif
 c
-       if(ichoice(1).le.2) then 
       extval(1) = m1        
       extval(2) = m2        
       extval(3) = m3        
@@ -9641,7 +9724,7 @@ c
       extval(21) = mhd2
       extval(22) = mhu2
       extval(23) = mu
-      extval(24) = madr2
+      extval(24) = madr2 
       extval(25) = tgbeta
       extval(26) = ma
 c
@@ -9688,9 +9771,7 @@ c
       extcom(44) = 'M_u_R'
       extcom(47) = 'M_u_R'
 c
-       endif
       endif
-c      return
       end
 
 c -------------------------------------------------------------------- c
@@ -9712,12 +9793,17 @@ c -------------------------------------------------------------------- c
 c -- decide what it is and read the line if anything of interest --
          if (line1.eq.' ') then
             backspace ninlha
-            read(ninlha,*) idum1,idum2,line2,line3
+            read(ninlha,*) idum1,idum2   ! removed: ,line2,line3
 
             if(idum1.eq.1) then
                imod(1) = idum1
                imod(2) = idum2
-               modselval = line3
+c               modselval = line3
+             if(imod(2).eq.0) modselval = 'general MSSM low scale'
+             if(imod(2).eq.1) modselval = 'SUGRA'
+             if(imod(2).eq.2) modselval = 'GMSB'
+             if(imod(2).eq.3) modselval = 'AMSB'
+             if(imod(2).eq.-1) modselval = 'bottom-up MSSM'
             endif
 
          elseif(line1.eq.'#') then
@@ -9765,6 +9851,8 @@ c --
                ichoice(4) = val
             elseif(idum.eq.6) then
                ichoice(6) = val
+            elseif(idum.eq.7) then
+               ichoice(7) = val
             elseif(idum.eq.8) then
                ichoice(8) = val
             elseif(idum.eq.9) then
@@ -9774,7 +9862,6 @@ c --
             elseif(idum.eq.11) then
                ichoice(11) = val
             endif
-            
          elseif(line1.eq.'#') then
             go to 1111
          elseif(line1.eq.'b'.or.line1.eq.'B'.or.line1.eq.'d'.or.line1.eq
@@ -9865,9 +9952,9 @@ c -------------------------------------------------------------------- c
       logical done
 
       done= .false.
-
+      unlikely=-123456789d0
       do i=1,20,1
-         minval(i) = 0.D0
+         minval(i) = unlikely
       end do
 
       do i=1,20,1
@@ -9880,13 +9967,12 @@ c -------------------------------------------------------------------- c
 c -- decide what it is and read the line if anything of interest --
          if (line1.eq.' ') then
             backspace ninlha
-            read(ninlha,*) idum,val,line2,line3
-
-c!jlk            do ii=1,6,1
+c!jlk            read(ninlha,*) idum,val,line2,line3
+            read(ninlha,*) idum,val
                do ii=1,11,1
                if(idum.eq.ii) then
                   minval(ii) = val
-                  mincom(ii) = line3
+c                  mincom(ii) = line3
                endif
             end do
 
@@ -9918,7 +10004,7 @@ c -------------------------------------------------------------------- c
       logical done
 
       done=.false.
-c a trick to jump over undefined parameters in subsequent writings:
+c a trick to jump over undefined parameters:
       unlikely = -123456789D0
       do i=0,60,1
          extval(i) = unlikely
@@ -9933,13 +10019,13 @@ c a trick to jump over undefined parameters in subsequent writings:
 c -- decide what it is and read the line if anything of interest --
          if (line1.eq.' ') then
             backspace ninlha
-            read(ninlha,*) idum,val,line2,line3
-
+c!jlk            read(ninlha,*) idum,val,line2,line3
+           read(ninlha,*) idum,val
 c -- The general MSSM model parameters according to SLHA nomenclature:
             do ii=0,60,1
             if(idum.eq.ii) then
             extval(ii) = val
-            extcom(ii) = line3
+c!jlk            extcom(ii) = line3
             endif
             enddo
 c -- 
@@ -10009,7 +10095,7 @@ c -- the version number of the spectrum calculator --
 
       end
 c--------------------------------------------------------------------------
-c%% routine for writing SuSpect 2.3 output in SLHA form
+c%% routine for writing SuSpect ver >= 2.3 output in SLHA form
 c  released J-L Kneur 06/12/2004 
 c--thanks to Margarete Muhlleitner for adapting simply from her writing --
 c-----------------------------------------------------
@@ -10029,6 +10115,7 @@ c-----------------------------------------------------
       dimension ichoice(11),errmess(10)
       dimension amneut(4),xmneut(4),amchar(2)
       dimension uu(2,2),vv(2,2),zz(4,4),zp(4,4)
+      COMMON/SU_strc/irge,irgmax,ifix,isfrc,inorc
       COMMON/SU_SMPAR/dalfinv,dsw2,dalphas,dmt,dmb,dmc,dmtau
       COMMON/SU_RGSCAL/qewsb,ehigh,elow
       COMMON/SU_MSSMHPAR/mhu2,mhd2,dma,dmu
@@ -10072,6 +10159,7 @@ c -------------- common block given by SD_read_leshouches ------------ c
      .                      Qvalgauge,Qvalmsoft,Qvalau,Qvalad,Qvalae,
      .                      Qvalyu,Qvalyd,Qvalye
 
+      common/SU_slha_warn/smin_warn,extpar_warn,muma_warn,algo_warn
         pi=4*datan(1.d0)
 c completing input/output in slha variables:
       smval(2)=gf
@@ -10142,12 +10230,72 @@ c PDG values:
       istau2=2000015
 
       igrav =1000039
-
+c hardcoding input names of block MINPAR and EXTPAR for some platforms  
+c compatibility (and to eventually avoid input file typing confusion):
+c added 02/06/2008 jlk
+      mincom(3) = ' tanbeta(mZ)'
+      mincom(4) = ' sign(mu)'
+      if(imod(2).eq.1) then
+c input for sugra models
+      mincom(1) = ' m0'
+      mincom(2) = ' m_1/2'
+      mincom(5) = ' A0'
+      else if(imod(2).eq.2) then
+c    input for GMSB models:
+      mincom(1) = ' Lambda_susy'
+      mincom(2) = ' Lambda_mess'
+      mincom(5) = ' Nl_mes'  
+      mincom(6) = ' Nq_mes'  
+      else if(imod(2).eq.3) then
+c    input for AMSB models:
+      mincom(1) = ' m0'
+      mincom(2) = ' M_3/2 gravino'
+      mincom(5) = ' cQ coeff m0 Q_L' 
+      mincom(6) = ' cuR coeff m0 u_R'
+      mincom(7) = ' cdR coeff m0 d_R' 
+      mincom(8) = ' cL coeff m0 L' 
+      mincom(9) = ' ceR coeff m0 e_R'
+      mincom(10) = ' cHu coeff m0 Hu' 
+      mincom(11) = ' cHd coeff m0 Hd' 
+      endif
+c def. of EXTPAR names:
+        extcom(0) = ' EWSB scale'          
+        extcom(10) = ' GUT scale'
+	extcom(23) = ' mu(EWSB)'
+	extcom(24) = ' m^2_A_run(EWSB)'
+        extcom(25) = ' tanbeta(in)'
+	extcom(26) = ' MA_pole'
+        extcom(1) = ' M_1'
+        extcom(2) = ' M_2'
+        extcom(3) = ' M_3'
+        extcom(21) = ' M^2_Hd'
+        extcom(22) = ' M^2_Hu'
+        extcom(31) = ' M_eL'
+        extcom(32) = ' M_muL'
+        extcom(33) = ' M_tauL'
+        extcom(34) = ' M_eR'
+        extcom(35) = ' M_muR'
+        extcom(36) = ' M_tauR'
+        extcom(41) = ' M_q1L'
+        extcom(42) = ' M_q2L'
+        extcom(43) = ' M_q3L'
+        extcom(44) = ' M_uR'
+        extcom(45) = ' M_cR'
+        extcom(46) = ' M_tR'
+        extcom(47) = ' M_dR'
+        extcom(48) = ' M_sR'
+        extcom(49) = ' M_bR'
+        extcom(11) = ' A_t'
+        extcom(12) = ' A_b'
+        extcom(13) = ' A_tau'
+        extcom(14) = ' A_u'
+        extcom(15) = ' A_d'
+        extcom(16) = ' A_e'
 
       write(nout,105)
       write(nout,50) "                              ====================
      .="
-      write(nout,50) "                              | SuSpect 2.3 OUTPUT 
+      write(nout,50) "                             | SuSpect 2.43 OUTPUT 
      . |"
       write(nout,50) "                              ====================
      .="
@@ -10160,7 +10308,7 @@ c PDG values:
      .trum          |'
       write(nout,50)'             |                                     
      .              |'
-      write(nout,50)'             |                     SuSpect 2.3      
+      write(nout,50)'             |                     SuSpect 2.43      
      .              |'
       write(nout,50)'             |                                     
      .              |'
@@ -10181,15 +10329,16 @@ c -------------------------------------------- c
       write(nout,105)
       write(nout,51) 'SPINFO','Spectrum Program information'
       write(nout,61) 1,'SuSpect     # RGE +Spectrum calculator'
-      write(nout,61) 2,'2.34        # version number'
+      write(nout,61) 2,'2.43         # version number'
 c
 c The SuSpect warning/error flag section
 c
        warnerr=0.d0
       do ii=1,10
-      if(errmess(ii).eq.-1.d0) warnerr=1.d0
+      if(errmess(ii).eq.-1.d0) warnerr=1d0
       enddo
-      if(warnerr.eq.0.d0) then
+      if(irgmax.eq.50) warnerr=1d0
+      if(warnerr.eq.0d0) then
       write(nout,'(a)')'# nothing to signal: output a priori reliable'
       else
       write(nout,'(a)')'# Caution: warning or error message follows '
@@ -10213,7 +10362,7 @@ c
       write(nout,61) 3,'WARNING: EWSB unconvergent after 20 iter.' 
       endif
       if(errmess(7).eq.-1.d0) then
-      write(nout,61) 4,'EWSB  unconsistent/not realized '
+      write(nout,61) 4,'EWSB  maybe unconsistent/not realized '
       endif
       if(errmess(8).eq.-1.d0) then
       write(nout,61) 3, 'RG-improved V_eff has CCB or UFB problems '
@@ -10223,6 +10372,19 @@ c
       endif
       if(errmess(10).eq.-1.d0) then
       write(nout,61) 4,'STOP: non-pert. R.C., or Landau pole in RGE'
+      endif
+      if(irgmax.eq.50) then
+      write(nout,61) 3,'Pb: non-convergent spectrum after 50 iter.!'
+      endif
+      if(smin_warn.eq.-1d0) then
+      write(nout,61) 3,'warning: some SM input undefined: defaut taken'
+      endif
+      if(muma_warn.eq.-1d0) then
+      write(nout,61) 3,'warning: redondent input MU,MA,Mhu,Mhd'
+      endif
+      if(algo_warn.eq.-1d0) then
+      write(nout,61) 3,'warning: miss block SU_ALGO: defaut val. taken'
+      write(nout,61) 3,'see original SuSpect input file for values!'
       endif
 
 c ------------------------------------------------ c
@@ -10236,31 +10398,43 @@ c ------------------------------------------------ c
 c ------------------------------------------------------------------- c
 c The input parameters for the different model choice given above     c
 c ------------------------------------------------------------------- c
+      unlikely=-123456789d0
       write(nout,105)
-         if(ichoice(1).ge.10) then 
       write(nout,51) 'MINPAR','Input parameters'
+         if(ichoice(1).eq.1) goto 1
          if(ichoice(1).eq.10) iimax=5 
          if(ichoice(1).eq.11) iimax=6 
          if(ichoice(1).eq.12) iimax=11 
-         do i=1,iimax,1
-          write(nout,52) i,minval(i),mincom(i)
+         if(ichoice(1).eq.0.or.ichoice(1).eq.2) iimax=4 !modif to read tb(mz)
+         do i=1,iimax,1                                 !still from MINPAR     
+      if(minval(i).ne.unlikely) write(nout,52) i,minval(i),mincom(i)
          end do
+	 if(ichoice(1).ge.10) then
       write(nout,105)
       write(nout,51) 'EXTPAR','Input parameters'
       if(ichoice(8).eq.1) extval(0) = scale
+      extcom(0) ='EWSB scale'
       write(nout,72) 0,extval(0),extcom(0)
-         else
+        if(extval(10).ne.unlikely.and.extval(10).ne.0d0) then
+	extcom(10)='High boundary scale'
+      write(nout,72) 0,extval(10),extcom(10)
+        endif
+         endif
+c!         else
+c!!          if(ichoice(1).eq.0.or.ichoice(1).eq.2) then
+ 1         if(ichoice(1).le.2) then
       write(nout,51) 'EXTPAR','Input parameters'
          unlikely = -123456789d0
-      if(ichoice(1).ne.2) extval(10) = unlikely
+c!        if(ichoice(1).ne.2) extval(10) = unlikely
       if(ichoice(8).eq.1) extval(0) = scale
+      extcom(0) ='EWSB scale'
       if(ichoice(6).eq.0) then
 c (case of MA_pole, MU input in general MSSM)
          extval(22) = unlikely
          extval(21) = unlikely
       else if(ichoice(6).eq.1) then
 c (case of M^2_Hu, M^2_Hd input in general MSSM)
-        extval(24) = unlikely
+        extval(26) = unlikely
         extval(23) = unlikely
       endif
          do i=0,60,1
@@ -10430,7 +10604,8 @@ c ------------------- c
 c ------------------------------------- c
 c The trilinear couplings Au, Ad and Ae c
 c ------------------------------------- c
-
+      scalesave=scale
+      if(ichoice(1).eq.2) scale=ehigh
       write(nout,105)
       write(nout,54) 'Au Q=',scale,'The trilinear couplings'
       write(nout,53) 1,1,dau1, 'A_u(Q) DRbar'
@@ -10454,15 +10629,15 @@ c The Yukawa couplings Yu, Yd and Ye c
 c ---------------------------------- c
 
       write(nout,105)
-      write(nout,54) 'Yu Q=',scale,'The Yukawa couplings'
+      write(nout,54) 'Yu Q=',scalesave,'The Yukawa couplings'
          write(nout,53) 3,3,ytewsb,'y_top(Q) DRbar'
 c
       write(nout,105)
-      write(nout,54) 'Yd Q=',scale,'The Yukawa couplings'
+      write(nout,54) 'Yd Q=',scalesave,'The Yukawa couplings'
          write(nout,53) 3,3,ybewsb,'y_b(Q) DRbar'
 c
       write(nout,105)
-      write(nout,54) 'Ye Q=',scale,'The Yukawa couplings'
+      write(nout,54) 'Ye Q=',scalesave,'The Yukawa couplings'
          write(nout,53) 3,3,ytauewsb,'y_tau(Q) DRbar'
 
 c ----------------------------- c
@@ -10503,8 +10678,8 @@ c
  55   format(1x,I5,3x,1P,E16.8,0P,3x,'#',1x,A)
  60   format(9x,1P,E16.8,0P,3x,'#',1x,A)
  61   format(1x,I5,3x,A)
- 62   format(1x,I5,1x,I5,3x,A)
- 72   format(1x,I5,3x,E16.8,3x,'#',1x,A)
+ 62   format(1x,I5,1x,I5,3x,'#',A)
+ 72   format(1x,I9,3x,1P,E16.8,0P,3x,'#',1x,A)
  105  format('#') 
  
 c -------------------------------------------------------------------------
